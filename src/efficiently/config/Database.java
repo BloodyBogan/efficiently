@@ -21,35 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package efficiently;
+package efficiently.config;
 
-import efficiently.config.Database;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import efficiently.controllers.MenuController;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
-public class Main {
+public class Database {
+    private final static String CURRENT_DIRECTORY = System.getProperty("user.dir");
+    
+    public static Connection getConnection() throws SQLException, FileNotFoundException, IOException {
+        Connection conn = null;
 
-    /**
-     * @param args the command line arguments
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
-     */
-    public static void main(String[] args) throws SQLException, IOException {
-        try (Connection conn = Database.getConnection()) {
+        try (FileInputStream f = new FileInputStream(CURRENT_DIRECTORY + "/src/resources/database.properties")) {
+
+            // load the properties file
+            Properties pros = new Properties();
+            pros.load(f);
+
+            // assign db parameters
+            String url = pros.getProperty("url");
+            String user = pros.getProperty("user");
+            String password = pros.getProperty("password");
             
-            // print out a message
-            System.out.println(String.format("Connected to database %s "
-                    + "successfully.", conn.getCatalog()));
-            MenuController.init();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            // create a connection to the database
+            conn = DriverManager.getConnection(url, user, password);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
+        return conn;
     }
     
 }

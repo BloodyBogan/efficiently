@@ -71,7 +71,7 @@ public class Login extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
         jPanel1.add(title, gridBagConstraints);
 
         aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
@@ -79,7 +79,7 @@ public class Login extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(7, 0, 3, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         jPanel1.add(aisIdLabel, gridBagConstraints);
 
         aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N

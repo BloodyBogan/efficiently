@@ -4,7 +4,7 @@
 
 ## Usage
 
-Fill in your database.properties file based on the database.properties.example file & be sure to include all necessary libraries
+Fill in your database.properties file based on the database.properties.example file, be sure to include all necessary libraries & run migration.sql in your efficiently database
 
 ```
 # Clean and Build Project
@@ -17,6 +17,8 @@ F6
 ## Download Dependencies
 
 [MySQL Connector](https://dev.mysql.com/downloads/connector/j/)
+[BCrypt](https://github.com/patrickfav/bcrypt/releases/tag/v0.9.0)
+[Bytes](https://github.com/patrickfav/bytes-java/releases/tag/v1.4.0)
 
 ## Docker MySQL Quick Start
 

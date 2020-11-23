@@ -28,6 +28,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.io.IOException;
 import efficiently.controllers.MenuController;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,6 +49,7 @@ public class Main {
                     + "successfully.", conn.getCatalog()));
             MenuController.init();
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Unable to connect to the database!");
             System.out.println(ex.getMessage());
         }
     }

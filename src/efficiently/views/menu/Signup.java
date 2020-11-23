@@ -23,7 +23,13 @@
  */
 package efficiently.views.menu;
 
+import efficiently.controllers.MenuController;
 import efficiently.views.MainLayout;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -75,7 +81,7 @@ public class Signup extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
         jPanel1.add(title, gridBagConstraints);
 
         aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
@@ -83,7 +89,7 @@ public class Signup extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(7, 0, 3, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         jPanel1.add(aisIdLabel, gridBagConstraints);
 
         aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
@@ -126,6 +132,11 @@ public class Signup extends javax.swing.JPanel {
 
         submitButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         submitButton.setText("Sign Up");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
@@ -174,6 +185,98 @@ public class Signup extends javax.swing.JPanel {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         MainLayout.showMenuScreen();
     }//GEN-LAST:event_backButtonActionPerformed
+
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        String stringAisId = aisIdField.getText().trim();        
+        if (stringAisId.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "AIS ID must not be emtpy");
+            aisIdField.setText("");
+            aisIdField.requestFocus();
+            return;
+        }
+        
+        if (String.valueOf(stringAisId).length() > 5) {
+            JOptionPane.showMessageDialog(null, "AIS ID must not be longer than 5 digits");
+            aisIdField.setText("");
+            aisIdField.requestFocus();
+            return;
+        }
+
+        int aisId;
+        
+        try {
+            aisId = Integer.parseInt(stringAisId);
+        }catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "AIS ID must be a number");
+            aisIdField.setText("");
+            aisIdField.requestFocus();
+            return;
+        }
+        
+        String name = nameField.getText().trim();
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Name must not be emtpy");
+            nameField.setText("");
+            nameField.requestFocus();
+            return;
+        }
+                
+        if (String.valueOf(name).length() > 50) {
+            JOptionPane.showMessageDialog(null, "Name must not be longer than 50 characters");
+            nameField.setText("");
+            nameField.requestFocus();
+            return;
+        }
+        
+        char[] password = passwordField.getPassword();
+        String stringPassword = String.valueOf(password).trim();
+        if (stringPassword.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Password must not be emtpy");
+            passwordField.setText("");
+            confirmPasswordField.setText("");
+            passwordField.requestFocus();
+            return;
+        }
+                
+        if (stringPassword.length() < 8) {
+            JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long");
+            passwordField.setText("");
+            confirmPasswordField.setText("");
+            passwordField.requestFocus();
+            return;
+        }
+        
+        if (stringPassword.length() > 60) {
+            JOptionPane.showMessageDialog(null, "Password must not be longer than 60 characters");
+            passwordField.setText("");
+            confirmPasswordField.setText("");
+            passwordField.requestFocus();
+            return;
+        }
+        
+        char[] confirmPassword = confirmPasswordField.getPassword();
+        String stringConfirmPassword = String.valueOf(confirmPassword);
+        if (!stringPassword.equals(stringConfirmPassword)) {
+            JOptionPane.showMessageDialog(null, "Passwords do not match");
+            passwordField.setText("");
+            confirmPasswordField.setText("");
+            passwordField.requestFocus();
+            return;
+        }
+        
+        aisIdField.setText("");
+        nameField.setText("");
+        passwordField.setText("");
+        confirmPasswordField.setText("");
+
+        aisIdField.requestFocus();
+        
+        try {
+            MenuController.signup(aisId, name, password);
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Signup.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_submitButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

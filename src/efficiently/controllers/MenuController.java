@@ -21,21 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package efficiently;
+package efficiently.controllers;
 
-import efficiently.controllers.MenuController;
+import efficiently.views.MainLayout;
 
 /**
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
-public class Main {
+public class MenuController {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        MenuController.init();
+    public static void init() {
+        MainLayout Main = new MainLayout();
+        Main.setVisible(true);
     }
-    
 }

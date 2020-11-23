@@ -68,7 +68,7 @@ public class Main extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(13, 0, 7, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 0);
         jPanel1.add(logo, gridBagConstraints);
 
         description.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
@@ -102,7 +102,7 @@ public class Main extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(7, 0, 30, 0);
+        gridBagConstraints.insets = new java.awt.Insets(7, 0, 0, 0);
         jPanel1.add(loginButton, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

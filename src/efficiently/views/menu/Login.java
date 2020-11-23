@@ -23,6 +23,8 @@
  */
 package efficiently.views.menu;
 
+import efficiently.views.MainLayout;
+
 /**
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
@@ -44,9 +46,16 @@ public class Login extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
+        aisIdLabel = new javax.swing.JLabel();
+        aisIdField = new javax.swing.JTextField();
+        passwordLabel = new javax.swing.JLabel();
+        passwordField = new javax.swing.JTextField();
+        submitButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -59,7 +68,62 @@ public class Login extends javax.swing.JPanel {
 
         title.setFont(new java.awt.Font("Open Sans", 1, 30)); // NOI18N
         title.setText("Log In");
-        jPanel1.add(title, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 0);
+        jPanel1.add(title, gridBagConstraints);
+
+        aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        aisIdLabel.setText("AIS ID");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(7, 0, 3, 0);
+        jPanel1.add(aisIdLabel, gridBagConstraints);
+
+        aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(aisIdField, gridBagConstraints);
+
+        passwordLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        passwordLabel.setText("Password");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(7, 0, 3, 0);
+        jPanel1.add(passwordLabel, gridBagConstraints);
+
+        passwordField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(passwordField, gridBagConstraints);
+
+        submitButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        submitButton.setText("Submit");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(14, 0, 30, 0);
+        jPanel1.add(submitButton, gridBagConstraints);
+
+        backButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        backButton.setText("Back to menu");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        jPanel1.add(backButton, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -73,9 +137,19 @@ public class Login extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        MainLayout.showMenuScreen();
+    }//GEN-LAST:event_backButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField aisIdField;
+    private javax.swing.JLabel aisIdLabel;
+    private javax.swing.JButton backButton;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField passwordField;
+    private javax.swing.JLabel passwordLabel;
+    private javax.swing.JButton submitButton;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

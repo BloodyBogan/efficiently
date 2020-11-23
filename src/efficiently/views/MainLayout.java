@@ -23,6 +23,9 @@
  */
 package efficiently.views;
 
+import efficiently.views.dashboard.Admin;
+import efficiently.views.dashboard.Referent;
+import efficiently.views.dashboard.Student;
 import efficiently.views.menu.Signup;
 import efficiently.views.menu.Login;
 import efficiently.views.menu.Main;
@@ -39,6 +42,10 @@ public class MainLayout extends javax.swing.JFrame {
     static Main menuScreen;
     static Signup signupScreen;
     static Login loginScreen;
+    
+    static Student studentDashboard;
+    static Referent referentDashboard;
+    static Admin adminDashboard;
 
     /**
      * Creates new form MainLayout
@@ -50,6 +57,10 @@ public class MainLayout extends javax.swing.JFrame {
         signupScreen = new Signup();
         loginScreen = new Login();
         
+        studentDashboard = new Student();
+        referentDashboard = new Referent();
+        adminDashboard = new Admin();
+        
         DynamicPanel.setLayout(layout);
         
         GridBagConstraints constraints = new GridBagConstraints();
@@ -59,6 +70,10 @@ public class MainLayout extends javax.swing.JFrame {
         DynamicPanel.add(menuScreen, constraints);
         DynamicPanel.add(loginScreen, constraints);
         DynamicPanel.add(signupScreen, constraints);
+        
+        DynamicPanel.add(studentDashboard, constraints);
+        DynamicPanel.add(referentDashboard, constraints);
+        DynamicPanel.add(adminDashboard, constraints);
         
         showMenuScreen();
     }
@@ -137,18 +152,54 @@ public class MainLayout extends javax.swing.JFrame {
         menuScreen.setVisible(true);
         loginScreen.setVisible(false);
         signupScreen.setVisible(false);
+        studentDashboard.setVisible(false);
+        referentDashboard.setVisible(false);
+        adminDashboard.setVisible(false);
     }
     
     public static void showLoginScreen() {
         loginScreen.setVisible(true);
         signupScreen.setVisible(false);
         menuScreen.setVisible(false);
+        studentDashboard.setVisible(false);
+        referentDashboard.setVisible(false);
+        adminDashboard.setVisible(false);
     }
         
     public static void showSignupScreen() {
         signupScreen.setVisible(true);
         loginScreen.setVisible(false);
         menuScreen.setVisible(false);
+        studentDashboard.setVisible(false);
+        referentDashboard.setVisible(false);
+        adminDashboard.setVisible(false);
+    }
+    
+    public static void showStudentDashboard() {
+        studentDashboard.setVisible(true);
+        signupScreen.setVisible(false);
+        loginScreen.setVisible(false);
+        menuScreen.setVisible(false);
+        referentDashboard.setVisible(false);
+        adminDashboard.setVisible(false);
+    }
+    
+    public static void showReferentDashboard() {
+        referentDashboard.setVisible(true);
+        signupScreen.setVisible(false);
+        loginScreen.setVisible(false);
+        menuScreen.setVisible(false);
+        studentDashboard.setVisible(false);
+        adminDashboard.setVisible(false);
+    }
+    
+    public static void showAdminDashboard() {
+        adminDashboard.setVisible(true);
+        signupScreen.setVisible(false);
+        loginScreen.setVisible(false);
+        menuScreen.setVisible(false);
+        studentDashboard.setVisible(false);
+        referentDashboard.setVisible(false);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

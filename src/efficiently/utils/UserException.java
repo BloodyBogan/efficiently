@@ -21,37 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package efficiently;
-
-import efficiently.config.Database;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.io.IOException;
-import efficiently.controllers.MenuController;
-import javax.swing.JOptionPane;
+package efficiently.utils;
 
 /**
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
-public class Main {
-
-    /**
-     * @param args the command line arguments
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
-     */
-    public static void main(String[] args) throws SQLException, IOException {
-        try (Connection conn = Database.getConnection()) {
-            
-            // print out a message
-            System.out.println(String.format("Connected to database %s "
-                    + "successfully.", conn.getCatalog()));
-            MenuController.init();
-        } catch (SQLException se) {
-            JOptionPane.showMessageDialog(null, "Unable to connect to the database!");
-            System.out.println(se.getMessage());
-        }
+public class UserException extends Exception {
+    public UserException(String message) {
+        super(message);
     }
-    
 }

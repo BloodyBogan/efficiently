@@ -16,9 +16,9 @@ F6
 
 ## Download Dependencies
 
-[MySQL Connector](https://dev.mysql.com/downloads/connector/j/)
-[BCrypt](https://github.com/patrickfav/bcrypt/releases/tag/v0.9.0)
-[Bytes](https://github.com/patrickfav/bytes-java/releases/tag/v1.4.0)
+[MySQL Connector](https://dev.mysql.com/downloads/connector/j/)  
+[BCrypt](https://github.com/patrickfav/bcrypt/releases/tag/v0.9.0)  
+[Bytes](https://github.com/patrickfav/bytes-java/releases/tag/v1.4.0)  
 
 ## Docker MySQL Quick Start
 

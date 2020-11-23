@@ -26,10 +26,13 @@ package efficiently.controllers;
 import efficiently.views.MainLayout;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import efficiently.config.Database;
-import efficiently.views.menu.Signup;
+import efficiently.models.User;
+import efficiently.utils.Capitalize;
+import efficiently.utils.UserException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import javax.swing.JOptionPane;
@@ -46,6 +49,7 @@ public class MenuController {
     }
     
     public static void signup(int aisId, String name, char[] password) throws SQLException, IOException {
+        String formattedName = Capitalize.capitalizeName(name);
         String hashedPassword = BCrypt.withDefaults().hashToString(12, password);
         
         String sqlQuery = "INSERT INTO users (ais_id, name, password) VALUES (?, ?, ?)";
@@ -54,7 +58,7 @@ public class MenuController {
                 PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
 
             pstmt.setInt(1, aisId);
-            pstmt.setString(2, name);
+            pstmt.setString(2, formattedName);
             pstmt.setString(3, hashedPassword);
             
             pstmt.execute();
@@ -63,9 +67,74 @@ public class MenuController {
             MainLayout.showLoginScreen();
         } catch (SQLIntegrityConstraintViolationException e) {
             JOptionPane.showMessageDialog(null, "AIS ID ("+ aisId +") is already registered");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException se) {
+            se.printStackTrace();
             JOptionPane.showMessageDialog(null, "Database Error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        }
+    }
+    
+    public static void login(int aisId, char[] password) throws SQLException, IOException {
+        String sqlQuery = "SELECT * from users WHERE ais_id=? LIMIT 1";
+        try (Connection conn = Database.getConnection()) {
+            PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
+            
+            int roleId;
+            
+            pstmt.setInt(1, aisId);
+        
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String hashedPassword = rs.getString("password");
+                BCrypt.Result result = BCrypt.verifyer().verify(password, hashedPassword);
+
+                if (!result.verified) {
+                    throw new UserException("Incorrect Credentials");
+                }
+                
+                roleId = rs.getInt("role");
+                
+                User.setAisId(rs.getInt("ais_id"));
+                User.setName(rs.getString("name"));
+                User.setLastAction();
+            } else {
+                throw new UserException("Incorrect Credentials");
+            }
+            
+            String sqlQueryFK = "SELECT role FROM user_role WHERE role_id=?";
+            
+            PreparedStatement pstmtfk = conn.prepareStatement(sqlQueryFK);
+            pstmtfk.setInt(1, roleId);
+            
+            ResultSet rsfk = pstmtfk.executeQuery();
+            
+            if (rsfk.next()) {
+                User.setRole(rsfk.getString("role"));
+            }
+            
+            JOptionPane.showMessageDialog(null, "Login Successful");
+            switch(User.getRole()) {
+                case "student":
+                    MainLayout.showStudentDashboard();
+                    break;
+                case "referent":
+                    MainLayout.showReferentDashboard();
+                    break;
+                case "admin":
+                    MainLayout.showAdminDashboard();
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "There was an error. Try again");
+                    DashboardController.logout();
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+        } catch (UserException ue) {
+            ue.printStackTrace();
+            JOptionPane.showMessageDialog(null, ue.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "There was an error. Try again");

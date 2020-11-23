@@ -23,7 +23,13 @@
  */
 package efficiently.views.menu;
 
+import efficiently.controllers.MenuController;
 import efficiently.views.MainLayout;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -53,9 +59,9 @@ public class Login extends javax.swing.JPanel {
         aisIdLabel = new javax.swing.JLabel();
         aisIdField = new javax.swing.JTextField();
         passwordLabel = new javax.swing.JLabel();
-        passwordField = new javax.swing.JTextField();
         submitButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
+        passwordField = new javax.swing.JPasswordField();
 
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -97,15 +103,13 @@ public class Login extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 3, 0);
         jPanel1.add(passwordLabel, gridBagConstraints);
 
-        passwordField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(passwordField, gridBagConstraints);
-
         submitButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         submitButton.setText("Submit");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -125,6 +129,18 @@ public class Login extends javax.swing.JPanel {
         gridBagConstraints.gridy = 6;
         jPanel1.add(backButton, gridBagConstraints);
 
+        passwordField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordFieldActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(passwordField, gridBagConstraints);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -141,13 +157,58 @@ public class Login extends javax.swing.JPanel {
         MainLayout.showMenuScreen();
     }//GEN-LAST:event_backButtonActionPerformed
 
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        String stringAisId = aisIdField.getText().trim();        
+        if (stringAisId.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "AIS ID must not be emtpy");
+            aisIdField.setText("");
+            aisIdField.requestFocus();
+            return;
+        }
+
+        int aisId;
+        
+        try {
+            aisId = Integer.parseInt(stringAisId);
+        }catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "AIS ID must be a number");
+            aisIdField.setText("");
+            aisIdField.requestFocus();
+            return;
+        }
+        
+        char[] password = passwordField.getPassword();
+        String stringPassword = String.valueOf(password).trim();
+        if (stringPassword.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Password must not be emtpy");
+            passwordField.setText("");
+            passwordField.requestFocus();
+            return;
+        }
+        
+        try {
+            MenuController.login(aisId, password);
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Signup.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        aisIdField.setText("");
+        passwordField.setText("");
+
+        aisIdField.requestFocus();
+    }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField aisIdField;
     private javax.swing.JLabel aisIdLabel;
     private javax.swing.JButton backButton;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField passwordField;
+    private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JButton submitButton;
     private javax.swing.JLabel title;

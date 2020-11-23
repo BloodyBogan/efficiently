@@ -21,37 +21,61 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package efficiently;
+package efficiently.models;
 
-import efficiently.config.Database;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.io.IOException;
-import efficiently.controllers.MenuController;
-import javax.swing.JOptionPane;
+import java.time.LocalDateTime;
 
 /**
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
-public class Main {
-
-    /**
-     * @param args the command line arguments
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
-     */
-    public static void main(String[] args) throws SQLException, IOException {
-        try (Connection conn = Database.getConnection()) {
-            
-            // print out a message
-            System.out.println(String.format("Connected to database %s "
-                    + "successfully.", conn.getCatalog()));
-            MenuController.init();
-        } catch (SQLException se) {
-            JOptionPane.showMessageDialog(null, "Unable to connect to the database!");
-            System.out.println(se.getMessage());
-        }
+public class User {
+    public static int aisId;
+    public static String name;
+    public static String role;
+    public static LocalDateTime lastAction;
+    
+    public static int getAisId() {
+        return aisId;
     }
     
+    public static String getName() {
+        return name;
+    }
+        
+    public static String getRole() {
+        return role;
+    }
+
+    public static LocalDateTime getLastAction() {
+        return lastAction;
+    }
+        
+    public static void setAisId (int zAisId) {
+        aisId = zAisId;
+    }
+    
+    public static void setName (String zName) {
+        name = zName;
+    }
+    
+    public static void setRole (String zRole) {
+        role = zRole;
+    }
+    
+    public static void setLastAction () {
+        lastAction = LocalDateTime.now();
+    }
+    
+    public static boolean isSessionValid () {
+        LocalDateTime t = LocalDateTime.now().minusMinutes(30);
+        return t.isBefore(lastAction) && ((aisId != -1) && (!name.isEmpty()) && (!role.isEmpty()));
+    }
+    
+    public static void logout() {
+        aisId = -1;
+        name = "";
+        role = "";
+        lastAction = LocalDateTime.now().minusYears(100);
+    }
 }

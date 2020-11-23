@@ -264,18 +264,18 @@ public class Signup extends javax.swing.JPanel {
             return;
         }
         
+        try {
+            MenuController.signup(aisId, name, password);
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Signup.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         aisIdField.setText("");
         nameField.setText("");
         passwordField.setText("");
         confirmPasswordField.setText("");
 
         aisIdField.requestFocus();
-        
-        try {
-            MenuController.signup(aisId, name, password);
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Signup.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_submitButtonActionPerformed
 
 

@@ -43,7 +43,7 @@ public class Student extends javax.swing.JPanel {
     public Student() throws SQLException, IOException {
         initComponents();
         try {
-            DashboardController.updateAppointmentsTable(appointmentsTable);
+            DashboardController.updateStudentAppointmentsTable(appointmentsTable);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -318,7 +318,7 @@ public class Student extends javax.swing.JPanel {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
-            DashboardController.updateAppointmentsTable(appointmentsTable);
+            DashboardController.updateStudentAppointmentsTable(appointmentsTable);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -327,14 +327,14 @@ public class Student extends javax.swing.JPanel {
     private void bookNowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookNowButtonActionPerformed
         try {
             DashboardController.bookAppointment(subjectField, messageTextArea, datetimeComboBox);
-            DashboardController.updateAppointmentsTable(appointmentsTable);
+            DashboardController.updateStudentAppointmentsTable(appointmentsTable);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bookNowButtonActionPerformed
 
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
-        DashboardController.handleAppointmentsTableRowClick(appointmentsTable);
+        DashboardController.handleStudentAppointmentsTableRowClick(appointmentsTable);
     }//GEN-LAST:event_appointmentsTableMouseClicked
 
 

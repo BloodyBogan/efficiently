@@ -23,6 +23,12 @@
  */
 package efficiently.views.dashboard;
 
+import efficiently.controllers.DashboardController;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
@@ -34,6 +40,11 @@ public class Referent extends javax.swing.JPanel {
      */
     public Referent() {
         initComponents();
+        try {
+            DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -45,8 +56,50 @@ public class Referent extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
+        logoutButton = new javax.swing.JButton();
+        refreshButton = new javax.swing.JButton();
+        manageTabbedPane = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        nameLabel = new javax.swing.JLabel();
+        nameField = new javax.swing.JTextField();
+        subjectLabel = new javax.swing.JLabel();
+        subjectField = new javax.swing.JTextField();
+        messageLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        messageTextArea = new javax.swing.JTextArea();
+        responseLabel = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        responseTextArea = new javax.swing.JTextArea();
+        doneCheckBox = new javax.swing.JCheckBox();
+        aisIdLabel = new javax.swing.JLabel();
+        aisIdField = new javax.swing.JTextField();
+        dateLabel = new javax.swing.JLabel();
+        datetimeLabel = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        manageResponseLabel = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        manageResponseTextArea = new javax.swing.JTextArea();
+        manageDoneCheckBox = new javax.swing.JCheckBox();
+        manageUpdateButton = new javax.swing.JButton();
+        manageDeleteButton = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        appointmentsPanel = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        appointmentsTable = new javax.swing.JTable();
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -55,10 +108,308 @@ public class Referent extends javax.swing.JPanel {
         jPanel1.setMaximumSize(new java.awt.Dimension(1280, 720));
         jPanel1.setMinimumSize(new java.awt.Dimension(1280, 720));
         jPanel1.setName("Container"); // NOI18N
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        jPanel1.setPreferredSize(new java.awt.Dimension(1280, 720));
 
-        jLabel1.setText("Referent");
-        jPanel1.add(jLabel1, new java.awt.GridBagConstraints());
+        title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
+        title.setText("Correspondent Dashboard");
+
+        logoutButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        logoutButton.setText("Log Out");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
+
+        refreshButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        refreshButton.setText("Refresh");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
+        manageTabbedPane.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+
+        nameLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        nameLabel.setText("Name");
+
+        nameField.setEditable(false);
+        nameField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
+        subjectLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        subjectLabel.setText("Subject");
+
+        subjectField.setEditable(false);
+        subjectField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
+        messageLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        messageLabel.setText("Message");
+
+        messageTextArea.setEditable(false);
+        messageTextArea.setColumns(20);
+        messageTextArea.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        messageTextArea.setLineWrap(true);
+        messageTextArea.setRows(3);
+        jScrollPane2.setViewportView(messageTextArea);
+
+        responseLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        responseLabel.setText("Response");
+
+        responseTextArea.setEditable(false);
+        responseTextArea.setColumns(20);
+        responseTextArea.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        responseTextArea.setLineWrap(true);
+        responseTextArea.setRows(3);
+        jScrollPane3.setViewportView(responseTextArea);
+
+        doneCheckBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        doneCheckBox.setText("Done");
+        doneCheckBox.setEnabled(false);
+
+        aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        aisIdLabel.setText("AIS ID");
+
+        aisIdField.setEditable(false);
+        aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
+        dateLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        dateLabel.setText("Date:");
+
+        datetimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(subjectField)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane3)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(nameField)
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(messageLabel)
+                                    .addComponent(responseLabel)
+                                    .addComponent(nameLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(aisIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(aisIdLabel)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(dateLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(datetimeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(doneCheckBox))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(subjectLabel)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameLabel)
+                    .addComponent(aisIdLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nameField)
+                    .addComponent(aisIdField))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(subjectLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(subjectField)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(messageLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(responseLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(doneCheckBox)
+                    .addComponent(dateLabel)
+                    .addComponent(datetimeLabel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        manageTabbedPane.addTab("View", jPanel2);
+
+        manageResponseLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        manageResponseLabel.setText("Response");
+
+        manageResponseTextArea.setColumns(20);
+        manageResponseTextArea.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        manageResponseTextArea.setRows(5);
+        jScrollPane5.setViewportView(manageResponseTextArea);
+
+        manageDoneCheckBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        manageDoneCheckBox.setText("Done");
+
+        manageUpdateButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        manageUpdateButton.setText("Update");
+        manageUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageUpdateButtonActionPerformed(evt);
+            }
+        });
+
+        manageDeleteButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        manageDeleteButton.setText("Delete");
+        manageDeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageDeleteButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(manageResponseLabel)
+                            .addComponent(manageDoneCheckBox))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(manageUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(manageDeleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(manageResponseLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(manageDoneCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(manageUpdateButton)
+                    .addComponent(manageDeleteButton))
+                .addContainerGap())
+        );
+
+        manageTabbedPane.addTab("Manage", jPanel3);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 534, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 480, Short.MAX_VALUE)
+        );
+
+        manageTabbedPane.addTab("Manage Dates & Times", jPanel4);
+
+        appointmentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Appointments", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 17))); // NOI18N
+
+        appointmentsTable.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        appointmentsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Name", "AIS ID", "Subject", "Message", "Response", "Date", "Done"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        appointmentsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                appointmentsTableMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(appointmentsTable);
+
+        javax.swing.GroupLayout appointmentsPanelLayout = new javax.swing.GroupLayout(appointmentsPanel);
+        appointmentsPanel.setLayout(appointmentsPanelLayout);
+        appointmentsPanelLayout.setHorizontalGroup(
+            appointmentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(appointmentsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        appointmentsPanelLayout.setVerticalGroup(
+            appointmentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(appointmentsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(manageTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(refreshButton)
+                        .addGap(25, 25, 25)
+                        .addComponent(logoutButton))
+                    .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(410, 410, 410)
+                .addComponent(title)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(title)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(logoutButton)
+                            .addComponent(refreshButton)))
+                    .addComponent(manageTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -72,9 +423,76 @@ public class Referent extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        DashboardController.logout();
+    }//GEN-LAST:event_logoutButtonActionPerformed
+
+    private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
+        DashboardController.handleCorrespondentTableRowClick(appointmentsTable, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, datetimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+    }//GEN-LAST:event_appointmentsTableMouseClicked
+
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        try {
+            DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_refreshButtonActionPerformed
+
+    private void manageDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageDeleteButtonActionPerformed
+        try {
+            DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable, manageTabbedPane, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, datetimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+            DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_manageDeleteButtonActionPerformed
+
+    private void manageUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageUpdateButtonActionPerformed
+        try {
+            DashboardController.handleCorrespondentAppointmentUpdate(appointmentsTable, responseTextArea, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+            DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_manageUpdateButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField aisIdField;
+    private javax.swing.JLabel aisIdLabel;
+    private javax.swing.JPanel appointmentsPanel;
+    private javax.swing.JTable appointmentsTable;
+    private javax.swing.JLabel dateLabel;
+    private javax.swing.JLabel datetimeLabel;
+    private javax.swing.JCheckBox doneCheckBox;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JButton logoutButton;
+    private javax.swing.JButton manageDeleteButton;
+    private javax.swing.JCheckBox manageDoneCheckBox;
+    private javax.swing.JLabel manageResponseLabel;
+    private javax.swing.JTextArea manageResponseTextArea;
+    private javax.swing.JTabbedPane manageTabbedPane;
+    private javax.swing.JButton manageUpdateButton;
+    private javax.swing.JLabel messageLabel;
+    private javax.swing.JTextArea messageTextArea;
+    private javax.swing.JTextField nameField;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JButton refreshButton;
+    private javax.swing.JLabel responseLabel;
+    private javax.swing.JTextArea responseTextArea;
+    private javax.swing.JTextField subjectField;
+    private javax.swing.JLabel subjectLabel;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

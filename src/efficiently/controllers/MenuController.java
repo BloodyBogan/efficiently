@@ -77,7 +77,7 @@ public class MenuController {
     }
     
     public static void login(int aisId, char[] password) throws SQLException, IOException {
-        String sqlQuery = "SELECT users.ais_id, users.name, users.password, user_role.role from users, user_role WHERE (ais_id=? AND users.role=user_role.role_id) LIMIT 1";
+        String sqlQuery = "SELECT users.user_id, users.ais_id, users.name, users.password, user_role.role from users, user_role WHERE (ais_id=? AND users.role=user_role.role_id) LIMIT 1";
         try (Connection conn = Database.getConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
             
@@ -92,6 +92,7 @@ public class MenuController {
                     throw new UserException("Incorrect Credentials");
                 }
                 
+                User.setUserId(rs.getInt("user_id"));
                 User.setAisId(rs.getInt("ais_id"));
                 User.setName(rs.getString("name"));
                 User.setRole(rs.getString("role"));

@@ -30,10 +30,15 @@ import java.time.LocalDateTime;
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
 public class User {
+    private static int userId;
     private static int aisId;
     private static String name;
     private static String role;
     private static LocalDateTime lastAction;
+    
+    public static int getUserId() {
+        return userId;
+    }
     
     public static int getAisId() {
         return aisId;
@@ -49,6 +54,10 @@ public class User {
 
     public static LocalDateTime getLastAction() {
         return lastAction;
+    }
+    
+    public static void setUserId(int zUserId) {
+        userId = zUserId;
     }
         
     public static void setAisId (int zAisId) {

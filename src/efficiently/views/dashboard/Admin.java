@@ -225,7 +225,7 @@ public class Admin extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(refreshButton)
-                        .addGap(18, 18, 18)
+                        .addGap(25, 25, 25)
                         .addComponent(logoutButton))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()

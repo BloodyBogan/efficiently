@@ -43,7 +43,7 @@ import javax.swing.JOptionPane;
  */
 public class MenuController {
 
-    public static void init() {
+    public static void init() throws SQLException, IOException {
         MainLayout Main = new MainLayout();
         Main.setVisible(true);
     }
@@ -77,11 +77,9 @@ public class MenuController {
     }
     
     public static void login(int aisId, char[] password) throws SQLException, IOException {
-        String sqlQuery = "SELECT * from users WHERE ais_id=? LIMIT 1";
+        String sqlQuery = "SELECT users.ais_id, users.name, users.password, user_role.role from users, user_role WHERE (ais_id=? AND users.role=user_role.role_id) LIMIT 1";
         try (Connection conn = Database.getConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
-            
-            int roleId;
             
             pstmt.setInt(1, aisId);
         
@@ -94,24 +92,12 @@ public class MenuController {
                     throw new UserException("Incorrect Credentials");
                 }
                 
-                roleId = rs.getInt("role");
-                
                 User.setAisId(rs.getInt("ais_id"));
                 User.setName(rs.getString("name"));
+                User.setRole(rs.getString("role"));
                 User.setLastAction();
             } else {
                 throw new UserException("Incorrect Credentials");
-            }
-            
-            String sqlQueryFK = "SELECT role FROM user_role WHERE role_id=?";
-            
-            PreparedStatement pstmtfk = conn.prepareStatement(sqlQueryFK);
-            pstmtfk.setInt(1, roleId);
-            
-            ResultSet rsfk = pstmtfk.executeQuery();
-            
-            if (rsfk.next()) {
-                User.setRole(rsfk.getString("role"));
             }
             
             JOptionPane.showMessageDialog(null, "Login Successful");

@@ -23,6 +23,7 @@
  */
 package efficiently.views;
 
+import efficiently.controllers.DashboardController;
 import efficiently.views.dashboard.Admin;
 import efficiently.views.dashboard.Referent;
 import efficiently.views.dashboard.Student;
@@ -31,6 +32,11 @@ import efficiently.views.menu.Login;
 import efficiently.views.menu.Main;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTable;
 
 /**
  *
@@ -49,8 +55,10 @@ public class MainLayout extends javax.swing.JFrame {
 
     /**
      * Creates new form MainLayout
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
      */
-    public MainLayout() {
+    public MainLayout() throws SQLException, IOException {
         initComponents();
         
         menuScreen = new Main();
@@ -141,9 +149,11 @@ public class MainLayout extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
                 new MainLayout().setVisible(true);
+            } catch (SQLException | IOException ex) {
+                Logger.getLogger(MainLayout.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }

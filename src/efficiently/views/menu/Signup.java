@@ -195,8 +195,8 @@ public class Signup extends javax.swing.JPanel {
             return;
         }
         
-        if (String.valueOf(stringAisId).length() > 5) {
-            JOptionPane.showMessageDialog(null, "AIS ID must not be longer than 5 digits");
+        if (String.valueOf(stringAisId).length() > 6) {
+            JOptionPane.showMessageDialog(null, "AIS ID must not be longer than 6 digits");
             aisIdField.setText("");
             aisIdField.requestFocus();
             return;

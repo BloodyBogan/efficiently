@@ -57,21 +57,31 @@ public class DashboardController {
         MainLayout.showMenuScreen();
     }
     
-    public static void bookAppointment(JTextField subjectField, JTextArea messageTextArea, JComboBox<String> datetimeComboBox) {        
-        String sqlQuery = "INSERT INTO appointments (user, subject, message, date) VALUES (?, ?, ?, ?)";
+    public static void bookAppointment(JTextField subjectField, JTextArea messageTextArea, JComboBox<String> datetimeComboBox, JList<String> datetimeList) {   
+        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to book this appointment?", "Book Appointment", JOptionPane.YES_NO_OPTION);
+        if (option != 0) {
+           return;
+        }
+        
+        String appointmentSqlQuery = "INSERT INTO appointments (user, subject, message, date) VALUES (?, ?, ?, ?)";
         
         int userId = User.getUserId();
         String subject = subjectField.getText();
         String message = messageTextArea.getText();
-        String datetime =  datetimeComboBox.getItemAt(datetimeComboBox.getSelectedIndex());
+        
+        int comboBoxIndex = datetimeComboBox.getSelectedIndex();
+            
+        DefaultListModel model = (DefaultListModel)datetimeList.getModel();
+
+        int dateId = Integer.parseInt((String) model.get(comboBoxIndex));
         
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+                PreparedStatement pstmt = conn.prepareStatement(appointmentSqlQuery)) {
 
             pstmt.setInt(1, userId);
             pstmt.setString(2, subject);
             pstmt.setString(3, message);
-            pstmt.setString(4, datetime);
+            pstmt.setInt(4, dateId);
             
             pstmt.execute();
             
@@ -89,10 +99,27 @@ public class DashboardController {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "There was an error. Try again");
         }
+        
+        String dateSqlQuery = "UPDATE dates SET isTaken=? WHERE date_id=?";
+
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(dateSqlQuery)) {
+            
+            pstmt.setInt(1, 1);
+            pstmt.setInt(2, dateId);
+
+            pstmt.executeUpdate();
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        }
     }
     
     public static void updateStudentAppointmentsTable(JTable appointmentsTable) throws SQLException, IOException {
-        String sqlQuery = "SELECT subject, message, response, date, isDone FROM appointments WHERE user=? ORDER BY date ASC";
+        String sqlQuery = "SELECT appointments.subject, appointments.message, appointments.response, dates.date, users.name, appointments.isDone FROM appointments, dates, users WHERE (appointments.user=? AND appointments.date=dates.date_id AND users.user_id=dates.user) ORDER BY date ASC";
         
         int userId = User.getUserId();
         
@@ -125,6 +152,7 @@ public class DashboardController {
                     }
                     
                     v2.add(rs.getString("date"));
+                    v2.add(rs.getString("name"));
                     
                     if (rs.getInt("isDone") == 0) {
                         v2.add("No");
@@ -149,19 +177,50 @@ public class DashboardController {
         String message = Df.getValueAt(selectedIndex, 1).toString();
         String response = Df.getValueAt(selectedIndex, 2).toString();
         String date = Df.getValueAt(selectedIndex, 3).toString();
-        String done = Df.getValueAt(selectedIndex, 4).toString();
+        String name = Df.getValueAt(selectedIndex, 4).toString();
+        String done = Df.getValueAt(selectedIndex, 5).toString();
         
-        JOptionPane.showMessageDialog(null, "<html><body><div style='width: 450px;'><p>Subject: " + subject + "</p><br><p>Message: " + message + "</p><br><p>Response: " + response + "</p><br><p>Date: " + date + "</p><br><p>Done: " + done + "</p></div></body></html>", "Appointment Information", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "<html><body><div style='width: 450px;'><p>Subject: " + subject + "</p><br><p>Message: " + message + "</p><br><p>Response: " + response + "</p><br><p>Date: " + date + "</p><br><p>Correspondent: " + name + "</p><br><p>Done: " + done + "</p></div></body></html>", "Appointment Information", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public static void updateCorrespondentAppointmentsTable(JTable appointmentsTable) throws SQLException, IOException {
-        String sqlQuery = "SELECT appointments.appointment_id, appointments.subject, appointments.message, appointments.response, appointments.date, appointments.isDone, users.ais_id, users.name FROM appointments, users WHERE appointments.user=users.user_id ORDER BY appointments.date ASC";
+    public static void handleStudentAppointmentsDatesUpdate(JComboBox<String> datetimeComboBox, JList<String> datetimeList) {
+        String sqlQuery = "SELECT dates.date_id, dates.date, users.name FROM dates, users WHERE (dates.isTaken=0 AND dates.user=users.user_id) ORDER BY date ASC";
         
-        int c;
+        DefaultListModel model = (DefaultListModel)datetimeList.getModel();
+        
+        datetimeComboBox.removeAllItems();
+        model.removeAllElements();
         
         try (Connection conn = Database.getConnection();
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sqlQuery)) {
+
+            while (rs.next()) {
+                datetimeComboBox.addItem(rs.getString("date") + " - " + rs.getString("name"));
+                model.addElement(String.valueOf(rs.getInt("date_id")));
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        }
+    }
+    
+    public static void updateCorrespondentAppointmentsTable(JTable appointmentsTable) throws SQLException, IOException {
+        String sqlQuery = "SELECT appointments.appointment_id, appointments.subject, appointments.message, appointments.response, dates.date, appointments.isDone, users.ais_id, users.name FROM appointments, dates, users WHERE (dates.user=? AND appointments.date=dates.date_id AND appointments.user=users.user_id) ORDER BY appointments.date ASC";
+        
+        int userId = User.getUserId();
+        
+        int c;
+        
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+            
+            pstmt.setInt(1, userId);
+            
+            ResultSet rs = pstmt.executeQuery();
             
             ResultSetMetaData rsmd = rs.getMetaData();
             c = rsmd.getColumnCount();

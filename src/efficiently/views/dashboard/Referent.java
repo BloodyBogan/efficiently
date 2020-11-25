@@ -42,6 +42,7 @@ public class Referent extends javax.swing.JPanel {
     public Referent() {
         initComponents();
         deleteDateTimeList.setModel(new DefaultListModel());
+        deleteDateTimeList.setVisible(false);
         try {
             DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
         } catch (SQLException | IOException ex) {

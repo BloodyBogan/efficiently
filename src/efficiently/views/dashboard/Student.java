@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -42,6 +43,8 @@ public class Student extends javax.swing.JPanel {
      */
     public Student() throws SQLException, IOException {
         initComponents();
+        datetimeList.setModel(new DefaultListModel());
+        datetimeList.setVisible(false);
         try {
             DashboardController.updateStudentAppointmentsTable(appointmentsTable);
         } catch (SQLException | IOException ex) {
@@ -72,6 +75,8 @@ public class Student extends javax.swing.JPanel {
         bookNowButton = new javax.swing.JButton();
         datetimeComboBox = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        datetimeScrollPane = new javax.swing.JScrollPane();
+        datetimeList = new javax.swing.JList<>();
         appointmentsPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         appointmentsTable = new javax.swing.JTable();
@@ -134,10 +139,26 @@ public class Student extends javax.swing.JPanel {
         });
 
         datetimeComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        datetimeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2020-12-01 12:15:00", "2020-12-05 15:00:00" }));
 
         jLabel2.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         jLabel2.setText("Pick date & time");
+
+        datetimeScrollPane.setEnabled(false);
+        datetimeScrollPane.setFocusable(false);
+        datetimeScrollPane.setMaximumSize(new java.awt.Dimension(0, 0));
+        datetimeScrollPane.setMinimumSize(new java.awt.Dimension(0, 0));
+        datetimeScrollPane.setPreferredSize(new java.awt.Dimension(0, 0));
+
+        datetimeList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        datetimeList.setEnabled(false);
+        datetimeList.setFocusable(false);
+        datetimeList.setMaximumSize(new java.awt.Dimension(0, 0));
+        datetimeList.setMinimumSize(new java.awt.Dimension(0, 0));
+        datetimeScrollPane.setViewportView(datetimeList);
 
         javax.swing.GroupLayout bookAppointmentPanelLayout = new javax.swing.GroupLayout(bookAppointmentPanel);
         bookAppointmentPanel.setLayout(bookAppointmentPanelLayout);
@@ -153,9 +174,10 @@ public class Student extends javax.swing.JPanel {
                         .addGroup(bookAppointmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(subjectLabel)
                             .addComponent(messageLabel)
-                            .addComponent(bookNowButton)
-                            .addComponent(jLabel2))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel2)
+                            .addComponent(bookNowButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(datetimeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         bookAppointmentPanelLayout.setVerticalGroup(
@@ -168,13 +190,15 @@ public class Student extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(messageLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(datetimeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(bookNowButton)
+                .addGroup(bookAppointmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bookNowButton)
+                    .addComponent(datetimeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -186,14 +210,14 @@ public class Student extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Subject", "Message", "Response", "Date", "Done"
+                "Subject", "Message", "Response", "Date", "Correspondent", "Done"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -215,14 +239,14 @@ public class Student extends javax.swing.JPanel {
         appointmentsPanel.setLayout(appointmentsPanelLayout);
         appointmentsPanelLayout.setHorizontalGroup(
             appointmentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(appointmentsPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, appointmentsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                 .addContainerGap())
         );
         appointmentsPanelLayout.setVerticalGroup(
             appointmentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, appointmentsPanelLayout.createSequentialGroup()
+            .addGroup(appointmentsPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -319,6 +343,7 @@ public class Student extends javax.swing.JPanel {
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
             DashboardController.updateStudentAppointmentsTable(appointmentsTable);
+            DashboardController.handleStudentAppointmentsDatesUpdate(datetimeComboBox, datetimeList);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -326,8 +351,9 @@ public class Student extends javax.swing.JPanel {
 
     private void bookNowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookNowButtonActionPerformed
         try {
-            DashboardController.bookAppointment(subjectField, messageTextArea, datetimeComboBox);
+            DashboardController.bookAppointment(subjectField, messageTextArea, datetimeComboBox, datetimeList);
             DashboardController.updateStudentAppointmentsTable(appointmentsTable);
+            DashboardController.handleStudentAppointmentsDatesUpdate(datetimeComboBox, datetimeList);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -344,6 +370,8 @@ public class Student extends javax.swing.JPanel {
     private javax.swing.JPanel bookAppointmentPanel;
     private javax.swing.JButton bookNowButton;
     private javax.swing.JComboBox<String> datetimeComboBox;
+    private javax.swing.JList<String> datetimeList;
+    private javax.swing.JScrollPane datetimeScrollPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

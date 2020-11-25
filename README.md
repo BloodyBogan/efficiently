@@ -20,7 +20,7 @@ F6
 
 [MySQL Connector](https://dev.mysql.com/downloads/connector/j/)  
 [BCrypt](https://github.com/patrickfav/bcrypt/releases/tag/v0.9.0)  
-[Bytes](https://github.com/patrickfav/bytes-java/releases/tag/v1.4.0)
+[Bytes](https://github.com/patrickfav/bytes-java/releases/tag/v1.4.0)  
 [LGoodDatePicker](https://github.com/LGoodDatePicker/LGoodDatePicker/releases/tag/v11.1.0-Standard)  
 
 ## LGoodDatePicker Quick Start
@@ -67,7 +67,7 @@ CREATE DATABASE efficiently;
 
 ## App Info
 
-### Author
+### Authors
 
 Michal Kaštan & Ladislav Capalaj
 

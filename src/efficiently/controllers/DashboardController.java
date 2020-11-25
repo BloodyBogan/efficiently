@@ -58,6 +58,12 @@ public class DashboardController {
     }
     
     public static void bookAppointment(JTextField subjectField, JTextArea messageTextArea, JComboBox<String> datetimeComboBox, JList<String> datetimeList) {   
+        String comboBoxItem = datetimeComboBox.getSelectedItem().toString();
+        if (comboBoxItem.equals("There are no available dates & times")) {
+            JOptionPane.showMessageDialog(null, "You can't book an appointment now as there are no available dates & times");
+            return;
+        }
+        
         int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to book this appointment?", "Book Appointment", JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
@@ -184,7 +190,7 @@ public class DashboardController {
     }
     
     public static void handleStudentAppointmentsDatesUpdate(JComboBox<String> datetimeComboBox, JList<String> datetimeList) {
-        String sqlQuery = "SELECT dates.date_id, dates.date, users.name FROM dates, users WHERE (dates.isTaken=0 AND dates.user=users.user_id) ORDER BY date ASC";
+        String sqlQuery = "SELECT dates.date_id, dates.date, users.name FROM dates, users WHERE (dates.date>=NOW() AND dates.isTaken=0 AND dates.user=users.user_id) ORDER BY dates.date ASC";
         
         DefaultListModel model = (DefaultListModel)datetimeList.getModel();
         
@@ -195,9 +201,13 @@ public class DashboardController {
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sqlQuery)) {
 
-            while (rs.next()) {
-                datetimeComboBox.addItem(rs.getString("date") + " - " + rs.getString("name"));
-                model.addElement(String.valueOf(rs.getInt("date_id")));
+            if (rs.next() == false) {
+                datetimeComboBox.addItem("There are no available dates & times");
+            } else {
+                do {
+                    datetimeComboBox.addItem(rs.getString("date") + " - " + rs.getString("name"));
+                    model.addElement(String.valueOf(rs.getInt("date_id")));
+                } while(rs.next());
             }
         } catch (SQLException se) {
             se.printStackTrace();
@@ -208,8 +218,61 @@ public class DashboardController {
         }
     }
     
+    public static void handleStudentQueueUpdate(JLabel queueLabel) throws SQLException, IOException {
+        String usersAppointmentQuery = "SELECT dates.date_id, dates.user FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date >= NOW() AND dates.date_id=appointments.date AND appointments.user=? AND appointments.isDone=0) ORDER BY dates.date ASC LIMIT 1";
+        
+        int dateId = 0;
+        int correspondentUserId = 0;
+        int userId = User.getUserId();
+        
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(usersAppointmentQuery)) {
+            
+            pstmt.setInt(1, userId);
+            
+            ResultSet rs = pstmt.executeQuery();
+           
+            if (rs.next() == false) {
+                queueLabel.setText("You have no appointments booked yet");
+                return;
+            } else {
+                do {
+                    dateId = rs.getInt("date_id");
+                    correspondentUserId = rs.getInt("user");
+                } while (rs.next());
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        String sqlCountQuery = "SELECT COUNT(dates.date) as total FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date>=NOW() AND (dates.date<=(SELECT dates.date WHERE dates.date_id=?)) AND dates.user=? AND (appointments.isDone=(SELECT appointments.isDone WHERE appointments.date=?)))";
+        
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sqlCountQuery)) {
+            
+            pstmt.setInt(1, dateId);
+            pstmt.setInt(2, correspondentUserId);
+            pstmt.setInt(3, dateId);
+            
+            ResultSet rs = pstmt.executeQuery();
+           
+            int count = 0;
+            while(rs.next()) {
+                count = rs.getInt("total");
+            }
+            
+            if (count == 0) {
+                queueLabel.setText("It's your turn");
+            } else {
+                queueLabel.setText("There is " + String.valueOf(count) + " appointment before yours");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    } 
+    
     public static void updateCorrespondentAppointmentsTable(JTable appointmentsTable) throws SQLException, IOException {
-        String sqlQuery = "SELECT appointments.appointment_id, appointments.subject, appointments.message, appointments.response, dates.date, appointments.isDone, users.ais_id, users.name FROM appointments, dates, users WHERE (dates.user=? AND appointments.date=dates.date_id AND appointments.user=users.user_id) ORDER BY appointments.date ASC";
+        String sqlQuery = "SELECT appointments.appointment_id, appointments.subject, appointments.message, appointments.response, dates.date, appointments.isDone, users.ais_id, users.name FROM appointments, dates, users WHERE (dates.user=? AND appointments.date=dates.date_id AND appointments.user=users.user_id) ORDER BY dates.date ASC";
         
         int userId = User.getUserId();
         

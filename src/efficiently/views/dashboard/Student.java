@@ -47,6 +47,7 @@ public class Student extends javax.swing.JPanel {
         datetimeList.setVisible(false);
         try {
             DashboardController.updateStudentAppointmentsTable(appointmentsTable);
+            DashboardController.handleStudentQueueUpdate(queueLabel);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -81,8 +82,7 @@ public class Student extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         appointmentsTable = new javax.swing.JTable();
         queuePanel = new javax.swing.JPanel();
-        positionLabel = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        queueLabel = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
 
@@ -253,36 +253,11 @@ public class Student extends javax.swing.JPanel {
         );
 
         queuePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Queue", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 24))); // NOI18N
+        queuePanel.setLayout(new java.awt.GridBagLayout());
 
-        positionLabel.setFont(new java.awt.Font("Open Sans", 1, 24)); // NOI18N
-        positionLabel.setText("5");
-
-        jProgressBar1.setToolTipText("");
-        jProgressBar1.setValue(50);
-
-        javax.swing.GroupLayout queuePanelLayout = new javax.swing.GroupLayout(queuePanel);
-        queuePanel.setLayout(queuePanelLayout);
-        queuePanelLayout.setHorizontalGroup(
-            queuePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(queuePanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(queuePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, queuePanelLayout.createSequentialGroup()
-                        .addComponent(positionLabel)
-                        .addGap(92, 92, 92))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, queuePanelLayout.createSequentialGroup()
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-        );
-        queuePanelLayout.setVerticalGroup(
-            queuePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(queuePanelLayout.createSequentialGroup()
-                .addGap(184, 184, 184)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(positionLabel)
-                .addContainerGap(186, Short.MAX_VALUE))
-        );
+        queueLabel.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        queueLabel.setText("It's your turn");
+        queuePanel.add(queueLabel, new java.awt.GridBagConstraints());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -344,6 +319,7 @@ public class Student extends javax.swing.JPanel {
         try {
             DashboardController.updateStudentAppointmentsTable(appointmentsTable);
             DashboardController.handleStudentAppointmentsDatesUpdate(datetimeComboBox, datetimeList);
+            DashboardController.handleStudentQueueUpdate(queueLabel);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -375,13 +351,12 @@ public class Student extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton logoutButton;
     private javax.swing.JLabel messageLabel;
     private javax.swing.JTextArea messageTextArea;
-    private javax.swing.JLabel positionLabel;
+    private javax.swing.JLabel queueLabel;
     private javax.swing.JPanel queuePanel;
     private javax.swing.JButton refreshButton;
     private javax.swing.JTextField subjectField;

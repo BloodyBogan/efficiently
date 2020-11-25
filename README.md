@@ -8,6 +8,7 @@ Fill in your database.properties file based on the database.properties.example f
 
 ```
 # In NetBeans
+
 # Clean and Build Project
 SHIFT + F11
 
@@ -26,6 +27,7 @@ F6
 
 ```
 # In NetBeans
+
 Tools -> Palette -> Swing/AWT Components
 
 Add from JAR -> Choose LGoodDatePicker-11.1.0.jar -> Next

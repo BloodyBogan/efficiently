@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -141,18 +141,18 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="title">
           <Properties>
+            <Property name="text" type="java.lang.String" value="Correspondent Dashboard"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="35" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Correspondent Dashboard"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="logoutButton">
           <Properties>
+            <Property name="text" type="java.lang.String" value="Log Out"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="17" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Log Out"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
@@ -160,10 +160,10 @@
         </Component>
         <Component class="javax.swing.JButton" name="refreshButton">
           <Properties>
+            <Property name="text" type="java.lang.String" value="Refresh"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="17" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Refresh"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshButtonActionPerformed"/>
@@ -271,10 +271,10 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="nameLabel">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="Name"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="17" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Name"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="nameField">
@@ -287,10 +287,10 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="subjectLabel">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="Subject"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="17" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Subject"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="subjectField">
@@ -303,10 +303,10 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="messageLabel">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="Message"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="17" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Message"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -331,10 +331,10 @@
                 </Container>
                 <Component class="javax.swing.JLabel" name="responseLabel">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="Response"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="17" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Response"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane3">
@@ -359,19 +359,19 @@
                 </Container>
                 <Component class="javax.swing.JCheckBox" name="doneCheckBox">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="Done"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="17" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Done"/>
-                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="aisIdLabel">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="AIS ID"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="17" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="AIS ID"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="aisIdField">
@@ -384,10 +384,10 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="dateLabel">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="Date:"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="17" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Date:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="datetimeLabel">
@@ -454,10 +454,10 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="manageResponseLabel">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="Response"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="17" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Response"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane5">
@@ -480,18 +480,18 @@
                 </Container>
                 <Component class="javax.swing.JCheckBox" name="manageDoneCheckBox">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="Done"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="17" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Done"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="manageUpdateButton">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="Update"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="17" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Update"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manageUpdateButtonActionPerformed"/>
@@ -499,10 +499,10 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="manageDeleteButton">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="Delete"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Open Sans" size="17" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Delete"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manageDeleteButtonActionPerformed"/>
@@ -513,8 +513,8 @@
             <Container class="javax.swing.JPanel" name="jPanel4">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Manage Dates &amp; Times">
-                    <Property name="tabTitle" type="java.lang.String" value="Manage Dates &amp; Times"/>
+                  <JTabbedPaneConstraints tabName="Dates &amp; Times">
+                    <Property name="tabTitle" type="java.lang.String" value="Dates &amp; Times"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>
@@ -522,15 +522,132 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="534" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="addDateTimePicker" alignment="0" pref="510" max="32767" attributes="0"/>
+                              <Component id="addDateTimeButton" max="32767" attributes="0"/>
+                              <Component id="deleteDateTimeComboBox" alignment="0" max="32767" attributes="0"/>
+                              <Component id="deleteDateTimeButton" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jScrollPane6" min="-2" pref="0" max="-2" attributes="0"/>
+                                      <Component id="addDateTimeLabel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="deleteDateTimeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="480" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="addDateTimeLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="addDateTimePicker" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="addDateTimeButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="deleteDateTimeLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="deleteDateTimeComboBox" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="deleteDateTimeButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane6" min="-2" pref="0" max="-2" attributes="0"/>
+                          <EmptySpace pref="191" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
+              <SubComponents>
+                <Component class="com.github.lgooddatepicker.components.DateTimePicker" name="addDateTimePicker">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="17" style="0"/>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="addDateTimeLabel">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="17" style="0"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Add date &amp; time"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="addDateTimeButton">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="17" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Add"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addDateTimeButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="deleteDateTimeLabel">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="17" style="0"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Delete date &amp; time"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="deleteDateTimeButton">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="17" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Delete"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteDateTimeButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="deleteDateTimeComboBox">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="17" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane6">
+                  <Properties>
+                    <Property name="focusable" type="boolean" value="false"/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JList" name="deleteDateTimeList">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                          <StringArray count="0"/>
+                        </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="focusable" type="boolean" value="false"/>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                      </AuxValues>
+                    </Component>
+                  </SubComponents>
+                </Container>
+              </SubComponents>
             </Container>
           </SubComponents>
         </Container>

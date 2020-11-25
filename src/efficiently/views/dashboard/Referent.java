@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -40,6 +41,7 @@ public class Referent extends javax.swing.JPanel {
      */
     public Referent() {
         initComponents();
+        deleteDateTimeList.setModel(new DefaultListModel());
         try {
             DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
         } catch (SQLException | IOException ex) {
@@ -88,6 +90,14 @@ public class Referent extends javax.swing.JPanel {
         manageUpdateButton = new javax.swing.JButton();
         manageDeleteButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
+        addDateTimePicker = new com.github.lgooddatepicker.components.DateTimePicker();
+        addDateTimeLabel = new javax.swing.JLabel();
+        addDateTimeButton = new javax.swing.JButton();
+        deleteDateTimeLabel = new javax.swing.JLabel();
+        deleteDateTimeButton = new javax.swing.JButton();
+        deleteDateTimeComboBox = new javax.swing.JComboBox<>();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        deleteDateTimeList = new javax.swing.JList<>();
         appointmentsPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         appointmentsTable = new javax.swing.JTable();
@@ -110,19 +120,19 @@ public class Referent extends javax.swing.JPanel {
         jPanel1.setName("Container"); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(1280, 720));
 
-        title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
         title.setText("Correspondent Dashboard");
+        title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
 
-        logoutButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         logoutButton.setText("Log Out");
+        logoutButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoutButtonActionPerformed(evt);
             }
         });
 
-        refreshButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         refreshButton.setText("Refresh");
+        refreshButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshButtonActionPerformed(evt);
@@ -131,20 +141,20 @@ public class Referent extends javax.swing.JPanel {
 
         manageTabbedPane.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
 
-        nameLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         nameLabel.setText("Name");
+        nameLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         nameField.setEditable(false);
         nameField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        subjectLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         subjectLabel.setText("Subject");
+        subjectLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         subjectField.setEditable(false);
         subjectField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        messageLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         messageLabel.setText("Message");
+        messageLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         messageTextArea.setEditable(false);
         messageTextArea.setColumns(20);
@@ -153,8 +163,8 @@ public class Referent extends javax.swing.JPanel {
         messageTextArea.setRows(3);
         jScrollPane2.setViewportView(messageTextArea);
 
-        responseLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         responseLabel.setText("Response");
+        responseLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         responseTextArea.setEditable(false);
         responseTextArea.setColumns(20);
@@ -163,18 +173,18 @@ public class Referent extends javax.swing.JPanel {
         responseTextArea.setRows(3);
         jScrollPane3.setViewportView(responseTextArea);
 
-        doneCheckBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         doneCheckBox.setText("Done");
         doneCheckBox.setEnabled(false);
+        doneCheckBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         aisIdLabel.setText("AIS ID");
+        aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         aisIdField.setEditable(false);
         aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        dateLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         dateLabel.setText("Date:");
+        dateLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         datetimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
@@ -246,27 +256,27 @@ public class Referent extends javax.swing.JPanel {
 
         manageTabbedPane.addTab("View", jPanel2);
 
-        manageResponseLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         manageResponseLabel.setText("Response");
+        manageResponseLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         manageResponseTextArea.setColumns(20);
         manageResponseTextArea.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         manageResponseTextArea.setRows(5);
         jScrollPane5.setViewportView(manageResponseTextArea);
 
-        manageDoneCheckBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         manageDoneCheckBox.setText("Done");
+        manageDoneCheckBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        manageUpdateButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         manageUpdateButton.setText("Update");
+        manageUpdateButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         manageUpdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 manageUpdateButtonActionPerformed(evt);
             }
         });
 
-        manageDeleteButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         manageDeleteButton.setText("Delete");
+        manageDeleteButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         manageDeleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 manageDeleteButtonActionPerformed(evt);
@@ -310,18 +320,78 @@ public class Referent extends javax.swing.JPanel {
 
         manageTabbedPane.addTab("Manage", jPanel3);
 
+        addDateTimePicker.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
+        addDateTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        addDateTimeLabel.setText("Add date & time");
+
+        addDateTimeButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        addDateTimeButton.setText("Add");
+        addDateTimeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDateTimeButtonActionPerformed(evt);
+            }
+        });
+
+        deleteDateTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        deleteDateTimeLabel.setText("Delete date & time");
+
+        deleteDateTimeButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        deleteDateTimeButton.setText("Delete");
+        deleteDateTimeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteDateTimeButtonActionPerformed(evt);
+            }
+        });
+
+        deleteDateTimeComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
+        jScrollPane6.setFocusable(false);
+
+        deleteDateTimeList.setEnabled(false);
+        deleteDateTimeList.setFocusable(false);
+        jScrollPane6.setViewportView(deleteDateTimeList);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 534, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addDateTimePicker, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+                    .addComponent(addDateTimeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteDateTimeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteDateTimeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addDateTimeLabel)
+                            .addComponent(deleteDateTimeLabel))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(addDateTimeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addDateTimePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addDateTimeButton)
+                .addGap(18, 18, 18)
+                .addComponent(deleteDateTimeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteDateTimeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(deleteDateTimeButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(191, Short.MAX_VALUE))
         );
 
-        manageTabbedPane.addTab("Manage Dates & Times", jPanel4);
+        manageTabbedPane.addTab("Dates & Times", jPanel4);
 
         appointmentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Appointments", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 17))); // NOI18N
 
@@ -457,14 +527,31 @@ public class Referent extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_manageUpdateButtonActionPerformed
 
+    private void addDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDateTimeButtonActionPerformed
+        DashboardController.handleCorrespondentDatetimeAdd(addDateTimePicker);
+        DashboardController.handleCorrespondentDatetimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+    }//GEN-LAST:event_addDateTimeButtonActionPerformed
+
+    private void deleteDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDateTimeButtonActionPerformed
+        DashboardController.handleCorrespondentDatetimeDelete(deleteDateTimeComboBox, deleteDateTimeList);
+        DashboardController.handleCorrespondentDatetimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+    }//GEN-LAST:event_deleteDateTimeButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addDateTimeButton;
+    private javax.swing.JLabel addDateTimeLabel;
+    private com.github.lgooddatepicker.components.DateTimePicker addDateTimePicker;
     private javax.swing.JTextField aisIdField;
     private javax.swing.JLabel aisIdLabel;
     private javax.swing.JPanel appointmentsPanel;
     private javax.swing.JTable appointmentsTable;
     private javax.swing.JLabel dateLabel;
     private javax.swing.JLabel datetimeLabel;
+    private javax.swing.JButton deleteDateTimeButton;
+    private javax.swing.JComboBox<String> deleteDateTimeComboBox;
+    private javax.swing.JLabel deleteDateTimeLabel;
+    private javax.swing.JList<String> deleteDateTimeList;
     private javax.swing.JCheckBox doneCheckBox;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JList<String> jList1;
@@ -477,6 +564,7 @@ public class Referent extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JButton logoutButton;
     private javax.swing.JButton manageDeleteButton;
     private javax.swing.JCheckBox manageDoneCheckBox;

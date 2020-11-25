@@ -23,6 +23,7 @@
  */
 package efficiently.controllers;
 
+import com.github.lgooddatepicker.components.DateTimePicker;
 import efficiently.config.Database;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -34,9 +35,11 @@ import java.io.IOException;
 import efficiently.models.User;
 import efficiently.views.MainLayout;
 import java.util.Vector;
+import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -319,6 +322,102 @@ public class DashboardController {
             manageTabbedPane.setSelectedIndex(0);
             
             JOptionPane.showMessageDialog(null, "Appointment deleted successfully");
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        }
+    }
+    
+    public static void handleCorrespondentDatetimeAdd(DateTimePicker addDateTimePicker) {
+        String sqlQuery = "INSERT INTO dates (user, date) VALUES (?, ?)";
+        
+        int userId = User.getUserId();
+        
+        String date = addDateTimePicker.getDatePicker().toString();
+        String time = addDateTimePicker.getTimePicker().toString();
+        String datetime = date + " " + time;
+
+        
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, datetime);
+            
+            pstmt.execute();
+            
+            addDateTimePicker.datePicker.setText("");
+            addDateTimePicker.timePicker.setText("");
+            
+            addDateTimePicker.datePicker.requestFocus();
+            
+            JOptionPane.showMessageDialog(null, "Date & time added successfully");
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        }
+    }
+    
+    public static void handleCorrespondentDatetimeUpdate(JComboBox<String> deleteDateTimeComboBox, JList<String> deleteDateTimeList) {
+        String sqlQuery = "SELECT * FROM dates WHERE user=? ORDER BY date ASC";
+        
+        DefaultListModel model = (DefaultListModel)deleteDateTimeList.getModel();
+        
+        deleteDateTimeComboBox.removeAllItems();
+        model.removeAllElements();
+
+        int userId = User.getUserId();
+        
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+
+            pstmt.setInt(1, userId);
+
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                deleteDateTimeComboBox.addItem(rs.getString("date"));
+                model.addElement(String.valueOf(rs.getInt("date_id")));
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        }
+    }
+    
+    public static void handleCorrespondentDatetimeDelete(JComboBox<String> deleteDateTimeComboBox, JList<String> deleteDateTimeList) {
+        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this date & time?", "Delete Date & Time", JOptionPane.YES_NO_OPTION);
+        if (option != 0) {
+           return;
+        }
+        
+        String sqlQuery = "DELETE FROM dates WHERE date_id=?";
+        
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+            
+            int comboBoxIndex = deleteDateTimeComboBox.getSelectedIndex();
+            
+            DefaultListModel model = (DefaultListModel)deleteDateTimeList.getModel();
+
+            int dateId = Integer.parseInt((String) model.get(comboBoxIndex));
+
+            pstmt.setInt(1, dateId);
+            
+            pstmt.execute();
+        
+            deleteDateTimeComboBox.setSelectedIndex(0);
+            
+            JOptionPane.showMessageDialog(null, "Date & time deleted successfully");
         } catch (SQLException se) {
             se.printStackTrace();
             JOptionPane.showMessageDialog(null, "Database Error. Try again");

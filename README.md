@@ -68,6 +68,9 @@ mysql -uroot -proot
 CREATE DATABASE efficiently;
 ```
 
+## Database Architecture Diagram  
+![Efficiently database architecture diagram](https://imgur.com/qRqzjAB.jpeg)  
+
 ## App Info
 
 ### Authors

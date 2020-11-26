@@ -58,6 +58,9 @@ docker inspect YOUR_CONTAINER_ID
 # Connect to the bash into the running MySQL container
 docker exec -t -i mysql-dev /bin/bash
 
+# Set correct MySQL time zone (GMT) and restart the Docker container
+echo "default-time-zone = '+01:00'" >> /etc/mysql/my.cnf
+
 # Run MySQL client from bash MySQL container
 mysql -uroot -proot
 

@@ -64,6 +64,8 @@ public class Admin extends javax.swing.JPanel {
         roleComboBox = new javax.swing.JComboBox<>();
         updateButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
+        idLabel = new javax.swing.JLabel();
+        idField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         usersTable = new javax.swing.JTable();
         logoutButton = new javax.swing.JButton();
@@ -125,6 +127,13 @@ public class Admin extends javax.swing.JPanel {
             }
         });
 
+        idLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        idLabel.setText("ID");
+
+        idField.setEditable(false);
+        idField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        idField.setFocusable(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -133,24 +142,30 @@ public class Admin extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nameField, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(idField)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(aisIdField)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(aisIdLabel)
+                            .addComponent(idLabel)
                             .addComponent(nameLabel)
                             .addComponent(jLabel3)
                             .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(idLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(aisIdLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(aisIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -175,14 +190,14 @@ public class Admin extends javax.swing.JPanel {
 
             },
             new String [] {
-                "AIS ID", "Name", "Role"
+                "ID", "AIS ID", "Name", "Role"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -247,7 +262,7 @@ public class Admin extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(logoutButton)
                     .addComponent(refreshButton))
@@ -287,12 +302,13 @@ public class Admin extends javax.swing.JPanel {
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
-        DashboardController.handleAdminTableRowClick(usersTable, aisIdField, nameField, roleComboBox);
+        DashboardController.handleAdminTableRowClick(usersTable, idField, aisIdField, nameField, roleComboBox);
     }//GEN-LAST:event_usersTableMouseClicked
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         try {
-            DashboardController.handleAdminUserUpdate(usersTable, aisIdField, nameField, roleComboBox);
+            DashboardController.handleAdminUserUpdate(usersTable, idField, aisIdField, nameField, roleComboBox);
+            DashboardController.updateAdminTable(usersTable);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -300,7 +316,8 @@ public class Admin extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
-            DashboardController.handleAdminUserDelete(usersTable, aisIdField, nameField, roleComboBox);
+            DashboardController.handleAdminUserDelete(usersTable, idField, aisIdField, nameField, roleComboBox);
+            DashboardController.updateAdminTable(usersTable);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -311,6 +328,8 @@ public class Admin extends javax.swing.JPanel {
     private javax.swing.JTextField aisIdField;
     private javax.swing.JLabel aisIdLabel;
     private javax.swing.JButton deleteButton;
+    private javax.swing.JTextField idField;
+    private javax.swing.JLabel idLabel;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

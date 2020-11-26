@@ -66,7 +66,7 @@ public class MenuController {
             JOptionPane.showMessageDialog(null, "Registration Successful");
             MainLayout.showLoginScreen();
         } catch (SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(null, "AIS ID ("+ aisId +") is already registered");
+            JOptionPane.showMessageDialog(null, "AIS ID (" + aisId + ") is already registered");
         } catch (SQLException se) {
             se.printStackTrace();
             JOptionPane.showMessageDialog(null, "Database Error. Try again");

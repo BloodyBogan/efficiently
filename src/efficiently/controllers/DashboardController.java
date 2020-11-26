@@ -396,7 +396,10 @@ public class DashboardController {
                 isDone = 0;
             }
             
-            String response = manageResponseTextArea.getText();
+            String response = manageResponseTextArea.getText().trim();
+            if (response.isEmpty()) {
+                response = null;
+            }
             
             pstmt.setString(1, response);
             pstmt.setInt(2, isDone);
@@ -425,34 +428,21 @@ public class DashboardController {
            return;
         }
         
-        String sqlQuery = "DELETE FROM appointments WHERE appointment_id=?";
+        String sqlDeleteQuery = "DELETE FROM appointments WHERE appointment_id=?";
+        
+        DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
+        int selectedIndex = appointmentsTable.getSelectedRow();
+
+        int appointmentId = (int) Df.getValueAt(selectedIndex, 0);
+        
+        String sqlUpdateQuery = "UPDATE dates SET isTaken=0 WHERE (date_id=(SELECT date FROM appointments WHERE appointment_id=?) AND date>=NOW())";
         
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+                PreparedStatement pstmt = conn.prepareStatement(sqlUpdateQuery)) {
             
-            DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
-            int selectedIndex = appointmentsTable.getSelectedRow();
-
-            int appointmentId = (int) Df.getValueAt(selectedIndex, 0);
-
             pstmt.setInt(1, appointmentId);
             
-            pstmt.execute();
-            
-            manageResponseTextArea.setText("");
-            manageDoneCheckBox.setSelected(false);
-            
-            nameField.setText("");
-            aisIdField.setText("");
-            subjectField.setText("");
-            messageTextArea.setText("");
-            responseTextArea.setText("");
-            datetimeLabel.setText("");
-            doneCheckBox.setSelected(false);
-        
-            manageTabbedPane.setSelectedIndex(0);
-            
-            JOptionPane.showMessageDialog(null, "Appointment deleted successfully");
+            pstmt.executeUpdate();
         } catch (SQLException se) {
             se.printStackTrace();
             JOptionPane.showMessageDialog(null, "Database Error. Try again");
@@ -460,6 +450,35 @@ public class DashboardController {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "There was an error. Try again");
         }
+        
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sqlDeleteQuery)) {
+
+            pstmt.setInt(1, appointmentId);
+            
+            pstmt.execute();
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        }
+        
+        manageResponseTextArea.setText("");
+        manageDoneCheckBox.setSelected(false);
+
+        nameField.setText("");
+        aisIdField.setText("");
+        subjectField.setText("");
+        messageTextArea.setText("");
+        responseTextArea.setText("");
+        datetimeLabel.setText("");
+        doneCheckBox.setSelected(false);
+
+        manageTabbedPane.setSelectedIndex(0);
+
+        JOptionPane.showMessageDialog(null, "Appointment deleted successfully");
     }
     
     public static void handleCorrespondentDatetimeAdd(DateTimePicker addDateTimePicker) {
@@ -531,24 +550,20 @@ public class DashboardController {
            return;
         }
         
-        String sqlQuery = "DELETE FROM dates WHERE date_id=?";
+        String sqlDeleteAppointmentQuery = "DELETE FROM appointments WHERE date=?";
+        
+        int comboBoxIndex = deleteDateTimeComboBox.getSelectedIndex();
+            
+        DefaultListModel model = (DefaultListModel)deleteDateTimeList.getModel();
+
+        int dateId = Integer.parseInt((String) model.get(comboBoxIndex));
         
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
-            
-            int comboBoxIndex = deleteDateTimeComboBox.getSelectedIndex();
-            
-            DefaultListModel model = (DefaultListModel)deleteDateTimeList.getModel();
-
-            int dateId = Integer.parseInt((String) model.get(comboBoxIndex));
+                PreparedStatement pstmt = conn.prepareStatement(sqlDeleteAppointmentQuery)) {
 
             pstmt.setInt(1, dateId);
             
             pstmt.execute();
-        
-            deleteDateTimeComboBox.setSelectedIndex(0);
-            
-            JOptionPane.showMessageDialog(null, "Date & time deleted successfully");
         } catch (SQLException se) {
             se.printStackTrace();
             JOptionPane.showMessageDialog(null, "Database Error. Try again");
@@ -556,6 +571,26 @@ public class DashboardController {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "There was an error. Try again");
         }
+        
+        String sqlDeleteDateQuery = "DELETE FROM dates WHERE date_id=?";
+        
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sqlDeleteDateQuery)) {
+
+            pstmt.setInt(1, dateId);
+            
+            pstmt.execute();
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        }
+        
+        deleteDateTimeComboBox.setSelectedIndex(0);
+            
+        JOptionPane.showMessageDialog(null, "Date & time deleted successfully");
     }
     
     public static void updateAdminTable(JTable usersTable) throws SQLException, IOException {

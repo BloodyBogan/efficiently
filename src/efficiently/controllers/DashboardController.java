@@ -237,7 +237,7 @@ public class DashboardController {
             ResultSet rs = pstmt.executeQuery();
            
             if (rs.next() == false) {
-                queueLabel.setText("You have no appointments booked yet");
+                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>You have no appointments booked yet</p></body></html>");
                 return;
             } else {
                 do {
@@ -266,11 +266,11 @@ public class DashboardController {
             }
             
             if (count == 0) {
-                queueLabel.setText("It's your turn");
+                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>It's your turn</p></body></html>");
             } else if (count == 1) {
-                queueLabel.setText("There is " + String.valueOf(count) + " appointment before yours");
+                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>There is " + String.valueOf(count) + " appointment before yours</p></body></html>");
             } else {
-                queueLabel.setText("There are " + String.valueOf(count) + " appointments before yours");
+                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>There are " + String.valueOf(count) + " appointments before yours</p></body></html>");
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

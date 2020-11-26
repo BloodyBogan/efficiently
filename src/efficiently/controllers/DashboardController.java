@@ -245,14 +245,14 @@ public class DashboardController {
             System.out.println(ex.getMessage());
         }
         
-        String sqlCountQuery = "SELECT COUNT(dates.date) as total FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date>=NOW() AND (dates.date<=(SELECT dates.date WHERE dates.date_id=?)) AND dates.user=? AND (appointments.isDone=(SELECT appointments.isDone WHERE appointments.date=?)))";
+        String sqlCountQuery = "SELECT COUNT(*) as total FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date>=NOW() AND dates.date<=(SELECT date FROM dates WHERE date_id=?) AND dates.user=? AND appointments.date=dates.date_id AND appointments.user<>? AND appointments.isDone=0)";
         
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sqlCountQuery)) {
             
             pstmt.setInt(1, dateId);
             pstmt.setInt(2, correspondentUserId);
-            pstmt.setInt(3, dateId);
+            pstmt.setInt(3, userId);
             
             ResultSet rs = pstmt.executeQuery();
            

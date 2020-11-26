@@ -24,11 +24,13 @@
 package efficiently.views.dashboard;
 
 import efficiently.controllers.DashboardController;
+import efficiently.models.User;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -43,11 +45,6 @@ public class Referent extends javax.swing.JPanel {
         initComponents();
         deleteDateTimeList.setModel(new DefaultListModel());
         deleteDateTimeList.setVisible(false);
-        try {
-            DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -102,6 +99,7 @@ public class Referent extends javax.swing.JPanel {
         appointmentsPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         appointmentsTable = new javax.swing.JTable();
+        userNameLabel = new javax.swing.JLabel();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -157,8 +155,8 @@ public class Referent extends javax.swing.JPanel {
         messageLabel.setText("Message");
         messageLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        messageTextArea.setEditable(false);
         messageTextArea.setColumns(20);
+        messageTextArea.setEditable(false);
         messageTextArea.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         messageTextArea.setLineWrap(true);
         messageTextArea.setRows(3);
@@ -167,8 +165,8 @@ public class Referent extends javax.swing.JPanel {
         responseLabel.setText("Response");
         responseLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        responseTextArea.setEditable(false);
         responseTextArea.setColumns(20);
+        responseTextArea.setEditable(false);
         responseTextArea.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         responseTextArea.setLineWrap(true);
         responseTextArea.setRows(3);
@@ -323,22 +321,22 @@ public class Referent extends javax.swing.JPanel {
 
         addDateTimePicker.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        addDateTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         addDateTimeLabel.setText("Add date & time");
+        addDateTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        addDateTimeButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         addDateTimeButton.setText("Add");
+        addDateTimeButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         addDateTimeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addDateTimeButtonActionPerformed(evt);
             }
         });
 
-        deleteDateTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         deleteDateTimeLabel.setText("Delete date & time");
+        deleteDateTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        deleteDateTimeButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         deleteDateTimeButton.setText("Delete");
+        deleteDateTimeButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         deleteDateTimeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteDateTimeButtonActionPerformed(evt);
@@ -396,7 +394,6 @@ public class Referent extends javax.swing.JPanel {
 
         appointmentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Appointments", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 17))); // NOI18N
 
-        appointmentsTable.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         appointmentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -420,6 +417,7 @@ public class Referent extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        appointmentsTable.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         appointmentsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 appointmentsTableMouseClicked(evt);
@@ -444,33 +442,44 @@ public class Referent extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        userNameLabel.setEnabled(false);
+        userNameLabel.setFocusable(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(410, 410, 410)
+                .addComponent(title)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(manageTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(refreshButton)
-                        .addGap(25, 25, 25)
-                        .addComponent(logoutButton))
-                    .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(25, 25, 25))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(410, 410, 410)
-                .addComponent(title)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(userNameLabel)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(refreshButton)
+                                .addGap(25, 25, 25)
+                                .addComponent(logoutButton))
+                            .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(25, 25, 25))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(title)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userNameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -494,8 +503,53 @@ public class Referent extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public static void refresh() throws SQLException, IOException {
+        try {
+            DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
+            appointmentsTable.clearSelection();
+            DashboardController.handleCorrespondentDatetimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+            resetRest();
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static void resetTable() {
+        appointmentsTable.clearSelection();
+        DefaultTableModel model = (DefaultTableModel) appointmentsTable.getModel();
+        model.setRowCount(0);
+        appointmentsTable.revalidate();
+    }
+    
+    private static void resetRest() {
+        manageResponseTextArea.setText("");
+        manageResponseTextArea.requestFocus();
+        manageDoneCheckBox.setSelected(false);
+
+        nameField.setText("");
+        aisIdField.setText("");
+        subjectField.setText("");
+        messageTextArea.setText("");
+        responseTextArea.setText("");
+        datetimeLabel.setText("");
+        doneCheckBox.setSelected(false);
+        
+        addDateTimePicker.datePicker.setText("");
+        addDateTimePicker.timePicker.setText("");
+        addDateTimePicker.datePicker.requestFocus();
+        deleteDateTimeComboBox.setSelectedIndex(0);
+        
+        manageTabbedPane.setSelectedIndex(0);
+    }
+    
+    public static void setUserName() {
+        userNameLabel.setText("Hello, " + User.getName());
+    }
+    
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         DashboardController.logout();
+        resetTable();
+        resetRest();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
@@ -504,7 +558,7 @@ public class Referent extends javax.swing.JPanel {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
-            DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
+            refresh();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -513,7 +567,7 @@ public class Referent extends javax.swing.JPanel {
     private void manageDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageDeleteButtonActionPerformed
         try {
             DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable, manageTabbedPane, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, datetimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
-            DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
+            refresh();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -522,38 +576,46 @@ public class Referent extends javax.swing.JPanel {
     private void manageUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageUpdateButtonActionPerformed
         try {
             DashboardController.handleCorrespondentAppointmentUpdate(appointmentsTable, responseTextArea, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
-            DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
+            refresh();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_manageUpdateButtonActionPerformed
 
     private void addDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDateTimeButtonActionPerformed
-        DashboardController.handleCorrespondentDatetimeAdd(addDateTimePicker);
-        DashboardController.handleCorrespondentDatetimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+        try {
+            DashboardController.handleCorrespondentDatetimeAdd(addDateTimePicker);
+            refresh();
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Referent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_addDateTimeButtonActionPerformed
 
     private void deleteDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDateTimeButtonActionPerformed
-        DashboardController.handleCorrespondentDatetimeDelete(deleteDateTimeComboBox, deleteDateTimeList);
-        DashboardController.handleCorrespondentDatetimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+        try {
+            DashboardController.handleCorrespondentDatetimeDelete(deleteDateTimeComboBox, deleteDateTimeList);
+            refresh();
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Referent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_deleteDateTimeButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addDateTimeButton;
     private javax.swing.JLabel addDateTimeLabel;
-    private com.github.lgooddatepicker.components.DateTimePicker addDateTimePicker;
-    private javax.swing.JTextField aisIdField;
+    private static com.github.lgooddatepicker.components.DateTimePicker addDateTimePicker;
+    private static javax.swing.JTextField aisIdField;
     private javax.swing.JLabel aisIdLabel;
     private javax.swing.JPanel appointmentsPanel;
-    private javax.swing.JTable appointmentsTable;
+    private static javax.swing.JTable appointmentsTable;
     private javax.swing.JLabel dateLabel;
-    private javax.swing.JLabel datetimeLabel;
+    private static javax.swing.JLabel datetimeLabel;
     private javax.swing.JButton deleteDateTimeButton;
-    private javax.swing.JComboBox<String> deleteDateTimeComboBox;
+    private static javax.swing.JComboBox<String> deleteDateTimeComboBox;
     private javax.swing.JLabel deleteDateTimeLabel;
-    private javax.swing.JList<String> deleteDateTimeList;
-    private javax.swing.JCheckBox doneCheckBox;
+    private static javax.swing.JList<String> deleteDateTimeList;
+    private static javax.swing.JCheckBox doneCheckBox;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
@@ -568,20 +630,21 @@ public class Referent extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JButton logoutButton;
     private javax.swing.JButton manageDeleteButton;
-    private javax.swing.JCheckBox manageDoneCheckBox;
+    private static javax.swing.JCheckBox manageDoneCheckBox;
     private javax.swing.JLabel manageResponseLabel;
-    private javax.swing.JTextArea manageResponseTextArea;
-    private javax.swing.JTabbedPane manageTabbedPane;
+    private static javax.swing.JTextArea manageResponseTextArea;
+    private static javax.swing.JTabbedPane manageTabbedPane;
     private javax.swing.JButton manageUpdateButton;
     private javax.swing.JLabel messageLabel;
-    private javax.swing.JTextArea messageTextArea;
-    private javax.swing.JTextField nameField;
+    private static javax.swing.JTextArea messageTextArea;
+    private static javax.swing.JTextField nameField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JButton refreshButton;
     private javax.swing.JLabel responseLabel;
-    private javax.swing.JTextArea responseTextArea;
-    private javax.swing.JTextField subjectField;
+    private static javax.swing.JTextArea responseTextArea;
+    private static javax.swing.JTextField subjectField;
     private javax.swing.JLabel subjectLabel;
     private javax.swing.JLabel title;
+    private static javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 }

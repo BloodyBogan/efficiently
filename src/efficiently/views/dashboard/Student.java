@@ -24,11 +24,13 @@
 package efficiently.views.dashboard;
 
 import efficiently.controllers.DashboardController;
+import efficiently.models.User;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -45,12 +47,6 @@ public class Student extends javax.swing.JPanel {
         initComponents();
         datetimeList.setModel(new DefaultListModel());
         datetimeList.setVisible(false);
-        try {
-            DashboardController.updateStudentAppointmentsTable(appointmentsTable);
-            DashboardController.handleStudentQueueUpdate(queueLabel);
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -83,6 +79,7 @@ public class Student extends javax.swing.JPanel {
         appointmentsTable = new javax.swing.JTable();
         queuePanel = new javax.swing.JPanel();
         queueLabel = new javax.swing.JLabel();
+        userNameLabel = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
 
@@ -190,7 +187,7 @@ public class Student extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(messageLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -247,7 +244,7 @@ public class Student extends javax.swing.JPanel {
         appointmentsPanelLayout.setVerticalGroup(
             appointmentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(appointmentsPanelLayout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+                .addContainerGap(38, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -257,17 +254,16 @@ public class Student extends javax.swing.JPanel {
         queuePanel.setLayout(new java.awt.GridBagLayout());
 
         queueLabel.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
-        queueLabel.setText("It's your turn");
         queuePanel.add(queueLabel, new java.awt.GridBagConstraints());
+
+        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        userNameLabel.setEnabled(false);
+        userNameLabel.setFocusable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(472, 472, 472)
-                .addComponent(title)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(bookAppointmentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,13 +277,24 @@ public class Student extends javax.swing.JPanel {
                         .addComponent(logoutButton))
                     .addComponent(queuePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(472, 472, 472)
+                        .addComponent(title))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(613, 613, 613)
+                        .addComponent(userNameLabel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(title)
-                .addGap(60, 60, 60)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userNameLabel)
+                .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(queuePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -312,15 +319,46 @@ public class Student extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public static void refresh() throws SQLException, IOException {
+        try {
+            DashboardController.updateStudentAppointmentsTable(appointmentsTable);
+            appointmentsTable.clearSelection();
+            DashboardController.handleStudentAppointmentsDatesUpdate(datetimeComboBox, datetimeList);
+            DashboardController.handleStudentQueueUpdate(queueLabel);
+            resetRest();
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static void resetTable() {
+        appointmentsTable.clearSelection();
+        DefaultTableModel model = (DefaultTableModel) appointmentsTable.getModel();
+        model.setRowCount(0);
+        appointmentsTable.revalidate();
+    }
+    
+    private static void resetRest() {
+        subjectField.setText("");
+            messageTextArea.setText("");
+            datetimeComboBox.setSelectedIndex(0);
+            
+            subjectField.requestFocus();
+    }
+    
+    public static void setUserName() {
+        userNameLabel.setText("Hello, " + User.getName());
+    }
+    
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         DashboardController.logout();
+        resetTable();
+        resetRest();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
-            DashboardController.updateStudentAppointmentsTable(appointmentsTable);
-            DashboardController.handleStudentAppointmentsDatesUpdate(datetimeComboBox, datetimeList);
-            DashboardController.handleStudentQueueUpdate(queueLabel);
+            refresh();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -329,8 +367,7 @@ public class Student extends javax.swing.JPanel {
     private void bookNowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookNowButtonActionPerformed
         try {
             DashboardController.bookAppointment(subjectField, messageTextArea, datetimeComboBox, datetimeList);
-            DashboardController.updateStudentAppointmentsTable(appointmentsTable);
-            DashboardController.handleStudentAppointmentsDatesUpdate(datetimeComboBox, datetimeList);
+            refresh();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -343,11 +380,11 @@ public class Student extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel appointmentsPanel;
-    private javax.swing.JTable appointmentsTable;
+    private static javax.swing.JTable appointmentsTable;
     private javax.swing.JPanel bookAppointmentPanel;
     private javax.swing.JButton bookNowButton;
-    private javax.swing.JComboBox<String> datetimeComboBox;
-    private javax.swing.JList<String> datetimeList;
+    private static javax.swing.JComboBox<String> datetimeComboBox;
+    private static javax.swing.JList<String> datetimeList;
     private javax.swing.JScrollPane datetimeScrollPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -356,12 +393,13 @@ public class Student extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton logoutButton;
     private javax.swing.JLabel messageLabel;
-    private javax.swing.JTextArea messageTextArea;
-    private javax.swing.JLabel queueLabel;
+    private static javax.swing.JTextArea messageTextArea;
+    private static javax.swing.JLabel queueLabel;
     private javax.swing.JPanel queuePanel;
     private javax.swing.JButton refreshButton;
-    private javax.swing.JTextField subjectField;
+    private static javax.swing.JTextField subjectField;
     private javax.swing.JLabel subjectLabel;
     private javax.swing.JLabel title;
+    private static javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 }

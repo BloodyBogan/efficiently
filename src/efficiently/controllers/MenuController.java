@@ -29,6 +29,9 @@ import efficiently.config.Database;
 import efficiently.models.User;
 import efficiently.utils.Capitalize;
 import efficiently.utils.UserException;
+import efficiently.views.dashboard.Admin;
+import efficiently.views.dashboard.Referent;
+import efficiently.views.dashboard.Student;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.io.IOException;
@@ -105,12 +108,18 @@ public class MenuController {
             switch(User.getRole()) {
                 case "student":
                     MainLayout.showStudentDashboard();
+                    Student.setUserName();
+                    Student.refresh();
                     break;
                 case "referent":
                     MainLayout.showReferentDashboard();
+                    Referent.setUserName();
+                    Referent.refresh();
                     break;
                 case "admin":
                     MainLayout.showAdminDashboard();
+                    Admin.setUserName();
+                    Admin.refresh();
                     break;
                 default:
                     JOptionPane.showMessageDialog(null, "There was an error. Try again");

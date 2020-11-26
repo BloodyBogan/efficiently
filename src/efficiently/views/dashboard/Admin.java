@@ -24,10 +24,12 @@
 package efficiently.views.dashboard;
 
 import efficiently.controllers.DashboardController;
+import efficiently.models.User;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
@@ -36,12 +38,9 @@ public class Admin extends javax.swing.JPanel {
 
     /**
      * Creates new form Admin
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
      */
     public Admin() throws SQLException, IOException {
         initComponents();
-        DashboardController.updateAdminTable(usersTable);
     }
 
     /**
@@ -70,6 +69,7 @@ public class Admin extends javax.swing.JPanel {
         usersTable = new javax.swing.JTable();
         logoutButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
+        userNameLabel = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -231,6 +231,10 @@ public class Admin extends javax.swing.JPanel {
             }
         });
 
+        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        userNameLabel.setEnabled(false);
+        userNameLabel.setFocusable(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -252,17 +256,22 @@ public class Admin extends javax.swing.JPanel {
                             .addGap(18, 18, 18)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(25, 25, 25))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(userNameLabel)
+                .addGap(592, 592, 592))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(title)
-                .addGap(60, 60, 60)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userNameLabel)
+                .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(logoutButton)
                     .addComponent(refreshButton))
@@ -281,6 +290,36 @@ public class Admin extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public static void refresh() throws SQLException, IOException {
+        try {
+            DashboardController.updateAdminTable(usersTable);
+            usersTable.clearSelection();
+            resetRest();
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static void resetTable() {
+        usersTable.clearSelection();
+        DefaultTableModel model = (DefaultTableModel) usersTable.getModel();
+        model.setRowCount(0);
+        usersTable.revalidate();
+    }
+    
+    private static void resetRest() {
+        idField.setText("");
+        aisIdField.setText("");
+        nameField.setText("");
+        roleComboBox.setSelectedItem(0);
+
+        aisIdField.requestFocus();
+    }
+    
+    public static void setUserName() {
+        userNameLabel.setText("Hello, " + User.getName());
+    }
+    
     private void aisIdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aisIdFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_aisIdFieldActionPerformed
@@ -291,11 +330,13 @@ public class Admin extends javax.swing.JPanel {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         DashboardController.logout();
+        resetTable();
+        resetRest();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
-            DashboardController.updateAdminTable(usersTable);
+            refresh();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -308,7 +349,7 @@ public class Admin extends javax.swing.JPanel {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         try {
             DashboardController.handleAdminUserUpdate(usersTable, idField, aisIdField, nameField, roleComboBox);
-            DashboardController.updateAdminTable(usersTable);
+            refresh();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -317,7 +358,7 @@ public class Admin extends javax.swing.JPanel {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
             DashboardController.handleAdminUserDelete(usersTable, idField, aisIdField, nameField, roleComboBox);
-            DashboardController.updateAdminTable(usersTable);
+            refresh();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -325,22 +366,23 @@ public class Admin extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField aisIdField;
+    private static javax.swing.JTextField aisIdField;
     private javax.swing.JLabel aisIdLabel;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JTextField idField;
+    private static javax.swing.JTextField idField;
     private javax.swing.JLabel idLabel;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton logoutButton;
-    private javax.swing.JTextField nameField;
+    private static javax.swing.JTextField nameField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JButton refreshButton;
-    private javax.swing.JComboBox<String> roleComboBox;
+    private static javax.swing.JComboBox<String> roleComboBox;
     private javax.swing.JLabel title;
     private javax.swing.JButton updateButton;
-    private javax.swing.JTable usersTable;
+    private static javax.swing.JLabel userNameLabel;
+    private static javax.swing.JTable usersTable;
     // End of variables declaration//GEN-END:variables
 }

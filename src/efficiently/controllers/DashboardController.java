@@ -95,12 +95,6 @@ public class DashboardController {
             
             pstmt.execute();
             
-            subjectField.setText("");
-            messageTextArea.setText("");
-            datetimeComboBox.setSelectedIndex(0);
-            
-            subjectField.requestFocus();
-            
             JOptionPane.showMessageDialog(null, "Appointment booking successful");
         } catch (SQLException se) {
             se.printStackTrace();
@@ -175,6 +169,9 @@ public class DashboardController {
             }
         } catch (SQLException se) {
             System.out.println(se.getMessage());
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "There was an error. Try again");
         }
     }
@@ -464,19 +461,6 @@ public class DashboardController {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "There was an error. Try again");
         }
-        
-        manageResponseTextArea.setText("");
-        manageDoneCheckBox.setSelected(false);
-
-        nameField.setText("");
-        aisIdField.setText("");
-        subjectField.setText("");
-        messageTextArea.setText("");
-        responseTextArea.setText("");
-        datetimeLabel.setText("");
-        doneCheckBox.setSelected(false);
-
-        manageTabbedPane.setSelectedIndex(0);
 
         JOptionPane.showMessageDialog(null, "Appointment deleted successfully");
     }
@@ -498,11 +482,6 @@ public class DashboardController {
             pstmt.setString(2, datetime);
             
             pstmt.execute();
-            
-            addDateTimePicker.datePicker.setText("");
-            addDateTimePicker.timePicker.setText("");
-            
-            addDateTimePicker.datePicker.requestFocus();
             
             JOptionPane.showMessageDialog(null, "Date & time added successfully");
         } catch (SQLException se) {
@@ -531,9 +510,13 @@ public class DashboardController {
 
             ResultSet rs = pstmt.executeQuery();
             
-            while (rs.next()) {
-                deleteDateTimeComboBox.addItem(rs.getString("date"));
-                model.addElement(String.valueOf(rs.getInt("date_id")));
+            if (rs.next() == false) {
+                deleteDateTimeComboBox.addItem("You don't have any available dates & times");
+            } else {
+                do {
+                    deleteDateTimeComboBox.addItem(rs.getString("date"));
+                    model.addElement(String.valueOf(rs.getInt("date_id")));
+                } while (rs.next());
             }
         } catch (SQLException se) {
             se.printStackTrace();
@@ -587,8 +570,6 @@ public class DashboardController {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "There was an error. Try again");
         }
-        
-        deleteDateTimeComboBox.setSelectedIndex(0);
             
         JOptionPane.showMessageDialog(null, "Date & time deleted successfully");
     }
@@ -691,13 +672,6 @@ public class DashboardController {
             pstmt.setInt(4, userId);
 
             pstmt.executeUpdate();
-            
-            idField.setText("");
-            aisIdField.setText("");
-            nameField.setText("");
-            roleComboBox.setSelectedItem("student");
-            
-            aisIdField.requestFocus();
 
             JOptionPane.showMessageDialog(null, "User successfully updated");
         } catch (SQLIntegrityConstraintViolationException sicve) {
@@ -883,7 +857,7 @@ public class DashboardController {
             idField.setText("");
             aisIdField.setText("");
             nameField.setText("");
-            roleComboBox.setSelectedItem("student");
+            roleComboBox.setSelectedItem(0);
 
             aisIdField.requestFocus();
 

@@ -14,14 +14,28 @@ SHIFT + F11
 
 # Run Project
 F6
+
+
+# Using command line
+
+# Compile the project
+ant compile
+
+# Compile the project and build JAR
+ant jar
+
+# Run the project from the dist folder
+java -jar "efficiently.jar"
 ```
 
 ## Download Dependencies
 
+[JDK 8](https://www.oracle.com/java/technologies/javase-downloads.html)  
 [MySQL Connector](https://dev.mysql.com/downloads/connector/j/)  
 [BCrypt](https://github.com/patrickfav/bcrypt/releases/tag/v0.9.0)  
 [Bytes](https://github.com/patrickfav/bytes-java/releases/tag/v1.4.0)  
 [LGoodDatePicker](https://github.com/LGoodDatePicker/LGoodDatePicker/releases/tag/v11.1.0-Standard)  
+[Open Sans font](https://fonts.google.com/specimen/Open+Sans)  
 
 ## LGoodDatePicker Quick Start
 

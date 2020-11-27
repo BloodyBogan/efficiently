@@ -111,8 +111,8 @@ public class MenuController {
                     Student.setUserName();
                     Student.refresh();
                     break;
-                case "referent":
-                    MainLayout.showReferentDashboard();
+                case "correspondent":
+                    MainLayout.showCorrespondentDashboard();
                     Correspondent.setUserName();
                     Correspondent.refresh();
                     break;

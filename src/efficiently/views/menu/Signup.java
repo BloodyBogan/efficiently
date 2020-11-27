@@ -215,7 +215,7 @@ public class Signup extends javax.swing.JPanel {
         
         try {
             aisId = Integer.parseInt(stringAisId);
-        }catch(NumberFormatException e) {
+        } catch(NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "AIS ID must be a number");
             aisIdField.setText("");
             aisIdField.requestFocus();

@@ -38,12 +38,13 @@ import javax.swing.table.DefaultTableModel;
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
 public class Student extends javax.swing.JPanel {
-
+    private final static String ACCESS_LEVEL = "student";
     /**
      * Creates new form Student
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
+    @SuppressWarnings("unchecked")
     public Student() throws SQLException, IOException {
         initComponents();
         dateTimeList.setModel(new DefaultListModel());
@@ -59,7 +60,6 @@ public class Student extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         Container = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
@@ -82,8 +82,6 @@ public class Student extends javax.swing.JPanel {
         queueLabel = new javax.swing.JLabel();
         userNameLabel = new javax.swing.JLabel();
 
-        jLabel1.setText("jLabel1");
-
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
         setName("Student"); // NOI18N
@@ -93,19 +91,19 @@ public class Student extends javax.swing.JPanel {
         Container.setName("Container"); // NOI18N
         Container.setPreferredSize(new java.awt.Dimension(1280, 720));
 
-        title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
         title.setText("Student Dashboard");
+        title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
 
-        logoutButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         logoutButton.setText("Log Out");
+        logoutButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoutButtonActionPerformed(evt);
             }
         });
 
-        refreshButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         refreshButton.setText("Refresh");
+        refreshButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshButtonActionPerformed(evt);
@@ -114,13 +112,13 @@ public class Student extends javax.swing.JPanel {
 
         bookAppointmentPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Book Appointment", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 24))); // NOI18N
 
-        subjectLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         subjectLabel.setText("Subject");
+        subjectLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         subjectField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        messageLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         messageLabel.setText("Message");
+        messageLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         messageTextArea.setColumns(20);
         messageTextArea.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
@@ -128,8 +126,8 @@ public class Student extends javax.swing.JPanel {
         messageTextArea.setRows(5);
         jScrollPane1.setViewportView(messageTextArea);
 
-        bookNowButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         bookNowButton.setText("Book Now");
+        bookNowButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         bookNowButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bookNowButtonActionPerformed(evt);
@@ -138,8 +136,8 @@ public class Student extends javax.swing.JPanel {
 
         dateTimeComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        pickDateAndTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         pickDateAndTimeLabel.setText("Pick date & time");
+        pickDateAndTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         dateTimeScrollPane.setEnabled(false);
         dateTimeScrollPane.setFocusable(false);
@@ -202,13 +200,13 @@ public class Student extends javax.swing.JPanel {
 
         appointmentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Your Appointments", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 24))); // NOI18N
 
-        appointmentsTable.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        appointmentsTable.setAutoCreateRowSorter(true);
         appointmentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Subject", "Message", "Response", "Date", "Correspondent", "Done"
+                "Subject", "Message", "Response", "Date", "Correspondent", "Closed"
             }
         ) {
             Class[] types = new Class [] {
@@ -226,6 +224,7 @@ public class Student extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        appointmentsTable.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         appointmentsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 appointmentsTableMouseClicked(evt);
@@ -257,9 +256,9 @@ public class Student extends javax.swing.JPanel {
         queueLabel.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         queuePanel.add(queueLabel, new java.awt.GridBagConstraints());
 
-        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         userNameLabel.setEnabled(false);
         userNameLabel.setFocusable(false);
+        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout ContainerLayout = new javax.swing.GroupLayout(Container);
         Container.setLayout(ContainerLayout);
@@ -359,7 +358,7 @@ public class Student extends javax.swing.JPanel {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
-            if (User.isSessionValid()) {
+            if (User.isSessionValid(ACCESS_LEVEL)) {
                 refresh();
                 User.setLastAction();
             } else {
@@ -373,7 +372,7 @@ public class Student extends javax.swing.JPanel {
 
     private void bookNowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookNowButtonActionPerformed
         try {
-            if (User.isSessionValid()) {
+            if (User.isSessionValid(ACCESS_LEVEL)) {
                 DashboardController.handleStudentBookAppointment(subjectField, messageTextArea, dateTimeComboBox, dateTimeList);
                 refresh();
                 User.setLastAction();
@@ -388,7 +387,7 @@ public class Student extends javax.swing.JPanel {
 
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
         try {
-            if (User.isSessionValid()) {
+            if (User.isSessionValid(ACCESS_LEVEL)) {
                 DashboardController.handleStudentAppointmentsTableRowClick(appointmentsTable);
                 User.setLastAction();
             } else {
@@ -410,7 +409,6 @@ public class Student extends javax.swing.JPanel {
     private static javax.swing.JComboBox<String> dateTimeComboBox;
     private static javax.swing.JList<String> dateTimeList;
     private javax.swing.JScrollPane dateTimeScrollPane;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton logoutButton;

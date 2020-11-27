@@ -36,7 +36,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
 public class Admin extends javax.swing.JPanel {
-
+    private final static String ACCESS_LEVEL = "admin";
     /**
      * Creates new form Admin
      */
@@ -97,11 +97,6 @@ public class Admin extends javax.swing.JPanel {
         aisIdLabel.setText("AIS ID");
 
         aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        aisIdField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aisIdFieldActionPerformed(evt);
-            }
-        });
 
         nameLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         nameLabel.setText("Name");
@@ -112,12 +107,7 @@ public class Admin extends javax.swing.JPanel {
         roleLabel.setText("Role");
 
         roleComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "student", "referent", "admin" }));
-        roleComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roleComboBoxActionPerformed(evt);
-            }
-        });
+        roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "student", "correspondent", "admin" }));
 
         updateButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         updateButton.setText("Update");
@@ -185,7 +175,7 @@ public class Admin extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        usersTable.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        usersTable.setAutoCreateRowSorter(true);
         usersTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -209,6 +199,7 @@ public class Admin extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        usersTable.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         usersTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 usersTableMouseClicked(evt);
@@ -293,7 +284,7 @@ public class Admin extends javax.swing.JPanel {
     
     public static void refresh() throws SQLException, IOException {
         try {
-            DashboardController.handleAdminTableUpdate(usersTable);
+            DashboardController.handleAdminUsersTableUpdate(usersTable);
             usersTable.clearSelection();
             resetRest();
         } catch (SQLException | IOException ex) {
@@ -321,14 +312,6 @@ public class Admin extends javax.swing.JPanel {
         userNameLabel.setText("Hello, " + User.getName());
     }
     
-    private void aisIdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aisIdFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_aisIdFieldActionPerformed
-
-    private void roleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_roleComboBoxActionPerformed
-
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         DashboardController.logout();
         resetTable();
@@ -337,7 +320,7 @@ public class Admin extends javax.swing.JPanel {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
-            if (User.isSessionValid()) {
+            if (User.isSessionValid(ACCESS_LEVEL)) {
                 refresh();
                 User.setLastAction();
             } else {
@@ -351,8 +334,8 @@ public class Admin extends javax.swing.JPanel {
 
     private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
         try {
-            if (User.isSessionValid()) {
-                DashboardController.handleAdminTableRowClick(usersTable, idField, aisIdField, nameField, roleComboBox);
+            if (User.isSessionValid(ACCESS_LEVEL)) {
+                DashboardController.handleAdminUsersTableRowClick(usersTable, idField, aisIdField, nameField, roleComboBox);
                 User.setLastAction();
             } else {
                 logoutButton.doClick();
@@ -365,7 +348,7 @@ public class Admin extends javax.swing.JPanel {
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         try {
-            if (User.isSessionValid()) {
+            if (User.isSessionValid(ACCESS_LEVEL)) {
                 DashboardController.handleAdminUserUpdate(usersTable, idField, aisIdField, nameField, roleComboBox);
                 refresh();
                 User.setLastAction();
@@ -380,7 +363,7 @@ public class Admin extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
-            if (User.isSessionValid()) {
+            if (User.isSessionValid(ACCESS_LEVEL)) {
                 DashboardController.handleAdminUserDelete(usersTable, idField, aisIdField, nameField, roleComboBox);
                 refresh();
                 User.setLastAction();

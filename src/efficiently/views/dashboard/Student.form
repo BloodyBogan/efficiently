@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
-  <NonVisualComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel1"/>
-      </Properties>
-    </Component>
-  </NonVisualComponents>
   <Properties>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1280, 720]"/>
@@ -118,18 +111,18 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="title">
           <Properties>
+            <Property name="text" type="java.lang.String" value="Student Dashboard"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="35" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Student Dashboard"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="logoutButton">
           <Properties>
+            <Property name="text" type="java.lang.String" value="Log Out"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="17" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Log Out"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
@@ -137,10 +130,10 @@
         </Component>
         <Component class="javax.swing.JButton" name="refreshButton">
           <Properties>
+            <Property name="text" type="java.lang.String" value="Refresh"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="17" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Refresh"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshButtonActionPerformed"/>
@@ -209,10 +202,10 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="subjectLabel">
               <Properties>
+                <Property name="text" type="java.lang.String" value="Subject"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="17" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Subject"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="subjectField">
@@ -227,10 +220,10 @@
             </Component>
             <Component class="javax.swing.JLabel" name="messageLabel">
               <Properties>
+                <Property name="text" type="java.lang.String" value="Message"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="17" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Message"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -257,10 +250,10 @@
             </Container>
             <Component class="javax.swing.JButton" name="bookNowButton">
               <Properties>
+                <Property name="text" type="java.lang.String" value="Book Now"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="17" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Book Now"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bookNowButtonActionPerformed"/>
@@ -268,11 +261,11 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="dateTimeComboBox">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Open Sans" size="17" style="0"/>
-                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Open Sans" size="17" style="0"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -282,10 +275,10 @@
             </Component>
             <Component class="javax.swing.JLabel" name="pickDateAndTimeLabel">
               <Properties>
+                <Property name="text" type="java.lang.String" value="Pick date &amp; time"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="17" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Pick date &amp; time"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="dateTimeScrollPane">
@@ -378,9 +371,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="appointmentsTable">
                   <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Open Sans" size="17" style="0"/>
-                    </Property>
+                    <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="6" rowCount="0">
                         <Column editable="false" title="Subject" type="java.lang.String"/>
@@ -388,7 +379,7 @@
                         <Column editable="false" title="Response" type="java.lang.String"/>
                         <Column editable="false" title="Date" type="java.lang.String"/>
                         <Column editable="false" title="Correspondent" type="java.lang.String"/>
-                        <Column editable="false" title="Done" type="java.lang.String"/>
+                        <Column editable="false" title="Closed" type="java.lang.String"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -424,6 +415,9 @@
                           <Renderer/>
                         </Column>
                       </TableColumnModel>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="17" style="0"/>
                     </Property>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -475,11 +469,11 @@
         </Container>
         <Component class="javax.swing.JLabel" name="userNameLabel">
           <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="14" style="0"/>
             </Property>
-            <Property name="enabled" type="boolean" value="false"/>
-            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>

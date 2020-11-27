@@ -37,7 +37,6 @@ import efficiently.views.MainLayout;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -58,6 +57,75 @@ public class DashboardController {
     public static void logout() {
         User.logout();
         MainLayout.showMenuScreen();
+    }
+    
+    public static void handleStudentAppointmentsTableUpdate(JTable appointmentsTable) throws SQLException, IOException {
+        String sqlQuery = "SELECT appointments.subject, appointments.message, appointments.response, dates.date, users.name, appointments.isClosed FROM appointments, dates, users WHERE (appointments.user=? AND appointments.date=dates.date_id AND users.user_id=dates.user) ORDER BY date ASC";
+        
+        int userId = User.getUserId();
+        
+        int c;
+        
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+            
+            pstmt.setInt(1, userId);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            ResultSetMetaData rsmd = rs.getMetaData();
+            c = rsmd.getColumnCount();
+            
+            DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
+            Df.setRowCount(0);
+            
+            while (rs.next()) {
+                ArrayList<String> tableList = new ArrayList<>();
+                
+                for (int i = 1; i <= c; i++) {
+                    tableList.add(rs.getString("subject"));
+                    tableList.add(rs.getString("message"));
+                    
+                    if (rs.getString("response") == null) {
+                        tableList.add("No response yet");
+                    } else {
+                        tableList.add(rs.getString("response"));
+                    }
+                    
+                    tableList.add(rs.getString("date"));
+                    tableList.add(rs.getString("name"));
+                    
+                    if (rs.getInt("isClosed") == 0) {
+                        tableList.add("No");
+                    } else {
+                        tableList.add("Yes");
+                    }
+                }
+                
+                Object[] tableObject = tableList.toArray();
+                Df.addRow(tableObject);
+            }
+        } catch (SQLException se) {
+            System.out.println(se.getMessage());
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        }
+    }
+    
+    public static void handleStudentAppointmentsTableRowClick(JTable appointmentsTable) {
+        DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
+        int selectedIndex = appointmentsTable.getSelectedRow();
+        
+        String subject = Df.getValueAt(selectedIndex, 0).toString();
+        String message = Df.getValueAt(selectedIndex, 1).toString();
+        String response = Df.getValueAt(selectedIndex, 2).toString();
+        String date = Df.getValueAt(selectedIndex, 3).toString();
+        String name = Df.getValueAt(selectedIndex, 4).toString();
+        String closed = Df.getValueAt(selectedIndex, 5).toString();
+        
+        JOptionPane.showMessageDialog(null, "<html><body><div style='width: 450px;'><p>Subject: " + subject + "</p><br><p>Message: " + message + "</p><br><p>Response: " + response + "</p><br><p>Date: " + date + "</p><br><p>Correspondent: " + name + "</p><br><p>Closed: " + closed + "</p></div></body></html>", "Appointment Information", JOptionPane.INFORMATION_MESSAGE);
     }
     
     public static void handleStudentBookAppointment(JTextField subjectField, JTextArea messageTextArea, JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {   
@@ -121,74 +189,7 @@ public class DashboardController {
         }
     }
     
-    public static void handleStudentAppointmentsTableUpdate(JTable appointmentsTable) throws SQLException, IOException {
-        String sqlQuery = "SELECT appointments.subject, appointments.message, appointments.response, dates.date, users.name, appointments.isDone FROM appointments, dates, users WHERE (appointments.user=? AND appointments.date=dates.date_id AND users.user_id=dates.user) ORDER BY date ASC";
-        
-        int userId = User.getUserId();
-        
-        int c;
-        
-        try (Connection conn = Database.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
-            
-            pstmt.setInt(1, userId);
-            
-            ResultSet rs = pstmt.executeQuery();
-            
-            ResultSetMetaData rsmd = rs.getMetaData();
-            c = rsmd.getColumnCount();
-            
-            DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
-            Df.setRowCount(0);
-            
-            while (rs.next()) {
-                Vector v2 = new Vector();
-                
-                for (int i = 1; i <= c; i++) {                    
-                    v2.add(rs.getString("subject"));
-                    v2.add(rs.getString("message"));
-                    
-                    if (rs.getString("response") == null) {
-                        v2.add("No response yet");
-                    } else {
-                        v2.add(rs.getString("response"));
-                    }
-                    
-                    v2.add(rs.getString("date"));
-                    v2.add(rs.getString("name"));
-                    
-                    if (rs.getInt("isDone") == 0) {
-                        v2.add("No");
-                    } else {
-                        v2.add("Yes");
-                    }
-                }
-                
-                Df.addRow(v2);
-            }
-        } catch (SQLException se) {
-            System.out.println(se.getMessage());
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
-        }
-    }
-    
-    public static void handleStudentAppointmentsTableRowClick(JTable appointmentsTable) {
-        DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
-        int selectedIndex = appointmentsTable.getSelectedRow();
-        
-        String subject = Df.getValueAt(selectedIndex, 0).toString();
-        String message = Df.getValueAt(selectedIndex, 1).toString();
-        String response = Df.getValueAt(selectedIndex, 2).toString();
-        String date = Df.getValueAt(selectedIndex, 3).toString();
-        String name = Df.getValueAt(selectedIndex, 4).toString();
-        String done = Df.getValueAt(selectedIndex, 5).toString();
-        
-        JOptionPane.showMessageDialog(null, "<html><body><div style='width: 450px;'><p>Subject: " + subject + "</p><br><p>Message: " + message + "</p><br><p>Response: " + response + "</p><br><p>Date: " + date + "</p><br><p>Correspondent: " + name + "</p><br><p>Done: " + done + "</p></div></body></html>", "Appointment Information", JOptionPane.INFORMATION_MESSAGE);
-    }
-    
+    @SuppressWarnings("unchecked")
     public static void handleStudentAppointmentsDatesUpdate(JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {
         String sqlQuery = "SELECT dates.date_id, dates.date, users.name FROM dates, users WHERE (dates.date>=NOW() AND dates.isTaken=0 AND dates.user=users.user_id) ORDER BY dates.date ASC";
         
@@ -219,7 +220,7 @@ public class DashboardController {
     }
     
     public static void handleStudentQueueUpdate(JLabel queueLabel) throws SQLException, IOException {
-        String usersAppointmentQuery = "SELECT dates.date_id, dates.user FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date >= NOW() AND dates.date_id=appointments.date AND appointments.user=? AND appointments.isDone=0) ORDER BY dates.date ASC LIMIT 1";
+        String usersAppointmentQuery = "SELECT dates.date_id, dates.user FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date >= NOW() AND dates.date_id=appointments.date AND appointments.user=? AND appointments.isClosed=0) ORDER BY dates.date ASC LIMIT 1";
         
         int dateId = 0;
         int correspondentUserId = 0;
@@ -245,7 +246,7 @@ public class DashboardController {
             System.out.println(ex.getMessage());
         }
         
-        String sqlCountQuery = "SELECT COUNT(*) as total FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date>=NOW() AND dates.date<=(SELECT date FROM dates WHERE date_id=?) AND dates.user=? AND appointments.date=dates.date_id AND appointments.user<>? AND appointments.isDone=0)";
+        String sqlCountQuery = "SELECT COUNT(*) as total FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date>=NOW() AND dates.date<=(SELECT date FROM dates WHERE date_id=?) AND dates.user=? AND appointments.date=dates.date_id AND appointments.user<>? AND appointments.isClosed=0)";
         
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sqlCountQuery)) {
@@ -274,7 +275,7 @@ public class DashboardController {
     } 
     
     public static void handleCorrespondentAppointmentsTableUpdate(JTable appointmentsTable) throws SQLException, IOException {
-        String sqlQuery = "SELECT appointments.appointment_id, appointments.subject, appointments.message, appointments.response, dates.date, appointments.isDone, users.ais_id, users.name FROM appointments, dates, users WHERE (dates.user=? AND appointments.date=dates.date_id AND appointments.user=users.user_id) ORDER BY dates.date ASC";
+        String sqlQuery = "SELECT appointments.appointment_id, appointments.subject, appointments.message, appointments.response, dates.date, appointments.isClosed, users.ais_id, users.name FROM appointments, dates, users WHERE (dates.user=? AND appointments.date=dates.date_id AND appointments.user=users.user_id) ORDER BY dates.date ASC";
         
         int userId = User.getUserId();
         
@@ -294,31 +295,32 @@ public class DashboardController {
             Df.setRowCount(0);
             
             while (rs.next()) {
-                Vector v2 = new Vector();
+                ArrayList<Object> tableList = new ArrayList<>();
                 
-                for (int i = 1; i <= c; i++) {  
-                    v2.add(rs.getInt("appointment_id"));
-                    v2.add(rs.getString("name"));
-                    v2.add(rs.getInt("ais_id"));
-                    v2.add(rs.getString("subject"));
-                    v2.add(rs.getString("message"));
+                for (int i = 1; i <= c; i++) {
+                    tableList.add(rs.getInt("appointment_id"));
+                    tableList.add(rs.getString("name"));
+                    tableList.add(rs.getInt("ais_id"));
+                    tableList.add(rs.getString("subject"));
+                    tableList.add(rs.getString("message"));
                     
                     if (rs.getString("response") == null) {
-                        v2.add("No response yet");
+                        tableList.add("No response yet");
                     } else {
-                        v2.add(rs.getString("response"));
+                        tableList.add(rs.getString("response"));
                     }
                     
-                    v2.add(rs.getString("date"));
+                    tableList.add(rs.getString("date"));
                     
-                    if (rs.getInt("isDone") == 0) {
-                        v2.add("No");
+                    if (rs.getInt("isClosed") == 0) {
+                        tableList.add("No");
                     } else {
-                        v2.add("Yes");
+                        tableList.add("Yes");
                     }
                 }
                 
-                Df.addRow(v2);
+                Object[] tableObject = tableList.toArray();
+                Df.addRow(tableObject);
             }
         } catch (SQLException se) {
             se.printStackTrace();
@@ -329,7 +331,7 @@ public class DashboardController {
         }
     }
     
-    public static void handleCorrespondentTableRowClick(JTable appointmentsTable, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel dateTimeLabel, JCheckBox doneCheckBox, JTextArea manageResponseTextArea, JCheckBox manageDoneCheckBox) {
+    public static void handleCorrespondentTableRowClick(JTable appointmentsTable, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel dateTimeLabel, JCheckBox closedCheckBox, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) {
         DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
         int selectedIndex = appointmentsTable.getSelectedRow();
         
@@ -353,7 +355,7 @@ public class DashboardController {
         messageTextArea.setText(Df.getValueAt(selectedIndex, 4).toString());
         responseTextArea.setText(response);
         dateTimeLabel.setText(Df.getValueAt(selectedIndex, 6).toString());
-        doneCheckBox.setSelected(isSelected);
+        closedCheckBox.setSelected(isSelected);
         
         String manageResponse;
         switch (response) {
@@ -365,16 +367,16 @@ public class DashboardController {
         }
         
         manageResponseTextArea.setText(manageResponse);
-        manageDoneCheckBox.setSelected(isSelected);
+        manageClosedCheckBox.setSelected(isSelected);
     }
     
-    public static void handleCorrespondentAppointmentUpdate(JTable appointmentsTable, JTextArea responseTextArea, JCheckBox doneCheckBox, JTextArea manageResponseTextArea, JCheckBox manageDoneCheckBox) throws SQLException, IOException {
+    public static void handleCorrespondentAppointmentUpdate(JTable appointmentsTable, JTextArea responseTextArea, JCheckBox closedCheckBox, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) throws SQLException, IOException {
         int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to update this appointment?", "Update Appointment", JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
         }
         
-        String sqlQuery = "UPDATE appointments SET response=?, isDone=? WHERE appointment_id=?";
+        String sqlQuery = "UPDATE appointments SET response=?, isClosed=? WHERE appointment_id=?";
 
         try (Connection conn = Database.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
@@ -384,12 +386,12 @@ public class DashboardController {
 
             int appointmentId = (int) Df.getValueAt(selectedIndex, 0);
             
-            boolean isSelected = manageDoneCheckBox.isSelected();
-            int isDone;
+            boolean isSelected = manageClosedCheckBox.isSelected();
+            int isClosed;
             if (isSelected) {
-                isDone = 1;
+                isClosed = 1;
             } else {
-                isDone = 0;
+                isClosed = 0;
             }
             
             String response = manageResponseTextArea.getText().trim();
@@ -398,13 +400,13 @@ public class DashboardController {
             }
             
             pstmt.setString(1, response);
-            pstmt.setInt(2, isDone);
+            pstmt.setInt(2, isClosed);
             pstmt.setInt(3, appointmentId);
 
             pstmt.executeUpdate();
             
             responseTextArea.setText(response);
-            doneCheckBox.setSelected(isSelected);
+            closedCheckBox.setSelected(isSelected);
             
             manageResponseTextArea.requestFocus();
 
@@ -418,7 +420,7 @@ public class DashboardController {
         }
     }
     
-    public static void handleCorrespondentAppointmentDelete(JTable appointmentsTable, JTabbedPane manageTabbedPane, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel dateTimeLabel, JCheckBox doneCheckBox, JTextArea manageResponseTextArea, JCheckBox manageDoneCheckBox) throws SQLException, IOException {
+    public static void handleCorrespondentAppointmentDelete(JTable appointmentsTable, JTabbedPane manageTabbedPane, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel dateTimeLabel, JCheckBox closedCheckBox, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) throws SQLException, IOException {
         int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this appointment?", "Delete Appointment", JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
@@ -492,6 +494,7 @@ public class DashboardController {
         }
     }
     
+    @SuppressWarnings("unchecked")
     public static void handleCorrespondentDateTimeUpdate(JComboBox<String> deleteDateTimeComboBox, JList<String> deleteDateTimeList) {
         String sqlQuery = "SELECT * FROM dates WHERE user=? ORDER BY date ASC";
         
@@ -573,7 +576,7 @@ public class DashboardController {
         JOptionPane.showMessageDialog(null, "Date & time deleted successfully");
     }
     
-    public static void handleAdminTableUpdate(JTable usersTable) throws SQLException, IOException {
+    public static void handleAdminUsersTableUpdate(JTable usersTable) throws SQLException, IOException {
         String sqlQuery = "SELECT users.user_id, users.ais_id, users.name, user_role.role FROM users, user_role WHERE (users.user_id<>? AND users.role=user_role.role_id) ORDER BY users.ais_id ASC";
         
         int userId = User.getUserId();
@@ -594,16 +597,17 @@ public class DashboardController {
             Df.setRowCount(0);
             
             while (rs.next()) {
-                Vector v2 = new Vector();
+                ArrayList<Object> tableList = new ArrayList<>();
                 
                 for (int i = 1; i <= c; i++) { 
-                    v2.add(rs.getInt("user_id"));
-                    v2.add(rs.getInt("ais_id"));
-                    v2.add(rs.getString("name"));
-                    v2.add(rs.getString("role"));
+                    tableList.add(rs.getInt("user_id"));
+                    tableList.add(rs.getInt("ais_id"));
+                    tableList.add(rs.getString("name"));
+                    tableList.add(rs.getString("role"));
                 }
                 
-                Df.addRow(v2);
+                Object[] tableObject = tableList.toArray();
+                Df.addRow(tableObject);
             }
         } catch (SQLException se) {
             se.printStackTrace();
@@ -614,7 +618,7 @@ public class DashboardController {
         }
     }
     
-    public static void handleAdminTableRowClick(JTable usersTable, JTextField idField, JTextField aisIdField, JTextField nameField, JComboBox<String> roleComboBox) {
+    public static void handleAdminUsersTableRowClick(JTable usersTable, JTextField idField, JTextField aisIdField, JTextField nameField, JComboBox<String> roleComboBox) {
         DefaultTableModel Df = (DefaultTableModel)usersTable.getModel();
         int selectedIndex = usersTable.getSelectedRow();
         
@@ -652,7 +656,7 @@ public class DashboardController {
                 case "student":
                     role = 1;
                     break;
-                case "referent":
+                case "correspondent":
                     role = 2;
                     break;
                 case "admin":
@@ -687,7 +691,7 @@ public class DashboardController {
     public static void handleAdminStudentDelete(int userId) {
         String sqlSelectQuery = "SELECT appointments.date FROM appointments, dates WHERE (appointments.user=? AND dates.date_id=appointments.date AND dates.date >= NOW())";
         
-        List<Integer> datesList = new ArrayList<Integer>(); 
+        List<Integer> datesList = new ArrayList<>(); 
         
         try (Connection conn = Database.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sqlSelectQuery)) {
@@ -758,7 +762,7 @@ public class DashboardController {
     public static void handleAdminCorrespondentDelete(int userId) {
         String sqlSelectQuery = "SELECT date_id FROM dates WHERE (user=? AND isTaken<>0)";
         
-        List<Integer> appointmentsList = new ArrayList<Integer>(); 
+        List<Integer> appointmentsList = new ArrayList<>(); 
         
         try (Connection conn = Database.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sqlSelectQuery)) {
@@ -839,7 +843,7 @@ public class DashboardController {
             case "student":
                 handleAdminStudentDelete(userId);
                 break;
-            case "referent":
+            case "correspondent":
                 handleAdminCorrespondentDelete(userId);
                 break;
         }

@@ -41,15 +41,15 @@ import java.util.logging.Logger;
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
 public class MainLayout extends javax.swing.JFrame {
-    GridBagLayout layout = new GridBagLayout();
+    private final static GridBagLayout layout = new GridBagLayout();
     
-    static Main menuScreen;
-    static Signup signupScreen;
-    static Login loginScreen;
+    private static Main menuScreen;
+    private static Signup signupScreen;
+    private static Login loginScreen;
     
-    static Student studentDashboard;
-    static Correspondent referentDashboard;
-    static Admin adminDashboard;
+    private static Student studentDashboard;
+    private static Correspondent correspondentDashboard;
+    private static Admin adminDashboard;
 
     /**
      * Creates new form MainLayout
@@ -64,7 +64,7 @@ public class MainLayout extends javax.swing.JFrame {
         loginScreen = new Login();
         
         studentDashboard = new Student();
-        referentDashboard = new Correspondent();
+        correspondentDashboard = new Correspondent();
         adminDashboard = new Admin();
         
         DynamicPanel.setLayout(layout);
@@ -78,7 +78,7 @@ public class MainLayout extends javax.swing.JFrame {
         DynamicPanel.add(signupScreen, constraints);
         
         DynamicPanel.add(studentDashboard, constraints);
-        DynamicPanel.add(referentDashboard, constraints);
+        DynamicPanel.add(correspondentDashboard, constraints);
         DynamicPanel.add(adminDashboard, constraints);
         
         showMenuScreen();
@@ -99,6 +99,7 @@ public class MainLayout extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
         setName("MainLayout"); // NOI18N
+        setResizable(false);
 
         DynamicPanel.setMaximumSize(new java.awt.Dimension(1280, 720));
         DynamicPanel.setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -117,6 +118,7 @@ public class MainLayout extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -161,7 +163,7 @@ public class MainLayout extends javax.swing.JFrame {
         loginScreen.setVisible(false);
         signupScreen.setVisible(false);
         studentDashboard.setVisible(false);
-        referentDashboard.setVisible(false);
+        correspondentDashboard.setVisible(false);
         adminDashboard.setVisible(false);
     }
     
@@ -170,7 +172,7 @@ public class MainLayout extends javax.swing.JFrame {
         signupScreen.setVisible(false);
         menuScreen.setVisible(false);
         studentDashboard.setVisible(false);
-        referentDashboard.setVisible(false);
+        correspondentDashboard.setVisible(false);
         adminDashboard.setVisible(false);
         
         Login.reset();
@@ -181,7 +183,7 @@ public class MainLayout extends javax.swing.JFrame {
         loginScreen.setVisible(false);
         menuScreen.setVisible(false);
         studentDashboard.setVisible(false);
-        referentDashboard.setVisible(false);
+        correspondentDashboard.setVisible(false);
         adminDashboard.setVisible(false);
         
         Signup.reset();
@@ -192,12 +194,12 @@ public class MainLayout extends javax.swing.JFrame {
         signupScreen.setVisible(false);
         loginScreen.setVisible(false);
         menuScreen.setVisible(false);
-        referentDashboard.setVisible(false);
+        correspondentDashboard.setVisible(false);
         adminDashboard.setVisible(false);
     }
     
-    public static void showReferentDashboard() {
-        referentDashboard.setVisible(true);
+    public static void showCorrespondentDashboard() {
+        correspondentDashboard.setVisible(true);
         signupScreen.setVisible(false);
         loginScreen.setVisible(false);
         menuScreen.setVisible(false);
@@ -211,7 +213,7 @@ public class MainLayout extends javax.swing.JFrame {
         loginScreen.setVisible(false);
         menuScreen.setVisible(false);
         studentDashboard.setVisible(false);
-        referentDashboard.setVisible(false);
+        correspondentDashboard.setVisible(false);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -38,10 +38,11 @@ import javax.swing.table.DefaultTableModel;
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
 public class Correspondent extends javax.swing.JPanel {
-
+    private final static String ACCESS_LEVEL = "correspondent";
     /**
-     * Creates new form Referent
+     * Creates new form Correspondent
      */
+    @SuppressWarnings("unchecked")
     public Correspondent() {
         initComponents();
         deleteDateTimeList.setModel(new DefaultListModel());
@@ -57,9 +58,6 @@ public class Correspondent extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
         Container = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
@@ -80,12 +78,12 @@ public class Correspondent extends javax.swing.JPanel {
         responseTextArea = new javax.swing.JTextArea();
         dateLabel = new javax.swing.JLabel();
         dateTimeLabel = new javax.swing.JLabel();
-        doneCheckBox = new javax.swing.JCheckBox();
+        closedCheckBox = new javax.swing.JCheckBox();
         managePanel = new javax.swing.JPanel();
         manageResponseLabel = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         manageResponseTextArea = new javax.swing.JTextArea();
-        manageDoneCheckBox = new javax.swing.JCheckBox();
+        manageClosedCheckBox = new javax.swing.JCheckBox();
         manageUpdateButton = new javax.swing.JButton();
         manageDeleteButton = new javax.swing.JButton();
         datesAndTimesPanel = new javax.swing.JPanel();
@@ -102,18 +100,9 @@ public class Correspondent extends javax.swing.JPanel {
         appointmentsTable = new javax.swing.JTable();
         userNameLabel = new javax.swing.JLabel();
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
-        setName("Referent"); // NOI18N
+        setName("Correspondent"); // NOI18N
 
         Container.setMaximumSize(new java.awt.Dimension(1280, 720));
         Container.setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -140,6 +129,11 @@ public class Correspondent extends javax.swing.JPanel {
         });
 
         manageTabbedPane.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        manageTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                manageTabbedPaneStateChanged(evt);
+            }
+        });
 
         nameLabel.setText("Name");
         nameLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
@@ -184,9 +178,9 @@ public class Correspondent extends javax.swing.JPanel {
 
         dateTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        doneCheckBox.setText("Done");
-        doneCheckBox.setEnabled(false);
-        doneCheckBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        closedCheckBox.setText("Closed");
+        closedCheckBox.setEnabled(false);
+        closedCheckBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         javax.swing.GroupLayout viewPanelLayout = new javax.swing.GroupLayout(viewPanel);
         viewPanel.setLayout(viewPanelLayout);
@@ -217,7 +211,7 @@ public class Correspondent extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dateTimeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(doneCheckBox))
+                        .addComponent(closedCheckBox))
                     .addGroup(viewPanelLayout.createSequentialGroup()
                         .addComponent(subjectLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -248,7 +242,7 @@ public class Correspondent extends javax.swing.JPanel {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(doneCheckBox)
+                    .addComponent(closedCheckBox)
                     .addComponent(dateLabel)
                     .addComponent(dateTimeLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -264,8 +258,8 @@ public class Correspondent extends javax.swing.JPanel {
         manageResponseTextArea.setRows(5);
         jScrollPane5.setViewportView(manageResponseTextArea);
 
-        manageDoneCheckBox.setText("Done");
-        manageDoneCheckBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        manageClosedCheckBox.setText("Closed");
+        manageClosedCheckBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         manageUpdateButton.setText("Update");
         manageUpdateButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
@@ -294,7 +288,7 @@ public class Correspondent extends javax.swing.JPanel {
                     .addGroup(managePanelLayout.createSequentialGroup()
                         .addGroup(managePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(manageResponseLabel)
-                            .addComponent(manageDoneCheckBox))
+                            .addComponent(manageClosedCheckBox))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(managePanelLayout.createSequentialGroup()
                         .addComponent(manageUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -310,7 +304,7 @@ public class Correspondent extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(manageDoneCheckBox)
+                .addComponent(manageClosedCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
                 .addGroup(managePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(manageUpdateButton)
@@ -395,12 +389,13 @@ public class Correspondent extends javax.swing.JPanel {
 
         appointmentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Appointments", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 17))); // NOI18N
 
+        appointmentsTable.setAutoCreateRowSorter(true);
         appointmentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Name", "AIS ID", "Subject", "Message", "Response", "Date", "Done"
+                "ID", "Name", "AIS ID", "Subject", "Message", "Response", "Date", "Closed"
             }
         ) {
             Class[] types = new Class [] {
@@ -525,7 +520,7 @@ public class Correspondent extends javax.swing.JPanel {
     private static void resetRest() {
         manageResponseTextArea.setText("");
         manageResponseTextArea.requestFocus();
-        manageDoneCheckBox.setSelected(false);
+        manageClosedCheckBox.setSelected(false);
 
         nameField.setText("");
         aisIdField.setText("");
@@ -533,7 +528,7 @@ public class Correspondent extends javax.swing.JPanel {
         messageTextArea.setText("");
         responseTextArea.setText("");
         dateTimeLabel.setText("");
-        doneCheckBox.setSelected(false);
+        closedCheckBox.setSelected(false);
         
         addDateTimePicker.datePicker.setText("");
         addDateTimePicker.timePicker.setText("");
@@ -555,8 +550,8 @@ public class Correspondent extends javax.swing.JPanel {
 
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
         try {
-            if (User.isSessionValid()) {
-                DashboardController.handleCorrespondentTableRowClick(appointmentsTable, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+            if (User.isSessionValid(ACCESS_LEVEL)) {
+                DashboardController.handleCorrespondentTableRowClick(appointmentsTable, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, closedCheckBox, manageResponseTextArea, manageClosedCheckBox);
                 User.setLastAction();
             } else {
                 logoutButton.doClick();
@@ -569,7 +564,7 @@ public class Correspondent extends javax.swing.JPanel {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
-            if (User.isSessionValid()) {
+            if (User.isSessionValid(ACCESS_LEVEL)) {
                 refresh();
                 User.setLastAction();
             } else {
@@ -583,8 +578,8 @@ public class Correspondent extends javax.swing.JPanel {
 
     private void manageDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageDeleteButtonActionPerformed
         try {
-            if (User.isSessionValid()) {
-                DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable, manageTabbedPane, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+            if (User.isSessionValid(ACCESS_LEVEL)) {
+                DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable, manageTabbedPane, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, closedCheckBox, manageResponseTextArea, manageClosedCheckBox);
                 refresh();
                 User.setLastAction();
             } else {
@@ -598,8 +593,8 @@ public class Correspondent extends javax.swing.JPanel {
 
     private void manageUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageUpdateButtonActionPerformed
         try {
-            if (User.isSessionValid()) {
-                DashboardController.handleCorrespondentAppointmentUpdate(appointmentsTable, responseTextArea, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+            if (User.isSessionValid(ACCESS_LEVEL)) {
+                DashboardController.handleCorrespondentAppointmentUpdate(appointmentsTable, responseTextArea, closedCheckBox, manageResponseTextArea, manageClosedCheckBox);
                 refresh();
                 User.setLastAction();
             } else {
@@ -613,7 +608,7 @@ public class Correspondent extends javax.swing.JPanel {
 
     private void addDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDateTimeButtonActionPerformed
         try {
-            if (User.isSessionValid()) {
+            if (User.isSessionValid(ACCESS_LEVEL)) {
                 DashboardController.handleCorrespondentDateTimeAdd(addDateTimePicker);
                 DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
                 
@@ -633,7 +628,7 @@ public class Correspondent extends javax.swing.JPanel {
 
     private void deleteDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDateTimeButtonActionPerformed
         try {
-            if (User.isSessionValid()) {
+            if (User.isSessionValid(ACCESS_LEVEL)) {
                 DashboardController.handleCorrespondentDateTimeDelete(deleteDateTimeComboBox, deleteDateTimeList);
                 DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
 
@@ -652,6 +647,13 @@ public class Correspondent extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_deleteDateTimeButtonActionPerformed
 
+    private void manageTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_manageTabbedPaneStateChanged
+        int index = manageTabbedPane.getSelectedIndex();
+        if (index == 1) {
+            manageResponseTextArea.requestFocus();
+        }
+    }//GEN-LAST:event_manageTabbedPaneStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;
@@ -662,6 +664,7 @@ public class Correspondent extends javax.swing.JPanel {
     private javax.swing.JLabel aisIdLabel;
     private javax.swing.JPanel appointmentsPanel;
     private static javax.swing.JTable appointmentsTable;
+    private static javax.swing.JCheckBox closedCheckBox;
     private javax.swing.JLabel dateLabel;
     private static javax.swing.JLabel dateTimeLabel;
     private javax.swing.JPanel datesAndTimesPanel;
@@ -669,18 +672,14 @@ public class Correspondent extends javax.swing.JPanel {
     private static javax.swing.JComboBox<String> deleteDateTimeComboBox;
     private javax.swing.JLabel deleteDateTimeLabel;
     private static javax.swing.JList<String> deleteDateTimeList;
-    private static javax.swing.JCheckBox doneCheckBox;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JButton logoutButton;
+    private static javax.swing.JCheckBox manageClosedCheckBox;
     private javax.swing.JButton manageDeleteButton;
-    private static javax.swing.JCheckBox manageDoneCheckBox;
     private javax.swing.JPanel managePanel;
     private javax.swing.JLabel manageResponseLabel;
     private static javax.swing.JTextArea manageResponseTextArea;

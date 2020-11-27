@@ -111,9 +111,9 @@ public class User {
         return valid;
     }
     
-    public static boolean isSessionValid () throws SQLException, IOException {
+    public static boolean isSessionValid (String ACCESS_LEVEL) throws SQLException, IOException {
         LocalDateTime t = LocalDateTime.now().minusMinutes(30);
-        return t.isBefore(lastAction) && doesUserExist() && ((userId != -1) && (aisId != -1) && (!name.isEmpty()) && (!role.isEmpty()));
+        return t.isBefore(lastAction) && doesUserExist() && (ACCESS_LEVEL.equals(role)) && ((userId != -1) && (aisId != -1) && (!name.isEmpty()) && (!role.isEmpty()));
     }
     
     public static void logout() {

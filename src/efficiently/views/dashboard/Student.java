@@ -30,6 +30,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -340,10 +341,10 @@ public class Student extends javax.swing.JPanel {
     
     private static void resetRest() {
         subjectField.setText("");
-            messageTextArea.setText("");
-            datetimeComboBox.setSelectedIndex(0);
-            
-            subjectField.requestFocus();
+        messageTextArea.setText("");
+        datetimeComboBox.setSelectedIndex(0);
+
+        subjectField.requestFocus();
     }
     
     public static void setUserName() {
@@ -358,7 +359,13 @@ public class Student extends javax.swing.JPanel {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
-            refresh();
+            if (User.isSessionValid()) {
+                refresh();
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -366,15 +373,31 @@ public class Student extends javax.swing.JPanel {
 
     private void bookNowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookNowButtonActionPerformed
         try {
-            DashboardController.bookAppointment(subjectField, messageTextArea, datetimeComboBox, datetimeList);
-            refresh();
+            if (User.isSessionValid()) {
+                DashboardController.bookAppointment(subjectField, messageTextArea, datetimeComboBox, datetimeList);
+                refresh();
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bookNowButtonActionPerformed
 
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
-        DashboardController.handleStudentAppointmentsTableRowClick(appointmentsTable);
+        try {
+            if (User.isSessionValid()) {
+                DashboardController.handleStudentAppointmentsTableRowClick(appointmentsTable);
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_appointmentsTableMouseClicked
 
 

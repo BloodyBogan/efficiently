@@ -30,6 +30,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -553,12 +554,28 @@ public class Referent extends javax.swing.JPanel {
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
-        DashboardController.handleCorrespondentTableRowClick(appointmentsTable, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, datetimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+        try {
+            if (User.isSessionValid()) {
+                DashboardController.handleCorrespondentTableRowClick(appointmentsTable, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, datetimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Referent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_appointmentsTableMouseClicked
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
-            refresh();
+            if (User.isSessionValid()) {
+                refresh();
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -566,8 +583,14 @@ public class Referent extends javax.swing.JPanel {
 
     private void manageDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageDeleteButtonActionPerformed
         try {
-            DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable, manageTabbedPane, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, datetimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
-            refresh();
+            if (User.isSessionValid()) {
+                DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable, manageTabbedPane, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, datetimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+                refresh();
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -575,8 +598,14 @@ public class Referent extends javax.swing.JPanel {
 
     private void manageUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageUpdateButtonActionPerformed
         try {
-            DashboardController.handleCorrespondentAppointmentUpdate(appointmentsTable, responseTextArea, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
-            refresh();
+            if (User.isSessionValid()) {
+                DashboardController.handleCorrespondentAppointmentUpdate(appointmentsTable, responseTextArea, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+                refresh();
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -584,8 +613,19 @@ public class Referent extends javax.swing.JPanel {
 
     private void addDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDateTimeButtonActionPerformed
         try {
-            DashboardController.handleCorrespondentDatetimeAdd(addDateTimePicker);
-            refresh();
+            if (User.isSessionValid()) {
+                DashboardController.handleCorrespondentDatetimeAdd(addDateTimePicker);
+                DashboardController.handleCorrespondentDatetimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+                
+                addDateTimePicker.datePicker.setText("");
+                addDateTimePicker.timePicker.setText("");
+                addDateTimePicker.datePicker.requestFocus();
+                deleteDateTimeComboBox.setSelectedIndex(0);
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Referent.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -593,8 +633,20 @@ public class Referent extends javax.swing.JPanel {
 
     private void deleteDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDateTimeButtonActionPerformed
         try {
-            DashboardController.handleCorrespondentDatetimeDelete(deleteDateTimeComboBox, deleteDateTimeList);
-            refresh();
+            if (User.isSessionValid()) {
+                DashboardController.handleCorrespondentDatetimeDelete(deleteDateTimeComboBox, deleteDateTimeList);
+                DashboardController.handleCorrespondentDatetimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+
+                DashboardController.updateCorrespondentAppointmentsTable(appointmentsTable);
+                appointmentsTable.clearSelection();
+
+                addDateTimePicker.datePicker.requestFocus();
+                deleteDateTimeComboBox.setSelectedIndex(0);
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Referent.class.getName()).log(Level.SEVERE, null, ex);
         }

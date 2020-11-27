@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -289,7 +290,7 @@ public class Admin extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    
     public static void refresh() throws SQLException, IOException {
         try {
             DashboardController.updateAdminTable(usersTable);
@@ -336,20 +337,42 @@ public class Admin extends javax.swing.JPanel {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
-            refresh();
+            if (User.isSessionValid()) {
+                refresh();
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
-        DashboardController.handleAdminTableRowClick(usersTable, idField, aisIdField, nameField, roleComboBox);
+        try {
+            if (User.isSessionValid()) {
+                DashboardController.handleAdminTableRowClick(usersTable, idField, aisIdField, nameField, roleComboBox);
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_usersTableMouseClicked
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         try {
-            DashboardController.handleAdminUserUpdate(usersTable, idField, aisIdField, nameField, roleComboBox);
-            refresh();
+            if (User.isSessionValid()) {
+                DashboardController.handleAdminUserUpdate(usersTable, idField, aisIdField, nameField, roleComboBox);
+                refresh();
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -357,8 +380,14 @@ public class Admin extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
-            DashboardController.handleAdminUserDelete(usersTable, idField, aisIdField, nameField, roleComboBox);
-            refresh();
+            if (User.isSessionValid()) {
+                DashboardController.handleAdminUserDelete(usersTable, idField, aisIdField, nameField, roleComboBox);
+                refresh();
+                User.setLastAction();
+            } else {
+                logoutButton.doClick();
+                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+            }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -375,7 +404,7 @@ public class Admin extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton logoutButton;
+    private static javax.swing.JButton logoutButton;
     private static javax.swing.JTextField nameField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JButton refreshButton;

@@ -23,7 +23,14 @@
  */
 package efficiently.models;
 
+import efficiently.config.Database;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -76,12 +83,41 @@ public class User {
         lastAction = LocalDateTime.now();
     }
     
-    public static boolean isSessionValid () {
+    private static boolean doesUserExist () throws SQLException, IOException {
+        String sqlQuery = "SELECT ais_id FROM users WHERE user_id=?";
+        
+        boolean valid = false;
+        
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+           
+            pstmt.setInt(1, userId);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next() == false) {
+                valid = false;
+            } else {
+                valid = true;
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        }
+        
+        return valid;
+    }
+    
+    public static boolean isSessionValid () throws SQLException, IOException {
         LocalDateTime t = LocalDateTime.now().minusMinutes(30);
-        return t.isBefore(lastAction) && ((aisId != -1) && (!name.isEmpty()) && (!role.isEmpty()));
+        return t.isBefore(lastAction) && doesUserExist() && ((userId != -1) && (aisId != -1) && (!name.isEmpty()) && (!role.isEmpty()));
     }
     
     public static void logout() {
+        userId = -1;
         aisId = -1;
         name = "";
         role = "";

@@ -322,7 +322,7 @@ public class Student extends javax.swing.JPanel {
 
     public static void refresh() throws SQLException, IOException {
         try {
-            DashboardController.updateStudentAppointmentsTable(appointmentsTable);
+            DashboardController.handleStudentAppointmentsTableUpdate(appointmentsTable);
             appointmentsTable.clearSelection();
             DashboardController.handleStudentAppointmentsDatesUpdate(datetimeComboBox, datetimeList);
             DashboardController.handleStudentQueueUpdate(queueLabel);
@@ -374,7 +374,7 @@ public class Student extends javax.swing.JPanel {
     private void bookNowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookNowButtonActionPerformed
         try {
             if (User.isSessionValid()) {
-                DashboardController.bookAppointment(subjectField, messageTextArea, datetimeComboBox, datetimeList);
+                DashboardController.handleStudentBookAppointment(subjectField, messageTextArea, datetimeComboBox, datetimeList);
                 refresh();
                 User.setLastAction();
             } else {

@@ -23,9 +23,8 @@
  */
 package efficiently.views;
 
-import efficiently.controllers.DashboardController;
 import efficiently.views.dashboard.Admin;
-import efficiently.views.dashboard.Referent;
+import efficiently.views.dashboard.Correspondent;
 import efficiently.views.dashboard.Student;
 import efficiently.views.menu.Signup;
 import efficiently.views.menu.Login;
@@ -36,7 +35,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTable;
 
 /**
  *
@@ -50,7 +48,7 @@ public class MainLayout extends javax.swing.JFrame {
     static Login loginScreen;
     
     static Student studentDashboard;
-    static Referent referentDashboard;
+    static Correspondent referentDashboard;
     static Admin adminDashboard;
 
     /**
@@ -66,7 +64,7 @@ public class MainLayout extends javax.swing.JFrame {
         loginScreen = new Login();
         
         studentDashboard = new Student();
-        referentDashboard = new Referent();
+        referentDashboard = new Correspondent();
         adminDashboard = new Admin();
         
         DynamicPanel.setLayout(layout);

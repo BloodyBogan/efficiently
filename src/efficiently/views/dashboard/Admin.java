@@ -293,7 +293,7 @@ public class Admin extends javax.swing.JPanel {
     
     public static void refresh() throws SQLException, IOException {
         try {
-            DashboardController.updateAdminTable(usersTable);
+            DashboardController.handleAdminTableUpdate(usersTable);
             usersTable.clearSelection();
             resetRest();
         } catch (SQLException | IOException ex) {

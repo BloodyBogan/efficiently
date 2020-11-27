@@ -23,6 +23,7 @@
  */
 package efficiently.config;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,10 +39,21 @@ import java.util.Properties;
 public class Database {
     private final static String CURRENT_DIRECTORY = System.getProperty("user.dir");
     
+    private final static File DEV_RESOURCES_DIR = new File(CURRENT_DIRECTORY + "/src/resources");
+    private final static boolean EXISTS = DEV_RESOURCES_DIR.exists();
+    
+    private static String DATABASE_PROPERTIES_PATH;
+    
     public static Connection getConnection() throws SQLException, FileNotFoundException, IOException {
+        if (EXISTS) {
+            DATABASE_PROPERTIES_PATH = CURRENT_DIRECTORY + "/src/resources/database.properties";
+        } else {
+            DATABASE_PROPERTIES_PATH = CURRENT_DIRECTORY + "/resources/database.properties";
+        }
+        
         Connection conn = null;
 
-        try (FileInputStream f = new FileInputStream(CURRENT_DIRECTORY + "/src/resources/database.properties")) {
+        try (FileInputStream f = new FileInputStream(DATABASE_PROPERTIES_PATH)) {
 
             // load the properties file
             Properties pros = new Properties();

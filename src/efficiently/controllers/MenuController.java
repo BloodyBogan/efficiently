@@ -30,7 +30,7 @@ import efficiently.models.User;
 import efficiently.utils.Capitalize;
 import efficiently.utils.UserException;
 import efficiently.views.dashboard.Admin;
-import efficiently.views.dashboard.Referent;
+import efficiently.views.dashboard.Correspondent;
 import efficiently.views.dashboard.Student;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -66,8 +66,8 @@ public class MenuController {
             
             pstmt.execute();
             
-            JOptionPane.showMessageDialog(null, "Registration Successful");
             MainLayout.showLoginScreen();
+            JOptionPane.showMessageDialog(null, "Registration Successful");
         } catch (SQLIntegrityConstraintViolationException e) {
             JOptionPane.showMessageDialog(null, "AIS ID (" + aisId + ") is already registered");
         } catch (SQLException se) {
@@ -113,8 +113,8 @@ public class MenuController {
                     break;
                 case "referent":
                     MainLayout.showReferentDashboard();
-                    Referent.setUserName();
-                    Referent.refresh();
+                    Correspondent.setUserName();
+                    Correspondent.refresh();
                     break;
                 case "admin":
                     MainLayout.showAdminDashboard();

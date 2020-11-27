@@ -60,7 +60,7 @@ public class DashboardController {
         MainLayout.showMenuScreen();
     }
     
-    public static void bookAppointment(JTextField subjectField, JTextArea messageTextArea, JComboBox<String> datetimeComboBox, JList<String> datetimeList) {   
+    public static void handleStudentBookAppointment(JTextField subjectField, JTextArea messageTextArea, JComboBox<String> datetimeComboBox, JList<String> datetimeList) {   
         String comboBoxItem = datetimeComboBox.getSelectedItem().toString();
         if (comboBoxItem.equals("There are no available dates & times")) {
             JOptionPane.showMessageDialog(null, "You can't book an appointment now as there are no available dates & times");
@@ -121,7 +121,7 @@ public class DashboardController {
         }
     }
     
-    public static void updateStudentAppointmentsTable(JTable appointmentsTable) throws SQLException, IOException {
+    public static void handleStudentAppointmentsTableUpdate(JTable appointmentsTable) throws SQLException, IOException {
         String sqlQuery = "SELECT appointments.subject, appointments.message, appointments.response, dates.date, users.name, appointments.isDone FROM appointments, dates, users WHERE (appointments.user=? AND appointments.date=dates.date_id AND users.user_id=dates.user) ORDER BY date ASC";
         
         int userId = User.getUserId();
@@ -273,7 +273,7 @@ public class DashboardController {
         }
     } 
     
-    public static void updateCorrespondentAppointmentsTable(JTable appointmentsTable) throws SQLException, IOException {
+    public static void handleCorrespondentAppointmentsTableUpdate(JTable appointmentsTable) throws SQLException, IOException {
         String sqlQuery = "SELECT appointments.appointment_id, appointments.subject, appointments.message, appointments.response, dates.date, appointments.isDone, users.ais_id, users.name FROM appointments, dates, users WHERE (dates.user=? AND appointments.date=dates.date_id AND appointments.user=users.user_id) ORDER BY dates.date ASC";
         
         int userId = User.getUserId();
@@ -573,7 +573,7 @@ public class DashboardController {
         JOptionPane.showMessageDialog(null, "Date & time deleted successfully");
     }
     
-    public static void updateAdminTable(JTable usersTable) throws SQLException, IOException {
+    public static void handleAdminTableUpdate(JTable usersTable) throws SQLException, IOException {
         String sqlQuery = "SELECT users.user_id, users.ais_id, users.name, user_role.role FROM users, user_role WHERE (users.user_id<>? AND users.role=user_role.role_id) ORDER BY users.ais_id ASC";
         
         int userId = User.getUserId();

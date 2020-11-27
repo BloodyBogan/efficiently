@@ -45,7 +45,6 @@ public class Main {
     public static void main(String[] args) throws SQLException, IOException {
         try (Connection conn = Database.getConnection()) {
             
-            // print out a message
             System.out.println(String.format("Connected to database %s "
                     + "successfully.", conn.getCatalog()));
             User.logout();

@@ -2,3 +2,4 @@ src/resources/database.properties
 nbproject/private
 build
 dist
+test

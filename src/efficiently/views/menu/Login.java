@@ -130,11 +130,6 @@ public class Login extends javax.swing.JPanel {
         jPanel1.add(backButton, gridBagConstraints);
 
         passwordField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        passwordField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordFieldActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -197,10 +192,6 @@ public class Login extends javax.swing.JPanel {
 
         aisIdField.requestFocus();
     }//GEN-LAST:event_submitButtonActionPerformed
-
-    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

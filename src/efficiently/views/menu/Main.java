@@ -48,7 +48,7 @@ public class Main extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
+        Container = new javax.swing.JPanel();
         logo = new javax.swing.JLabel();
         description = new javax.swing.JLabel();
         signupButton = new javax.swing.JButton();
@@ -58,10 +58,10 @@ public class Main extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(1280, 720));
         setName("Menu"); // NOI18N
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(1280, 720));
-        jPanel1.setMinimumSize(new java.awt.Dimension(1280, 720));
-        jPanel1.setName("Container"); // NOI18N
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        Container.setMaximumSize(new java.awt.Dimension(1280, 720));
+        Container.setMinimumSize(new java.awt.Dimension(1280, 720));
+        Container.setName("Container"); // NOI18N
+        Container.setLayout(new java.awt.GridBagLayout());
 
         logo.setFont(new java.awt.Font("Open Sans", 1, 30)); // NOI18N
         logo.setText("efficiently");
@@ -69,7 +69,7 @@ public class Main extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 0);
-        jPanel1.add(logo, gridBagConstraints);
+        Container.add(logo, gridBagConstraints);
 
         description.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         description.setText("Efficiently manage your study department visits");
@@ -77,7 +77,7 @@ public class Main extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 15, 0);
-        jPanel1.add(description, gridBagConstraints);
+        Container.add(description, gridBagConstraints);
 
         signupButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         signupButton.setText("Sign Up");
@@ -90,7 +90,7 @@ public class Main extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 7, 0);
-        jPanel1.add(signupButton, gridBagConstraints);
+        Container.add(signupButton, gridBagConstraints);
 
         loginButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         loginButton.setText("Log In");
@@ -103,17 +103,17 @@ public class Main extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 0, 0);
-        jPanel1.add(loginButton, gridBagConstraints);
+        Container.add(loginButton, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
     
@@ -127,8 +127,8 @@ public class Main extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Container;
     private javax.swing.JLabel description;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel logo;
     private javax.swing.JButton signupButton;

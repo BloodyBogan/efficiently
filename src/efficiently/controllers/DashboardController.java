@@ -60,8 +60,8 @@ public class DashboardController {
         MainLayout.showMenuScreen();
     }
     
-    public static void handleStudentBookAppointment(JTextField subjectField, JTextArea messageTextArea, JComboBox<String> datetimeComboBox, JList<String> datetimeList) {   
-        String comboBoxItem = datetimeComboBox.getSelectedItem().toString();
+    public static void handleStudentBookAppointment(JTextField subjectField, JTextArea messageTextArea, JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {   
+        String comboBoxItem = dateTimeComboBox.getSelectedItem().toString();
         if (comboBoxItem.equals("There are no available dates & times")) {
             JOptionPane.showMessageDialog(null, "You can't book an appointment now as there are no available dates & times");
             return;
@@ -78,9 +78,9 @@ public class DashboardController {
         String subject = subjectField.getText();
         String message = messageTextArea.getText();
         
-        int comboBoxIndex = datetimeComboBox.getSelectedIndex();
+        int comboBoxIndex = dateTimeComboBox.getSelectedIndex();
             
-        DefaultListModel model = (DefaultListModel)datetimeList.getModel();
+        DefaultListModel model = (DefaultListModel)dateTimeList.getModel();
 
         int dateId = Integer.parseInt((String) model.get(comboBoxIndex));
         
@@ -189,12 +189,12 @@ public class DashboardController {
         JOptionPane.showMessageDialog(null, "<html><body><div style='width: 450px;'><p>Subject: " + subject + "</p><br><p>Message: " + message + "</p><br><p>Response: " + response + "</p><br><p>Date: " + date + "</p><br><p>Correspondent: " + name + "</p><br><p>Done: " + done + "</p></div></body></html>", "Appointment Information", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public static void handleStudentAppointmentsDatesUpdate(JComboBox<String> datetimeComboBox, JList<String> datetimeList) {
+    public static void handleStudentAppointmentsDatesUpdate(JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {
         String sqlQuery = "SELECT dates.date_id, dates.date, users.name FROM dates, users WHERE (dates.date>=NOW() AND dates.isTaken=0 AND dates.user=users.user_id) ORDER BY dates.date ASC";
         
-        DefaultListModel model = (DefaultListModel)datetimeList.getModel();
+        DefaultListModel model = (DefaultListModel)dateTimeList.getModel();
         
-        datetimeComboBox.removeAllItems();
+        dateTimeComboBox.removeAllItems();
         model.removeAllElements();
         
         try (Connection conn = Database.getConnection();
@@ -202,10 +202,10 @@ public class DashboardController {
              ResultSet rs    = stmt.executeQuery(sqlQuery)) {
 
             if (rs.next() == false) {
-                datetimeComboBox.addItem("There are no available dates & times");
+                dateTimeComboBox.addItem("There are no available dates & times");
             } else {
                 do {
-                    datetimeComboBox.addItem(rs.getString("date") + " - " + rs.getString("name"));
+                    dateTimeComboBox.addItem(rs.getString("date") + " - " + rs.getString("name"));
                     model.addElement(String.valueOf(rs.getInt("date_id")));
                 } while(rs.next());
             }
@@ -329,7 +329,7 @@ public class DashboardController {
         }
     }
     
-    public static void handleCorrespondentTableRowClick(JTable appointmentsTable, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel datetimeLabel, JCheckBox doneCheckBox, JTextArea manageResponseTextArea, JCheckBox manageDoneCheckBox) {
+    public static void handleCorrespondentTableRowClick(JTable appointmentsTable, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel dateTimeLabel, JCheckBox doneCheckBox, JTextArea manageResponseTextArea, JCheckBox manageDoneCheckBox) {
         DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
         int selectedIndex = appointmentsTable.getSelectedRow();
         
@@ -352,7 +352,7 @@ public class DashboardController {
         subjectField.setText(Df.getValueAt(selectedIndex, 3).toString());
         messageTextArea.setText(Df.getValueAt(selectedIndex, 4).toString());
         responseTextArea.setText(response);
-        datetimeLabel.setText(Df.getValueAt(selectedIndex, 6).toString());
+        dateTimeLabel.setText(Df.getValueAt(selectedIndex, 6).toString());
         doneCheckBox.setSelected(isSelected);
         
         String manageResponse;
@@ -418,7 +418,7 @@ public class DashboardController {
         }
     }
     
-    public static void handleCorrespondentAppointmentDelete(JTable appointmentsTable, JTabbedPane manageTabbedPane, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel datetimeLabel, JCheckBox doneCheckBox, JTextArea manageResponseTextArea, JCheckBox manageDoneCheckBox) throws SQLException, IOException {
+    public static void handleCorrespondentAppointmentDelete(JTable appointmentsTable, JTabbedPane manageTabbedPane, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel dateTimeLabel, JCheckBox doneCheckBox, JTextArea manageResponseTextArea, JCheckBox manageDoneCheckBox) throws SQLException, IOException {
         int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this appointment?", "Delete Appointment", JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
@@ -464,21 +464,21 @@ public class DashboardController {
         JOptionPane.showMessageDialog(null, "Appointment deleted successfully");
     }
     
-    public static void handleCorrespondentDatetimeAdd(DateTimePicker addDateTimePicker) {
+    public static void handleCorrespondentDateTimeAdd(DateTimePicker addDateTimePicker) {
         String sqlQuery = "INSERT INTO dates (user, date) VALUES (?, ?)";
         
         int userId = User.getUserId();
         
         String date = addDateTimePicker.getDatePicker().toString();
         String time = addDateTimePicker.getTimePicker().toString();
-        String datetime = date + " " + time;
+        String dateTime = date + " " + time;
 
         
         try (Connection conn = Database.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
 
             pstmt.setInt(1, userId);
-            pstmt.setString(2, datetime);
+            pstmt.setString(2, dateTime);
             
             pstmt.execute();
             
@@ -492,7 +492,7 @@ public class DashboardController {
         }
     }
     
-    public static void handleCorrespondentDatetimeUpdate(JComboBox<String> deleteDateTimeComboBox, JList<String> deleteDateTimeList) {
+    public static void handleCorrespondentDateTimeUpdate(JComboBox<String> deleteDateTimeComboBox, JList<String> deleteDateTimeList) {
         String sqlQuery = "SELECT * FROM dates WHERE user=? ORDER BY date ASC";
         
         DefaultListModel model = (DefaultListModel)deleteDateTimeList.getModel();
@@ -526,7 +526,7 @@ public class DashboardController {
         }
     }
     
-    public static void handleCorrespondentDatetimeDelete(JComboBox<String> deleteDateTimeComboBox, JList<String> deleteDateTimeList) {
+    public static void handleCorrespondentDateTimeDelete(JComboBox<String> deleteDateTimeComboBox, JList<String> deleteDateTimeList) {
         int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this date & time?", "Delete Date & Time", JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
@@ -852,14 +852,7 @@ public class DashboardController {
             pstmt.setInt(1, userId);
             
             pstmt.execute();
-
-            idField.setText("");
-            aisIdField.setText("");
-            nameField.setText("");
-            roleComboBox.setSelectedItem(0);
-
-            aisIdField.requestFocus();
-
+            
             JOptionPane.showMessageDialog(null, "User deleted successfully");
         } catch (SQLException se) {
             se.printStackTrace();

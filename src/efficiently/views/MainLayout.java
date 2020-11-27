@@ -172,6 +172,8 @@ public class MainLayout extends javax.swing.JFrame {
         studentDashboard.setVisible(false);
         referentDashboard.setVisible(false);
         adminDashboard.setVisible(false);
+        
+        Login.reset();
     }
         
     public static void showSignupScreen() {
@@ -181,6 +183,8 @@ public class MainLayout extends javax.swing.JFrame {
         studentDashboard.setVisible(false);
         referentDashboard.setVisible(false);
         adminDashboard.setVisible(false);
+        
+        Signup.reset();
     }
     
     public static void showStudentDashboard() {

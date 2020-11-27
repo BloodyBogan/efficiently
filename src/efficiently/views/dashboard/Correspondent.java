@@ -60,14 +60,16 @@ public class Correspondent extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jPanel1 = new javax.swing.JPanel();
+        Container = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
         manageTabbedPane = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
+        viewPanel = new javax.swing.JPanel();
         nameLabel = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
+        aisIdLabel = new javax.swing.JLabel();
+        aisIdField = new javax.swing.JTextField();
         subjectLabel = new javax.swing.JLabel();
         subjectField = new javax.swing.JTextField();
         messageLabel = new javax.swing.JLabel();
@@ -76,25 +78,23 @@ public class Correspondent extends javax.swing.JPanel {
         responseLabel = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         responseTextArea = new javax.swing.JTextArea();
-        doneCheckBox = new javax.swing.JCheckBox();
-        aisIdLabel = new javax.swing.JLabel();
-        aisIdField = new javax.swing.JTextField();
         dateLabel = new javax.swing.JLabel();
-        datetimeLabel = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        dateTimeLabel = new javax.swing.JLabel();
+        doneCheckBox = new javax.swing.JCheckBox();
+        managePanel = new javax.swing.JPanel();
         manageResponseLabel = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         manageResponseTextArea = new javax.swing.JTextArea();
         manageDoneCheckBox = new javax.swing.JCheckBox();
         manageUpdateButton = new javax.swing.JButton();
         manageDeleteButton = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        addDateTimePicker = new com.github.lgooddatepicker.components.DateTimePicker();
+        datesAndTimesPanel = new javax.swing.JPanel();
         addDateTimeLabel = new javax.swing.JLabel();
+        addDateTimePicker = new com.github.lgooddatepicker.components.DateTimePicker();
         addDateTimeButton = new javax.swing.JButton();
         deleteDateTimeLabel = new javax.swing.JLabel();
-        deleteDateTimeButton = new javax.swing.JButton();
         deleteDateTimeComboBox = new javax.swing.JComboBox<>();
+        deleteDateTimeButton = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         deleteDateTimeList = new javax.swing.JList<>();
         appointmentsPanel = new javax.swing.JPanel();
@@ -115,10 +115,10 @@ public class Correspondent extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(1280, 720));
         setName("Referent"); // NOI18N
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(1280, 720));
-        jPanel1.setMinimumSize(new java.awt.Dimension(1280, 720));
-        jPanel1.setName("Container"); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(1280, 720));
+        Container.setMaximumSize(new java.awt.Dimension(1280, 720));
+        Container.setMinimumSize(new java.awt.Dimension(1280, 720));
+        Container.setName("Container"); // NOI18N
+        Container.setPreferredSize(new java.awt.Dimension(1280, 720));
 
         title.setText("Correspondent Dashboard");
         title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
@@ -147,6 +147,12 @@ public class Correspondent extends javax.swing.JPanel {
         nameField.setEditable(false);
         nameField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
+        aisIdLabel.setText("AIS ID");
+        aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
+        aisIdField.setEditable(false);
+        aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
         subjectLabel.setText("Subject");
         subjectLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
@@ -173,65 +179,59 @@ public class Correspondent extends javax.swing.JPanel {
         responseTextArea.setRows(3);
         jScrollPane3.setViewportView(responseTextArea);
 
+        dateLabel.setText("Date:");
+        dateLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
+        dateTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
         doneCheckBox.setText("Done");
         doneCheckBox.setEnabled(false);
         doneCheckBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        aisIdLabel.setText("AIS ID");
-        aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-
-        aisIdField.setEditable(false);
-        aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-
-        dateLabel.setText("Date:");
-        dateLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-
-        datetimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout viewPanelLayout = new javax.swing.GroupLayout(viewPanel);
+        viewPanel.setLayout(viewPanelLayout);
+        viewPanelLayout.setHorizontalGroup(
+            viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(subjectField)
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane3)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(viewPanelLayout.createSequentialGroup()
+                        .addGroup(viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(viewPanelLayout.createSequentialGroup()
                                 .addComponent(nameField)
                                 .addGap(18, 18, 18))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(viewPanelLayout.createSequentialGroup()
+                                .addGroup(viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(messageLabel)
                                     .addComponent(responseLabel)
                                     .addComponent(nameLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(aisIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(aisIdLabel)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, viewPanelLayout.createSequentialGroup()
                         .addComponent(dateLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(datetimeLabel)
+                        .addComponent(dateTimeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(doneCheckBox))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(viewPanelLayout.createSequentialGroup()
                         .addComponent(subjectLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        viewPanelLayout.setVerticalGroup(
+            viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel)
                     .addComponent(aisIdLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nameField)
                     .addComponent(aisIdField))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -247,14 +247,14 @@ public class Correspondent extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(doneCheckBox)
                     .addComponent(dateLabel)
-                    .addComponent(datetimeLabel))
+                    .addComponent(dateTimeLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        manageTabbedPane.addTab("View", jPanel2);
+        manageTabbedPane.addTab("View", viewPanel);
 
         manageResponseLabel.setText("Response");
         manageResponseLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
@@ -283,28 +283,28 @@ public class Correspondent extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout managePanelLayout = new javax.swing.GroupLayout(managePanel);
+        managePanel.setLayout(managePanelLayout);
+        managePanelLayout.setHorizontalGroup(
+            managePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(managePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(managePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane5)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(managePanelLayout.createSequentialGroup()
+                        .addGroup(managePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(manageResponseLabel)
                             .addComponent(manageDoneCheckBox))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(managePanelLayout.createSequentialGroup()
                         .addComponent(manageUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(manageDeleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        managePanelLayout.setVerticalGroup(
+            managePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(managePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(manageResponseLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -312,18 +312,18 @@ public class Correspondent extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(manageDoneCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(managePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(manageUpdateButton)
                     .addComponent(manageDeleteButton))
                 .addContainerGap())
         );
 
-        manageTabbedPane.addTab("Manage", jPanel3);
-
-        addDateTimePicker.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        manageTabbedPane.addTab("Manage", managePanel);
 
         addDateTimeLabel.setText("Add date & time");
         addDateTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
+        addDateTimePicker.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         addDateTimeButton.setText("Add");
         addDateTimeButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
@@ -336,6 +336,8 @@ public class Correspondent extends javax.swing.JPanel {
         deleteDateTimeLabel.setText("Delete date & time");
         deleteDateTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
+        deleteDateTimeComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
         deleteDateTimeButton.setText("Delete");
         deleteDateTimeButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         deleteDateTimeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -344,36 +346,34 @@ public class Correspondent extends javax.swing.JPanel {
             }
         });
 
-        deleteDateTimeComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-
         jScrollPane6.setFocusable(false);
 
         deleteDateTimeList.setEnabled(false);
         deleteDateTimeList.setFocusable(false);
         jScrollPane6.setViewportView(deleteDateTimeList);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout datesAndTimesPanelLayout = new javax.swing.GroupLayout(datesAndTimesPanel);
+        datesAndTimesPanel.setLayout(datesAndTimesPanelLayout);
+        datesAndTimesPanelLayout.setHorizontalGroup(
+            datesAndTimesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(datesAndTimesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(datesAndTimesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addDateTimePicker, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
                     .addComponent(addDateTimeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(deleteDateTimeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(deleteDateTimeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(datesAndTimesPanelLayout.createSequentialGroup()
+                        .addGroup(datesAndTimesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(addDateTimeLabel)
                             .addComponent(deleteDateTimeLabel))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        datesAndTimesPanelLayout.setVerticalGroup(
+            datesAndTimesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(datesAndTimesPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(addDateTimeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -391,7 +391,7 @@ public class Correspondent extends javax.swing.JPanel {
                 .addContainerGap(191, Short.MAX_VALUE))
         );
 
-        manageTabbedPane.addTab("Dates & Times", jPanel4);
+        manageTabbedPane.addTab("Dates & Times", datesAndTimesPanel);
 
         appointmentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Appointments", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 17))); // NOI18N
 
@@ -443,29 +443,29 @@ public class Correspondent extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         userNameLabel.setEnabled(false);
         userNameLabel.setFocusable(false);
+        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout ContainerLayout = new javax.swing.GroupLayout(Container);
+        Container.setLayout(ContainerLayout);
+        ContainerLayout.setHorizontalGroup(
+            ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ContainerLayout.createSequentialGroup()
                 .addGap(410, 410, 410)
                 .addComponent(title)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(ContainerLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(manageTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ContainerLayout.createSequentialGroup()
                         .addComponent(userNameLabel)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(ContainerLayout.createSequentialGroup()
+                        .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ContainerLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(refreshButton)
                                 .addGap(25, 25, 25)
@@ -473,19 +473,19 @@ public class Correspondent extends javax.swing.JPanel {
                             .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(25, 25, 25))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        ContainerLayout.setVerticalGroup(
+            ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ContainerLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(title)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContainerLayout.createSequentialGroup()
                         .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(logoutButton)
                             .addComponent(refreshButton)))
                     .addComponent(manageTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -496,11 +496,11 @@ public class Correspondent extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -508,7 +508,7 @@ public class Correspondent extends javax.swing.JPanel {
         try {
             DashboardController.handleCorrespondentAppointmentsTableUpdate(appointmentsTable);
             appointmentsTable.clearSelection();
-            DashboardController.handleCorrespondentDatetimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+            DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
             resetRest();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
@@ -532,7 +532,7 @@ public class Correspondent extends javax.swing.JPanel {
         subjectField.setText("");
         messageTextArea.setText("");
         responseTextArea.setText("");
-        datetimeLabel.setText("");
+        dateTimeLabel.setText("");
         doneCheckBox.setSelected(false);
         
         addDateTimePicker.datePicker.setText("");
@@ -556,7 +556,7 @@ public class Correspondent extends javax.swing.JPanel {
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
         try {
             if (User.isSessionValid()) {
-                DashboardController.handleCorrespondentTableRowClick(appointmentsTable, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, datetimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+                DashboardController.handleCorrespondentTableRowClick(appointmentsTable, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
                 User.setLastAction();
             } else {
                 logoutButton.doClick();
@@ -584,7 +584,7 @@ public class Correspondent extends javax.swing.JPanel {
     private void manageDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageDeleteButtonActionPerformed
         try {
             if (User.isSessionValid()) {
-                DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable, manageTabbedPane, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, datetimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
+                DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable, manageTabbedPane, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, doneCheckBox, manageResponseTextArea, manageDoneCheckBox);
                 refresh();
                 User.setLastAction();
             } else {
@@ -614,8 +614,8 @@ public class Correspondent extends javax.swing.JPanel {
     private void addDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDateTimeButtonActionPerformed
         try {
             if (User.isSessionValid()) {
-                DashboardController.handleCorrespondentDatetimeAdd(addDateTimePicker);
-                DashboardController.handleCorrespondentDatetimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+                DashboardController.handleCorrespondentDateTimeAdd(addDateTimePicker);
+                DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
                 
                 addDateTimePicker.datePicker.setText("");
                 addDateTimePicker.timePicker.setText("");
@@ -634,8 +634,8 @@ public class Correspondent extends javax.swing.JPanel {
     private void deleteDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDateTimeButtonActionPerformed
         try {
             if (User.isSessionValid()) {
-                DashboardController.handleCorrespondentDatetimeDelete(deleteDateTimeComboBox, deleteDateTimeList);
-                DashboardController.handleCorrespondentDatetimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+                DashboardController.handleCorrespondentDateTimeDelete(deleteDateTimeComboBox, deleteDateTimeList);
+                DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
 
                 DashboardController.handleCorrespondentAppointmentsTableUpdate(appointmentsTable);
                 appointmentsTable.clearSelection();
@@ -654,6 +654,7 @@ public class Correspondent extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Container;
     private javax.swing.JButton addDateTimeButton;
     private javax.swing.JLabel addDateTimeLabel;
     private static com.github.lgooddatepicker.components.DateTimePicker addDateTimePicker;
@@ -662,7 +663,8 @@ public class Correspondent extends javax.swing.JPanel {
     private javax.swing.JPanel appointmentsPanel;
     private static javax.swing.JTable appointmentsTable;
     private javax.swing.JLabel dateLabel;
-    private static javax.swing.JLabel datetimeLabel;
+    private static javax.swing.JLabel dateTimeLabel;
+    private javax.swing.JPanel datesAndTimesPanel;
     private javax.swing.JButton deleteDateTimeButton;
     private static javax.swing.JComboBox<String> deleteDateTimeComboBox;
     private javax.swing.JLabel deleteDateTimeLabel;
@@ -670,10 +672,6 @@ public class Correspondent extends javax.swing.JPanel {
     private static javax.swing.JCheckBox doneCheckBox;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -683,6 +681,7 @@ public class Correspondent extends javax.swing.JPanel {
     private javax.swing.JButton logoutButton;
     private javax.swing.JButton manageDeleteButton;
     private static javax.swing.JCheckBox manageDoneCheckBox;
+    private javax.swing.JPanel managePanel;
     private javax.swing.JLabel manageResponseLabel;
     private static javax.swing.JTextArea manageResponseTextArea;
     private static javax.swing.JTabbedPane manageTabbedPane;
@@ -698,5 +697,6 @@ public class Correspondent extends javax.swing.JPanel {
     private javax.swing.JLabel subjectLabel;
     private javax.swing.JLabel title;
     private static javax.swing.JLabel userNameLabel;
+    private javax.swing.JPanel viewPanel;
     // End of variables declaration//GEN-END:variables
 }

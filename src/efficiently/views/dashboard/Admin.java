@@ -53,19 +53,19 @@ public class Admin extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        Container = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        updateUserPanel = new javax.swing.JPanel();
+        idLabel = new javax.swing.JLabel();
+        idField = new javax.swing.JTextField();
         aisIdLabel = new javax.swing.JLabel();
-        nameLabel = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         aisIdField = new javax.swing.JTextField();
+        nameLabel = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
+        roleLabel = new javax.swing.JLabel();
         roleComboBox = new javax.swing.JComboBox<>();
         updateButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        idLabel = new javax.swing.JLabel();
-        idField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         usersTable = new javax.swing.JTable();
         logoutButton = new javax.swing.JButton();
@@ -76,24 +76,25 @@ public class Admin extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(1280, 720));
         setName("Admin"); // NOI18N
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(1280, 720));
-        jPanel1.setMinimumSize(new java.awt.Dimension(1280, 720));
-        jPanel1.setName("Container"); // NOI18N
+        Container.setMaximumSize(new java.awt.Dimension(1280, 720));
+        Container.setMinimumSize(new java.awt.Dimension(1280, 720));
+        Container.setName("Container"); // NOI18N
 
         title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
         title.setText("Admin Dashboard");
         title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Update User", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 24))); // NOI18N
+        updateUserPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Update User", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 24))); // NOI18N
+
+        idLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        idLabel.setText("ID");
+
+        idField.setEditable(false);
+        idField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        idField.setFocusable(false);
 
         aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         aisIdLabel.setText("AIS ID");
-
-        nameLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        nameLabel.setText("Name");
-
-        jLabel3.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        jLabel3.setText("Role");
 
         aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         aisIdField.addActionListener(new java.awt.event.ActionListener() {
@@ -102,7 +103,13 @@ public class Admin extends javax.swing.JPanel {
             }
         });
 
+        nameLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        nameLabel.setText("Name");
+
         nameField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+
+        roleLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        roleLabel.setText("Role");
 
         roleComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "student", "referent", "admin" }));
@@ -128,40 +135,33 @@ public class Admin extends javax.swing.JPanel {
             }
         });
 
-        idLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        idLabel.setText("ID");
-
-        idField.setEditable(false);
-        idField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        idField.setFocusable(false);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout updateUserPanelLayout = new javax.swing.GroupLayout(updateUserPanel);
+        updateUserPanel.setLayout(updateUserPanelLayout);
+        updateUserPanelLayout.setHorizontalGroup(
+            updateUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(updateUserPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(updateUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nameField, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(idField)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(updateUserPanelLayout.createSequentialGroup()
                         .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                         .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(aisIdField)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(updateUserPanelLayout.createSequentialGroup()
+                        .addGroup(updateUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(aisIdLabel)
                             .addComponent(idLabel)
                             .addComponent(nameLabel)
-                            .addComponent(jLabel3)
+                            .addComponent(roleLabel)
                             .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        updateUserPanelLayout.setVerticalGroup(
+            updateUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(updateUserPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(idLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -175,11 +175,11 @@ public class Admin extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(roleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(updateUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(updateButton)
                     .addComponent(deleteButton))
                 .addContainerGap())
@@ -236,44 +236,44 @@ public class Admin extends javax.swing.JPanel {
         userNameLabel.setEnabled(false);
         userNameLabel.setFocusable(false);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout ContainerLayout = new javax.swing.GroupLayout(Container);
+        Container.setLayout(ContainerLayout);
+        ContainerLayout.setHorizontalGroup(
+            ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ContainerLayout.createSequentialGroup()
+                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(ContainerLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(refreshButton)
                         .addGap(25, 25, 25)
                         .addComponent(logoutButton))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(ContainerLayout.createSequentialGroup()
                             .addGap(505, 505, 505)
                             .addComponent(title))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(ContainerLayout.createSequentialGroup()
                             .addGap(25, 25, 25)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(updateUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(25, 25, 25))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContainerLayout.createSequentialGroup()
                 .addComponent(userNameLabel)
                 .addGap(592, 592, 592))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        ContainerLayout.setVerticalGroup(
+            ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ContainerLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(title)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userNameLabel)
                 .addGap(37, 37, 37)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(updateUserPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(logoutButton)
                     .addComponent(refreshButton))
                 .addGap(25, 25, 25))
@@ -283,11 +283,11 @@ public class Admin extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
     
@@ -395,22 +395,22 @@ public class Admin extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Container;
     private static javax.swing.JTextField aisIdField;
     private javax.swing.JLabel aisIdLabel;
     private javax.swing.JButton deleteButton;
     private static javax.swing.JTextField idField;
     private javax.swing.JLabel idLabel;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JButton logoutButton;
     private static javax.swing.JTextField nameField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JButton refreshButton;
     private static javax.swing.JComboBox<String> roleComboBox;
+    private javax.swing.JLabel roleLabel;
     private javax.swing.JLabel title;
     private javax.swing.JButton updateButton;
+    private javax.swing.JPanel updateUserPanel;
     private static javax.swing.JLabel userNameLabel;
     private static javax.swing.JTable usersTable;
     // End of variables declaration//GEN-END:variables

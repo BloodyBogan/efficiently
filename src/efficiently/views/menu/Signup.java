@@ -54,27 +54,27 @@ public class Signup extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
+        Container = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
         aisIdLabel = new javax.swing.JLabel();
         aisIdField = new javax.swing.JTextField();
         nameLabel = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
         passwordLabel = new javax.swing.JLabel();
+        passwordField = new javax.swing.JPasswordField();
         confirmPasswordLabel = new javax.swing.JLabel();
+        confirmPasswordField = new javax.swing.JPasswordField();
         submitButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
-        passwordField = new javax.swing.JPasswordField();
-        confirmPasswordField = new javax.swing.JPasswordField();
 
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
         setName("Signup"); // NOI18N
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(1280, 720));
-        jPanel1.setMinimumSize(new java.awt.Dimension(1280, 720));
-        jPanel1.setName("Container"); // NOI18N
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        Container.setMaximumSize(new java.awt.Dimension(1280, 720));
+        Container.setMinimumSize(new java.awt.Dimension(1280, 720));
+        Container.setName("Container"); // NOI18N
+        Container.setLayout(new java.awt.GridBagLayout());
 
         title.setFont(new java.awt.Font("Open Sans", 1, 30)); // NOI18N
         title.setText("Sign Up");
@@ -82,7 +82,7 @@ public class Signup extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
-        jPanel1.add(title, gridBagConstraints);
+        Container.add(title, gridBagConstraints);
 
         aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         aisIdLabel.setText("AIS ID");
@@ -90,14 +90,14 @@ public class Signup extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
-        jPanel1.add(aisIdLabel, gridBagConstraints);
+        Container.add(aisIdLabel, gridBagConstraints);
 
         aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(aisIdField, gridBagConstraints);
+        Container.add(aisIdField, gridBagConstraints);
 
         nameLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         nameLabel.setText("Your name");
@@ -105,14 +105,14 @@ public class Signup extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 3, 0);
-        jPanel1.add(nameLabel, gridBagConstraints);
+        Container.add(nameLabel, gridBagConstraints);
 
         nameField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(nameField, gridBagConstraints);
+        Container.add(nameField, gridBagConstraints);
 
         passwordLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         passwordLabel.setText("Your password");
@@ -120,7 +120,14 @@ public class Signup extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 3, 0);
-        jPanel1.add(passwordLabel, gridBagConstraints);
+        Container.add(passwordLabel, gridBagConstraints);
+
+        passwordField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        Container.add(passwordField, gridBagConstraints);
 
         confirmPasswordLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         confirmPasswordLabel.setText("Confirm password");
@@ -128,10 +135,17 @@ public class Signup extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 3, 0);
-        jPanel1.add(confirmPasswordLabel, gridBagConstraints);
+        Container.add(confirmPasswordLabel, gridBagConstraints);
+
+        confirmPasswordField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        Container.add(confirmPasswordField, gridBagConstraints);
 
         submitButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
-        submitButton.setText("Sign Up");
+        submitButton.setText("Submit");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submitButtonActionPerformed(evt);
@@ -142,7 +156,7 @@ public class Signup extends javax.swing.JPanel {
         gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(14, 0, 30, 0);
-        jPanel1.add(submitButton, gridBagConstraints);
+        Container.add(submitButton, gridBagConstraints);
 
         backButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         backButton.setText("Back to menu");
@@ -154,34 +168,29 @@ public class Signup extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
-        jPanel1.add(backButton, gridBagConstraints);
-
-        passwordField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(passwordField, gridBagConstraints);
-
-        confirmPasswordField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(confirmPasswordField, gridBagConstraints);
+        Container.add(backButton, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public static void reset() {
+        aisIdField.setText("");
+        nameField.setText("");
+        passwordField.setText("");
+        confirmPasswordField.setText("");
+        
+        aisIdField.requestFocus();
+    }
+    
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         MainLayout.showMenuScreen();
     }//GEN-LAST:event_backButtonActionPerformed
@@ -280,15 +289,15 @@ public class Signup extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField aisIdField;
+    private javax.swing.JPanel Container;
+    private static javax.swing.JTextField aisIdField;
     private javax.swing.JLabel aisIdLabel;
     private javax.swing.JButton backButton;
-    private javax.swing.JPasswordField confirmPasswordField;
+    private static javax.swing.JPasswordField confirmPasswordField;
     private javax.swing.JLabel confirmPasswordLabel;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField nameField;
+    private static javax.swing.JTextField nameField;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JPasswordField passwordField;
+    private static javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JButton submitButton;
     private javax.swing.JLabel title;

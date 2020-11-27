@@ -46,8 +46,8 @@ public class Student extends javax.swing.JPanel {
      */
     public Student() throws SQLException, IOException {
         initComponents();
-        datetimeList.setModel(new DefaultListModel());
-        datetimeList.setVisible(false);
+        dateTimeList.setModel(new DefaultListModel());
+        dateTimeList.setVisible(false);
     }
 
     /**
@@ -60,7 +60,7 @@ public class Student extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        Container = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
@@ -71,10 +71,10 @@ public class Student extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         messageTextArea = new javax.swing.JTextArea();
         bookNowButton = new javax.swing.JButton();
-        datetimeComboBox = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
-        datetimeScrollPane = new javax.swing.JScrollPane();
-        datetimeList = new javax.swing.JList<>();
+        dateTimeComboBox = new javax.swing.JComboBox<>();
+        pickDateAndTimeLabel = new javax.swing.JLabel();
+        dateTimeScrollPane = new javax.swing.JScrollPane();
+        dateTimeList = new javax.swing.JList<>();
         appointmentsPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         appointmentsTable = new javax.swing.JTable();
@@ -88,10 +88,10 @@ public class Student extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(1280, 720));
         setName("Student"); // NOI18N
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(1280, 720));
-        jPanel1.setMinimumSize(new java.awt.Dimension(1280, 720));
-        jPanel1.setName("Container"); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(1280, 720));
+        Container.setMaximumSize(new java.awt.Dimension(1280, 720));
+        Container.setMinimumSize(new java.awt.Dimension(1280, 720));
+        Container.setName("Container"); // NOI18N
+        Container.setPreferredSize(new java.awt.Dimension(1280, 720));
 
         title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
         title.setText("Student Dashboard");
@@ -136,27 +136,27 @@ public class Student extends javax.swing.JPanel {
             }
         });
 
-        datetimeComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        dateTimeComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
-        jLabel2.setText("Pick date & time");
+        pickDateAndTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        pickDateAndTimeLabel.setText("Pick date & time");
 
-        datetimeScrollPane.setEnabled(false);
-        datetimeScrollPane.setFocusable(false);
-        datetimeScrollPane.setMaximumSize(new java.awt.Dimension(0, 0));
-        datetimeScrollPane.setMinimumSize(new java.awt.Dimension(0, 0));
-        datetimeScrollPane.setPreferredSize(new java.awt.Dimension(0, 0));
+        dateTimeScrollPane.setEnabled(false);
+        dateTimeScrollPane.setFocusable(false);
+        dateTimeScrollPane.setMaximumSize(new java.awt.Dimension(0, 0));
+        dateTimeScrollPane.setMinimumSize(new java.awt.Dimension(0, 0));
+        dateTimeScrollPane.setPreferredSize(new java.awt.Dimension(0, 0));
 
-        datetimeList.setModel(new javax.swing.AbstractListModel<String>() {
+        dateTimeList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        datetimeList.setEnabled(false);
-        datetimeList.setFocusable(false);
-        datetimeList.setMaximumSize(new java.awt.Dimension(0, 0));
-        datetimeList.setMinimumSize(new java.awt.Dimension(0, 0));
-        datetimeScrollPane.setViewportView(datetimeList);
+        dateTimeList.setEnabled(false);
+        dateTimeList.setFocusable(false);
+        dateTimeList.setMaximumSize(new java.awt.Dimension(0, 0));
+        dateTimeList.setMinimumSize(new java.awt.Dimension(0, 0));
+        dateTimeScrollPane.setViewportView(dateTimeList);
 
         javax.swing.GroupLayout bookAppointmentPanelLayout = new javax.swing.GroupLayout(bookAppointmentPanel);
         bookAppointmentPanel.setLayout(bookAppointmentPanelLayout);
@@ -167,15 +167,15 @@ public class Student extends javax.swing.JPanel {
                 .addGroup(bookAppointmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
                     .addComponent(subjectField)
-                    .addComponent(datetimeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dateTimeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(bookAppointmentPanelLayout.createSequentialGroup()
                         .addGroup(bookAppointmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(subjectLabel)
                             .addComponent(messageLabel)
-                            .addComponent(jLabel2)
+                            .addComponent(pickDateAndTimeLabel)
                             .addComponent(bookNowButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(datetimeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(dateTimeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         bookAppointmentPanelLayout.setVerticalGroup(
@@ -190,13 +190,13 @@ public class Student extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addComponent(pickDateAndTimeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(datetimeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dateTimeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(bookAppointmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bookNowButton)
-                    .addComponent(datetimeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateTimeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -261,46 +261,46 @@ public class Student extends javax.swing.JPanel {
         userNameLabel.setEnabled(false);
         userNameLabel.setFocusable(false);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout ContainerLayout = new javax.swing.GroupLayout(Container);
+        Container.setLayout(ContainerLayout);
+        ContainerLayout.setHorizontalGroup(
+            ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContainerLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(bookAppointmentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(ContainerLayout.createSequentialGroup()
                         .addComponent(refreshButton)
                         .addGap(25, 25, 25)
                         .addComponent(logoutButton))
                     .addComponent(queuePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(ContainerLayout.createSequentialGroup()
+                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ContainerLayout.createSequentialGroup()
                         .addGap(472, 472, 472)
                         .addComponent(title))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(ContainerLayout.createSequentialGroup()
                         .addGap(613, 613, 613)
                         .addComponent(userNameLabel)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        ContainerLayout.setVerticalGroup(
+            ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContainerLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(title)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userNameLabel)
                 .addGap(37, 37, 37)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ContainerLayout.createSequentialGroup()
                         .addComponent(queuePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(refreshButton)
                             .addComponent(logoutButton)))
                     .addComponent(bookAppointmentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -312,11 +312,11 @@ public class Student extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -324,7 +324,7 @@ public class Student extends javax.swing.JPanel {
         try {
             DashboardController.handleStudentAppointmentsTableUpdate(appointmentsTable);
             appointmentsTable.clearSelection();
-            DashboardController.handleStudentAppointmentsDatesUpdate(datetimeComboBox, datetimeList);
+            DashboardController.handleStudentAppointmentsDatesUpdate(dateTimeComboBox, dateTimeList);
             DashboardController.handleStudentQueueUpdate(queueLabel);
             resetRest();
         } catch (SQLException | IOException ex) {
@@ -342,7 +342,7 @@ public class Student extends javax.swing.JPanel {
     private static void resetRest() {
         subjectField.setText("");
         messageTextArea.setText("");
-        datetimeComboBox.setSelectedIndex(0);
+        dateTimeComboBox.setSelectedIndex(0);
 
         subjectField.requestFocus();
     }
@@ -374,7 +374,7 @@ public class Student extends javax.swing.JPanel {
     private void bookNowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookNowButtonActionPerformed
         try {
             if (User.isSessionValid()) {
-                DashboardController.handleStudentBookAppointment(subjectField, messageTextArea, datetimeComboBox, datetimeList);
+                DashboardController.handleStudentBookAppointment(subjectField, messageTextArea, dateTimeComboBox, dateTimeList);
                 refresh();
                 User.setLastAction();
             } else {
@@ -402,21 +402,21 @@ public class Student extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Container;
     private javax.swing.JPanel appointmentsPanel;
     private static javax.swing.JTable appointmentsTable;
     private javax.swing.JPanel bookAppointmentPanel;
     private javax.swing.JButton bookNowButton;
-    private static javax.swing.JComboBox<String> datetimeComboBox;
-    private static javax.swing.JList<String> datetimeList;
-    private javax.swing.JScrollPane datetimeScrollPane;
+    private static javax.swing.JComboBox<String> dateTimeComboBox;
+    private static javax.swing.JList<String> dateTimeList;
+    private javax.swing.JScrollPane dateTimeScrollPane;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton logoutButton;
     private javax.swing.JLabel messageLabel;
     private static javax.swing.JTextArea messageTextArea;
+    private javax.swing.JLabel pickDateAndTimeLabel;
     private static javax.swing.JLabel queueLabel;
     private javax.swing.JPanel queuePanel;
     private javax.swing.JButton refreshButton;

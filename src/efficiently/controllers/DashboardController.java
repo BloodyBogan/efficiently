@@ -35,6 +35,12 @@ import java.io.IOException;
 import efficiently.models.User;
 import efficiently.views.MainLayout;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -171,13 +177,12 @@ public class DashboardController {
             JOptionPane.showMessageDialog(null, "There was an error. Try again");
         }
         
-        String dateSqlQuery = "UPDATE dates SET isTaken=? WHERE date_id=?";
+        String dateSqlQuery = "UPDATE dates SET isTaken=1 WHERE date_id=?";
 
         try (Connection conn = Database.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(dateSqlQuery)) {
             
-            pstmt.setInt(1, 1);
-            pstmt.setInt(2, dateId);
+            pstmt.setInt(1, dateId);
 
             pstmt.executeUpdate();
         } catch (SQLException se) {
@@ -466,18 +471,65 @@ public class DashboardController {
         JOptionPane.showMessageDialog(null, "Appointment deleted successfully");
     }
     
-    public static void handleCorrespondentDateTimeAdd(DateTimePicker addDateTimePicker) {
-        String sqlQuery = "INSERT INTO dates (user, date) VALUES (?, ?)";
-        
-        int userId = User.getUserId();
-        
+    public static void handleCorrespondentDateTimeAdd(DateTimePicker addDateTimePicker) {        
         String date = addDateTimePicker.getDatePicker().toString();
+
+        try {
+            LocalDate.parse(date);
+        } catch (DateTimeParseException | NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid date");
+            return;
+        }
+        
         String time = addDateTimePicker.getTimePicker().toString();
+        
+        try {
+            DateTimeFormatter strictTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+            .withResolverStyle(ResolverStyle.STRICT);
+            LocalTime.parse(time, strictTimeFormatter);
+        } catch (DateTimeParseException | NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid time");
+            return;
+        }
+        
         String dateTime = date + " " + time;
 
+        LocalDateTime t = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        if (t.isAfter(LocalDateTime.parse(dateTime, formatter))) {
+            JOptionPane.showMessageDialog(null, "You can't travel back in time");
+            return;
+        }
+        
+        String sqlSelectQuery = "SELECT date FROM dates WHERE (user=? AND date=?)";
+        
+        int userId = User.getUserId();
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sqlSelectQuery)) {
+
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, dateTime);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next() != false) {
+                JOptionPane.showMessageDialog(null, "You already have added this date & time");
+                return;
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            return;
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            return;
+        }
+        
+        String sqlInsertQuery = "INSERT INTO dates (user, date) VALUES (?, ?)";
         
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+                PreparedStatement pstmt = conn.prepareStatement(sqlInsertQuery)) {
 
             pstmt.setInt(1, userId);
             pstmt.setString(2, dateTime);

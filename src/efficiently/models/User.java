@@ -41,6 +41,7 @@ public class User {
     private static int aisId;
     private static String name;
     private static String role;
+    private static String roleFromDatabase;
     private static LocalDateTime lastAction;
     
     public static int getUserId() {
@@ -111,9 +112,38 @@ public class User {
         return valid;
     }
     
+    private static String setRoleFromDatabase () throws SQLException, IOException {
+        String sqlQuery = "SELECT user_role.role FROM user_role, users WHERE (users.user_id=? AND user_role.role_id=users.role)";
+        
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+           
+            pstmt.setInt(1, userId);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next() == false) {
+                roleFromDatabase = "";
+            } else {
+                roleFromDatabase = rs.getString("role");
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+            roleFromDatabase = "";
+            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+        } catch (Exception e) {
+            e.printStackTrace();
+            roleFromDatabase = "";
+            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+        }
+        
+        return roleFromDatabase;
+    }
+    
     public static boolean isSessionValid (String ACCESS_LEVEL) throws SQLException, IOException {
         LocalDateTime t = LocalDateTime.now().minusMinutes(30);
-        return t.isBefore(lastAction) && doesUserExist() && (ACCESS_LEVEL.equals(role)) && ((userId != -1) && (aisId != -1) && (!name.isEmpty()) && (!role.isEmpty()));
+        setRoleFromDatabase();
+        return t.isBefore(lastAction) && doesUserExist() && (role.equals(roleFromDatabase)) && (ACCESS_LEVEL.equals(role)) && (ACCESS_LEVEL.equals(roleFromDatabase)) && ((userId != -1) && (aisId != -1) && (!name.isEmpty()) && (!role.isEmpty()) && (!roleFromDatabase.isEmpty()));
     }
     
     public static void logout() {
@@ -121,6 +151,7 @@ public class User {
         aisId = -1;
         name = "";
         role = "";
+        roleFromDatabase = "";
         lastAction = LocalDateTime.now().minusYears(100);
     }
 }

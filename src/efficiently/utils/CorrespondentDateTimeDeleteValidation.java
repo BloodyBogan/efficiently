@@ -23,12 +23,19 @@
  */
 package efficiently.utils;
 
+import efficiently.config.Messages;
+import javax.swing.JComboBox;
+
 /**
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
-public class UserException extends Exception {
-    public UserException(String message) {
-        super(message);
+public class CorrespondentDateTimeDeleteValidation {
+    
+    public static void validate (JComboBox<String> deleteDateTimeComboBox) throws ValidationException {
+        String comboBoxItem = deleteDateTimeComboBox.getSelectedItem().toString();
+        if (comboBoxItem.equals(Messages.getGeneral(8))) {
+            throw new ValidationException(Messages.getError(4));
+        }
     }
 }

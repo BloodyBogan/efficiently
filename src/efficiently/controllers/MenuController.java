@@ -26,12 +26,15 @@ package efficiently.controllers;
 import efficiently.views.MainLayout;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import efficiently.config.Database;
+import efficiently.config.Messages;
 import efficiently.models.User;
 import efficiently.utils.Capitalize;
-import efficiently.utils.UserException;
+import efficiently.utils.ValidationException;
 import efficiently.views.dashboard.Admin;
 import efficiently.views.dashboard.Correspondent;
 import efficiently.views.dashboard.Student;
+import efficiently.views.menu.Login;
+import efficiently.views.menu.Signup;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.io.IOException;
@@ -67,15 +70,15 @@ public class MenuController {
             pstmt.execute();
             
             MainLayout.showLoginScreen();
-            JOptionPane.showMessageDialog(null, "Registration Successful");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(1));
         } catch (SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(null, "AIS ID (" + aisId + ") is already registered");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getValidationError(0), aisId));
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
     
@@ -92,7 +95,7 @@ public class MenuController {
                 BCrypt.Result result = BCrypt.verifyer().verify(password, hashedPassword);
 
                 if (!result.verified) {
-                    throw new UserException("Incorrect Credentials");
+                    throw new ValidationException(Messages.getValidationError(1));
                 }
                 
                 User.setUserId(rs.getInt("user_id"));
@@ -101,10 +104,10 @@ public class MenuController {
                 User.setRole(rs.getString("role"));
                 User.setLastAction();
             } else {
-                throw new UserException("Incorrect Credentials");
+                throw new ValidationException(Messages.getValidationError(1));
             }
             
-            JOptionPane.showMessageDialog(null, "Login Successful");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(2));
             switch(User.getRole()) {
                 case "student":
                     MainLayout.showStudentDashboard();
@@ -122,18 +125,20 @@ public class MenuController {
                     Admin.refresh();
                     break;
                 default:
-                    JOptionPane.showMessageDialog(null, "There was an error. Try again");
+                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
                     DashboardController.logout();
             }
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
-        } catch (UserException ue) {
-            ue.printStackTrace();
-            JOptionPane.showMessageDialog(null, ue.getMessage());
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+        } catch (ValidationException ve) {
+            ve.printStackTrace();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+        } finally {
+            Login.reset();
         }
     }
 }

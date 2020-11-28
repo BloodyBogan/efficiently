@@ -24,6 +24,8 @@
 package efficiently.views.menu;
 
 import efficiently.controllers.MenuController;
+import efficiently.utils.LoginValidation;
+import efficiently.utils.ValidationException;
 import efficiently.views.MainLayout;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -160,31 +162,16 @@ public class Login extends javax.swing.JPanel {
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        String stringAisId = aisIdField.getText().trim();        
-        if (stringAisId.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "AIS ID must not be emtpy");
-            aisIdField.setText("");
-            aisIdField.requestFocus();
-            return;
-        }
-
         int aisId;
+        char[] password;
         
         try {
-            aisId = Integer.parseInt(stringAisId);
-        }catch(NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "AIS ID must be a number");
-            aisIdField.setText("");
-            aisIdField.requestFocus();
-            return;
-        }
-        
-        char[] password = passwordField.getPassword();
-        String stringPassword = String.valueOf(password).trim();
-        if (stringPassword.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Password must not be emtpy");
-            passwordField.setText("");
-            passwordField.requestFocus();
+            Object[] values = LoginValidation.validate(aisIdField, passwordField);
+            
+            aisId = (int) values[0];
+            password = (char[]) values[1];
+        } catch (ValidationException ve) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
             return;
         }
         
@@ -193,11 +180,6 @@ public class Login extends javax.swing.JPanel {
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Signup.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        aisIdField.setText("");
-        passwordField.setText("");
-
-        aisIdField.requestFocus();
     }//GEN-LAST:event_submitButtonActionPerformed
 
 

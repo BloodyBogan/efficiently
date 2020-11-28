@@ -24,6 +24,8 @@
 package efficiently.models;
 
 import efficiently.config.Database;
+import efficiently.config.Messages;
+import efficiently.views.MainLayout;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -103,10 +105,10 @@ public class User {
             }
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
         
         return valid;
@@ -130,11 +132,11 @@ public class User {
         } catch (SQLException se) {
             se.printStackTrace();
             roleFromDatabase = "";
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
             roleFromDatabase = "";
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
         
         return roleFromDatabase;

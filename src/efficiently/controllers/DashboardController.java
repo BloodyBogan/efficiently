@@ -23,8 +23,8 @@
  */
 package efficiently.controllers;
 
-import com.github.lgooddatepicker.components.DateTimePicker;
 import efficiently.config.Database;
+import efficiently.config.Messages;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -35,12 +35,6 @@ import java.io.IOException;
 import efficiently.models.User;
 import efficiently.views.MainLayout;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -113,10 +107,10 @@ public class DashboardController {
             }
         } catch (SQLException se) {
             System.out.println(se.getMessage());
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
     
@@ -131,17 +125,11 @@ public class DashboardController {
         String name = Df.getValueAt(selectedIndex, 4).toString();
         String closed = Df.getValueAt(selectedIndex, 5).toString();
         
-        JOptionPane.showMessageDialog(null, "<html><body><div style='width: 450px;'><p>Subject: " + subject + "</p><br><p>Message: " + message + "</p><br><p>Response: " + response + "</p><br><p>Date: " + date + "</p><br><p>Correspondent: " + name + "</p><br><p>Closed: " + closed + "</p></div></body></html>", "Appointment Information", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(MainLayout.getJPanel(), "<html><body><div style='width: 450px;'><p>Subject: " + subject + "</p><br><p>Message: " + message + "</p><br><p>Response: " + response + "</p><br><p>Date: " + date + "</p><br><p>Correspondent: " + name + "</p><br><p>Closed: " + closed + "</p></div></body></html>", "Appointment Information", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public static void handleStudentBookAppointment(JTextField subjectField, JTextArea messageTextArea, JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {   
-        String comboBoxItem = dateTimeComboBox.getSelectedItem().toString();
-        if (comboBoxItem.equals("There are no available dates & times")) {
-            JOptionPane.showMessageDialog(null, "You can't book an appointment now as there are no available dates & times");
-            return;
-        }
-        
-        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to book this appointment?", "Book Appointment", JOptionPane.YES_NO_OPTION);
+    public static void handleStudentBookAppointment(String subject, String message, JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {   
+        int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "book", "appointment"), String.format(Messages.getGeneral(6), "Book", "appointment"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
         }
@@ -149,8 +137,6 @@ public class DashboardController {
         String appointmentSqlQuery = "INSERT INTO appointments (user, subject, message, date) VALUES (?, ?, ?, ?)";
         
         int userId = User.getUserId();
-        String subject = subjectField.getText();
-        String message = messageTextArea.getText();
         
         int comboBoxIndex = dateTimeComboBox.getSelectedIndex();
             
@@ -168,13 +154,13 @@ public class DashboardController {
             
             pstmt.execute();
             
-            JOptionPane.showMessageDialog(null, "Appointment booking successful");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Appointment", "booked"));
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
         
         String dateSqlQuery = "UPDATE dates SET isTaken=1 WHERE date_id=?";
@@ -187,10 +173,10 @@ public class DashboardController {
             pstmt.executeUpdate();
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
     
@@ -217,10 +203,10 @@ public class DashboardController {
             }
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
     
@@ -239,7 +225,7 @@ public class DashboardController {
             ResultSet rs = pstmt.executeQuery();
            
             if (rs.next() == false) {
-                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>You have no appointments booked yet</p></body></html>");
+                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>" + Messages.getGeneral(9) + "</p></body></html>");
                 return;
             } else {
                 do {
@@ -268,11 +254,11 @@ public class DashboardController {
             }
             
             if (count == 0) {
-                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>It's your turn</p></body></html>");
+                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>" + Messages.getGeneral(10) + "</p></body></html>");
             } else if (count == 1) {
-                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>There is " + String.valueOf(count) + " appointment before yours</p></body></html>");
+                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>" + String.format(Messages.getGeneral(11), "is", String.valueOf(count), "appointment") + "</p></body></html>");
             } else {
-                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>There are " + String.valueOf(count) + " appointments before yours</p></body></html>");
+                queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>" + String.format(Messages.getGeneral(11), "are", String.valueOf(count), "appointments") + "</p></body></html>");
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -329,10 +315,10 @@ public class DashboardController {
             }
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
     
@@ -375,8 +361,8 @@ public class DashboardController {
         manageClosedCheckBox.setSelected(isSelected);
     }
     
-    public static void handleCorrespondentAppointmentUpdate(JTable appointmentsTable, JTextArea responseTextArea, JCheckBox closedCheckBox, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) throws SQLException, IOException {
-        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to update this appointment?", "Update Appointment", JOptionPane.YES_NO_OPTION);
+    public static void handleCorrespondentAppointmentUpdate(JTable appointmentsTable, JTextArea responseTextArea, JCheckBox closedCheckBox, String response, JCheckBox manageClosedCheckBox) throws SQLException, IOException {
+        int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "update", "appointment"), String.format(Messages.getGeneral(6), "Update", "appointment"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
         }
@@ -399,7 +385,6 @@ public class DashboardController {
                 isClosed = 0;
             }
             
-            String response = manageResponseTextArea.getText().trim();
             if (response.isEmpty()) {
                 response = null;
             }
@@ -412,26 +397,22 @@ public class DashboardController {
             
             responseTextArea.setText(response);
             closedCheckBox.setSelected(isSelected);
-            
-            manageResponseTextArea.requestFocus();
 
-            JOptionPane.showMessageDialog(null, "User successfully updated");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "User", "updated"));
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(0));
         }
     }
     
     public static void handleCorrespondentAppointmentDelete(JTable appointmentsTable, JTabbedPane manageTabbedPane, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel dateTimeLabel, JCheckBox closedCheckBox, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) throws SQLException, IOException {
-        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this appointment?", "Delete Appointment", JOptionPane.YES_NO_OPTION);
+        int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "delete", "appointment"), String.format(Messages.getGeneral(6), "Delete", "appointment"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
         }
-        
-        String sqlDeleteQuery = "DELETE FROM appointments WHERE appointment_id=?";
         
         DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
         int selectedIndex = appointmentsTable.getSelectedRow();
@@ -448,11 +429,13 @@ public class DashboardController {
             pstmt.executeUpdate();
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
+        
+        String sqlDeleteQuery = "DELETE FROM appointments WHERE appointment_id=?";
         
         try (Connection conn = Database.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sqlDeleteQuery)) {
@@ -462,45 +445,16 @@ public class DashboardController {
             pstmt.execute();
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
 
-        JOptionPane.showMessageDialog(null, "Appointment deleted successfully");
+        JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Appointment", "deleted"));
     }
     
-    public static void handleCorrespondentDateTimeAdd(DateTimePicker addDateTimePicker) {        
-        String date = addDateTimePicker.getDatePicker().toString();
-
-        try {
-            LocalDate.parse(date);
-        } catch (DateTimeParseException | NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Please enter a valid date");
-            return;
-        }
-        
-        String time = addDateTimePicker.getTimePicker().toString();
-        
-        try {
-            DateTimeFormatter strictTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
-            .withResolverStyle(ResolverStyle.STRICT);
-            LocalTime.parse(time, strictTimeFormatter);
-        } catch (DateTimeParseException | NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Please enter a valid time");
-            return;
-        }
-        
-        String dateTime = date + " " + time;
-
-        LocalDateTime t = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        if (t.isAfter(LocalDateTime.parse(dateTime, formatter))) {
-            JOptionPane.showMessageDialog(null, "You can't travel back in time");
-            return;
-        }
-        
+    public static void handleCorrespondentDateTimeAdd(String dateTime) {        
         String sqlSelectQuery = "SELECT date FROM dates WHERE (user=? AND date=?)";
         
         int userId = User.getUserId();
@@ -513,16 +467,16 @@ public class DashboardController {
             ResultSet rs = pstmt.executeQuery();
             
             if (rs.next() != false) {
-                JOptionPane.showMessageDialog(null, "You already have added this date & time");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getValidationError(2));
                 return;
             }
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
             return;
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
             return;
         }
         
@@ -536,13 +490,13 @@ public class DashboardController {
             
             pstmt.execute();
             
-            JOptionPane.showMessageDialog(null, "Date & time added successfully");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Date & time", "added")); 
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
     
@@ -565,7 +519,7 @@ public class DashboardController {
             ResultSet rs = pstmt.executeQuery();
             
             if (rs.next() == false) {
-                deleteDateTimeComboBox.addItem("You don't have any available dates & times");
+                deleteDateTimeComboBox.addItem(Messages.getGeneral(8));
             } else {
                 do {
                     deleteDateTimeComboBox.addItem(rs.getString("date"));
@@ -574,15 +528,15 @@ public class DashboardController {
             }
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
     
     public static void handleCorrespondentDateTimeDelete(JComboBox<String> deleteDateTimeComboBox, JList<String> deleteDateTimeList) {
-        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this date & time?", "Delete Date & Time", JOptionPane.YES_NO_OPTION);
+        int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "delete", "date & time"), String.format(Messages.getGeneral(6), "Delete", "date & time"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
         }
@@ -603,10 +557,10 @@ public class DashboardController {
             pstmt.execute();
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
         
         String sqlDeleteDateQuery = "DELETE FROM dates WHERE date_id=?";
@@ -619,13 +573,13 @@ public class DashboardController {
             pstmt.execute();
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
             
-        JOptionPane.showMessageDialog(null, "Date & time deleted successfully");
+        JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Date & time", "deleted"));
     }
     
     public static void handleAdminUsersTableUpdate(JTable usersTable) throws SQLException, IOException {
@@ -663,10 +617,10 @@ public class DashboardController {
             }
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
     
@@ -680,8 +634,8 @@ public class DashboardController {
         roleComboBox.setSelectedItem(Df.getValueAt(selectedIndex, 3).toString());
     }
     
-    public static void handleAdminUserUpdate(JTable usersTable, JTextField idField, JTextField aisIdField, JTextField nameField, JComboBox<String> roleComboBox) throws SQLException, IOException {
-        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to update this user?", "Update User", JOptionPane.YES_NO_OPTION);
+    public static void handleAdminUserUpdate(JTable usersTable, JTextField idField, int aisId, String name, JComboBox<String> roleComboBox) throws SQLException, IOException {
+        int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "update", "user"), String.format(Messages.getGeneral(6), "Update", "user"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
         }
@@ -690,17 +644,6 @@ public class DashboardController {
 
         try (Connection conn = Database.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
-
-            String stringAisId = aisIdField.getText();
-            int aisId;
-            try {
-                aisId = Integer.parseInt(stringAisId);
-            } catch(NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "AIS ID must be a number");
-                aisIdField.setText("");
-                aisIdField.requestFocus();
-                return;
-            }
             
             int role;
             String userRole = roleComboBox.getItemAt(roleComboBox.getSelectedIndex());
@@ -717,8 +660,7 @@ public class DashboardController {
                 default:
                     role = 1;
             }
-            
-            String name = nameField.getText();
+           
             int userId = Integer.parseInt(idField.getText());
             
             pstmt.setInt(1, aisId);
@@ -728,15 +670,15 @@ public class DashboardController {
 
             pstmt.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "User successfully updated");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "User", "updated"));
         } catch (SQLIntegrityConstraintViolationException sicve) {
-            JOptionPane.showMessageDialog(null, "AIS ID (" + aisIdField.getText() + ") is already in use");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getValidationError(0), aisId)); 
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
     
@@ -758,10 +700,10 @@ public class DashboardController {
             }
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
         
         if (!datesList.isEmpty()) {
@@ -788,10 +730,10 @@ public class DashboardController {
                 pstmt.executeUpdate();
             } catch (SQLException se) {
                 se.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Database Error. Try again");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
             } catch (Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "There was an error. Try again");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
             }
         }
         
@@ -804,10 +746,10 @@ public class DashboardController {
             pstmt.execute();
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
     
@@ -829,10 +771,10 @@ public class DashboardController {
             }
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
         
         if (!appointmentsList.isEmpty()) {
@@ -859,10 +801,10 @@ public class DashboardController {
                 pstmt.execute();
             } catch (SQLException se) {
                 se.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Database Error. Try again");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
             } catch (Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "There was an error. Try again");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
             }
         }
         
@@ -875,15 +817,15 @@ public class DashboardController {
             pstmt.execute();
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
     
     public static void handleAdminUserDelete(JTable usersTable, JTextField idField, JTextField aisIdField, JTextField nameField, JComboBox<String> roleComboBox) {
-        int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this user?", "Delete User", JOptionPane.YES_NO_OPTION);
+        int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "delete", "user"), String.format(Messages.getGeneral(6), "Delete", "user"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
         }
@@ -909,13 +851,13 @@ public class DashboardController {
             
             pstmt.execute();
             
-            JOptionPane.showMessageDialog(null, "User deleted successfully");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "User", "deleted"));
         } catch (SQLException se) {
             se.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database Error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error. Try again");
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
     }
 }

@@ -23,8 +23,14 @@
  */
 package efficiently.views.dashboard;
 
+import efficiently.config.Messages;
 import efficiently.controllers.DashboardController;
 import efficiently.models.User;
+import efficiently.utils.CorrespondentAppointmentUpdateValidation;
+import efficiently.utils.CorrespondentDateTimeAddValidation;
+import efficiently.utils.CorrespondentDateTimeDeleteValidation;
+import efficiently.utils.ValidationException;
+import efficiently.views.MainLayout;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -539,7 +545,7 @@ public class Correspondent extends javax.swing.JPanel {
     }
     
     public static void setUserName() {
-        userNameLabel.setText("Hello, " + User.getName());
+        userNameLabel.setText(String.format(Messages.getGeneral(3), User.getName()));
     }
     
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -555,7 +561,7 @@ public class Correspondent extends javax.swing.JPanel {
                 User.setLastAction();
             } else {
                 logoutButton.doClick();
-                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
             }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Correspondent.class.getName()).log(Level.SEVERE, null, ex);
@@ -569,7 +575,7 @@ public class Correspondent extends javax.swing.JPanel {
                 User.setLastAction();
             } else {
                 logoutButton.doClick();
-                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
             }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
@@ -584,7 +590,7 @@ public class Correspondent extends javax.swing.JPanel {
                 User.setLastAction();
             } else {
                 logoutButton.doClick();
-                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
             }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
@@ -594,12 +600,29 @@ public class Correspondent extends javax.swing.JPanel {
     private void manageUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageUpdateButtonActionPerformed
         try {
             if (User.isSessionValid(ACCESS_LEVEL)) {
-                DashboardController.handleCorrespondentAppointmentUpdate(appointmentsTable, responseTextArea, closedCheckBox, manageResponseTextArea, manageClosedCheckBox);
-                refresh();
-                User.setLastAction();
+                String response;
+                
+                try {
+                    Object[] values = CorrespondentAppointmentUpdateValidation.validate(manageResponseTextArea);
+                    
+                    response = (String) values[0];
+                } catch (ValidationException ve) {
+                    User.setLastAction();
+                    
+                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
+                    return;
+                }
+                
+                try {
+                    DashboardController.handleCorrespondentAppointmentUpdate(appointmentsTable, responseTextArea, closedCheckBox, response, manageClosedCheckBox);
+                    refresh();
+                    User.setLastAction();
+                } catch (SQLException | IOException ex) {
+                    Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 logoutButton.doClick();
-                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
             }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
@@ -609,9 +632,35 @@ public class Correspondent extends javax.swing.JPanel {
     private void addDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDateTimeButtonActionPerformed
         try {
             if (User.isSessionValid(ACCESS_LEVEL)) {
-                DashboardController.handleCorrespondentDateTimeAdd(addDateTimePicker);
-                DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+                String dateTime;
                 
+                try {
+                    Object[] values = CorrespondentDateTimeAddValidation.validate(addDateTimePicker);
+                    
+                    dateTime = (String) values[0];
+                } catch (ValidationException ve) {
+                    User.setLastAction();
+                    
+                    String veMessage = ve.getMessage();
+                    
+                    if (veMessage.contains("valid date")) {
+                        addDateTimePicker.datePicker.setText("");
+                        addDateTimePicker.datePicker.requestFocus();
+                    } else if (veMessage.contains("valid time")) {
+                        addDateTimePicker.timePicker.setText("");
+                        addDateTimePicker.timePicker.requestFocus();
+                    } else {
+                        addDateTimePicker.datePicker.setText("");
+                        addDateTimePicker.timePicker.setText("");
+                        addDateTimePicker.datePicker.requestFocus();
+                    }
+                  
+                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), veMessage);
+                    return;
+                }
+                
+                DashboardController.handleCorrespondentDateTimeAdd(dateTime);
+                DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
                 addDateTimePicker.datePicker.setText("");
                 addDateTimePicker.timePicker.setText("");
                 addDateTimePicker.datePicker.requestFocus();
@@ -619,7 +668,7 @@ public class Correspondent extends javax.swing.JPanel {
                 User.setLastAction();
             } else {
                 logoutButton.doClick();
-                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
             }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Correspondent.class.getName()).log(Level.SEVERE, null, ex);
@@ -629,6 +678,15 @@ public class Correspondent extends javax.swing.JPanel {
     private void deleteDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDateTimeButtonActionPerformed
         try {
             if (User.isSessionValid(ACCESS_LEVEL)) {
+                try {
+                    CorrespondentDateTimeDeleteValidation.validate(deleteDateTimeComboBox);
+                } catch (ValidationException ve) {
+                    User.setLastAction();
+                    
+                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
+                    return;
+                }
+                
                 DashboardController.handleCorrespondentDateTimeDelete(deleteDateTimeComboBox, deleteDateTimeList);
                 DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
 
@@ -640,7 +698,7 @@ public class Correspondent extends javax.swing.JPanel {
                 User.setLastAction();
             } else {
                 logoutButton.doClick();
-                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
             }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Correspondent.class.getName()).log(Level.SEVERE, null, ex);

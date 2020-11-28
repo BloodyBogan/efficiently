@@ -24,6 +24,8 @@
 package efficiently.views.menu;
 
 import efficiently.controllers.MenuController;
+import efficiently.utils.SignupValidation;
+import efficiently.utils.ValidationException;
 import efficiently.views.MainLayout;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -196,95 +198,26 @@ public class Signup extends javax.swing.JPanel {
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        String stringAisId = aisIdField.getText().trim();        
-        if (stringAisId.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "AIS ID must not be emtpy");
-            aisIdField.setText("");
-            aisIdField.requestFocus();
-            return;
-        }
-        
-        if (String.valueOf(stringAisId).length() > 6) {
-            JOptionPane.showMessageDialog(null, "AIS ID must not be longer than 6 digits");
-            aisIdField.setText("");
-            aisIdField.requestFocus();
-            return;
-        }
-
         int aisId;
+        String name;
+        char[] password;
         
         try {
-            aisId = Integer.parseInt(stringAisId);
-        } catch(NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "AIS ID must be a number");
-            aisIdField.setText("");
-            aisIdField.requestFocus();
+            Object[] values = SignupValidation.validate(aisIdField, nameField, passwordField, confirmPasswordField);
+            
+            aisId = (int) values[0];
+            name = (String) values[1];
+            password = (char[]) values[2];
+        } catch (ValidationException ve) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
             return;
         }
-        
-        String name = nameField.getText().trim();
-        if (name.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Name must not be emtpy");
-            nameField.setText("");
-            nameField.requestFocus();
-            return;
-        }
-                
-        if (String.valueOf(name).length() > 50) {
-            JOptionPane.showMessageDialog(null, "Name must not be longer than 50 characters");
-            nameField.setText("");
-            nameField.requestFocus();
-            return;
-        }
-        
-        char[] password = passwordField.getPassword();
-        String stringPassword = String.valueOf(password).trim();
-        if (stringPassword.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Password must not be emtpy");
-            passwordField.setText("");
-            confirmPasswordField.setText("");
-            passwordField.requestFocus();
-            return;
-        }
-                
-        if (stringPassword.length() < 8) {
-            JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long");
-            passwordField.setText("");
-            confirmPasswordField.setText("");
-            passwordField.requestFocus();
-            return;
-        }
-        
-        if (stringPassword.length() > 60) {
-            JOptionPane.showMessageDialog(null, "Password must not be longer than 60 characters");
-            passwordField.setText("");
-            confirmPasswordField.setText("");
-            passwordField.requestFocus();
-            return;
-        }
-        
-        char[] confirmPassword = confirmPasswordField.getPassword();
-        String stringConfirmPassword = String.valueOf(confirmPassword);
-        if (!stringPassword.equals(stringConfirmPassword)) {
-            JOptionPane.showMessageDialog(null, "Passwords do not match");
-            passwordField.setText("");
-            confirmPasswordField.setText("");
-            passwordField.requestFocus();
-            return;
-        }
-        
+  
         try {
             MenuController.signup(aisId, name, password);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Signup.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        aisIdField.setText("");
-        nameField.setText("");
-        passwordField.setText("");
-        confirmPasswordField.setText("");
-
-        aisIdField.requestFocus();
     }//GEN-LAST:event_submitButtonActionPerformed
 
 

@@ -21,42 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package efficiently;
+package efficiently.utils;
 
-import efficiently.config.Database;
 import efficiently.config.Messages;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.io.IOException;
-import efficiently.controllers.MenuController;
-import efficiently.models.User;
-import efficiently.views.MainLayout;
-import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 /**
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
-public class Main {
-
-    /**
-     * @param args the command line arguments
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
-     */
-    public static void main(String[] args) throws SQLException, IOException {
-        Messages.init();
-        
-        try (Connection conn = Database.getConnection()) {
-            
-            System.out.println(String.format("Connected to database %s "
-                    + "successfully.", conn.getCatalog()));
-            User.logout();
-            MenuController.init();
-        } catch (SQLException se) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(0));
-            System.out.println(se.getMessage());
-        }
-    }
+public class CorrespondentAppointmentUpdateValidation {
+    private static Object[] values;
     
+    public static Object[] validate (JTextArea manageResponseTextArea) throws ValidationException {
+        String response = manageResponseTextArea.getText().trim();        
+        if (response.isEmpty()) {
+            manageResponseTextArea.setText("");
+            manageResponseTextArea.requestFocus();
+            throw new ValidationException(String.format(Messages.getInputValidationError(0), "Response"));
+        }
+        
+        int responseMax = 500;
+        if (response.length() > responseMax) {
+            manageResponseTextArea.setText("");
+            manageResponseTextArea.requestFocus();
+            throw new ValidationException(String.format(Messages.getInputValidationError(4), "Response", responseMax));
+        }
+        
+        values = new Object[] { response };
+        return values;
+    }
 }

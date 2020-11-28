@@ -35,12 +35,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
-public class MainLayout extends javax.swing.JFrame {
+public class MainLayout extends javax.swing.JFrame {    
     private final static GridBagLayout layout = new GridBagLayout();
     
     private static Main menuScreen;
@@ -96,6 +97,7 @@ public class MainLayout extends javax.swing.JFrame {
         DynamicPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("efficiently");
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
         setName("MainLayout"); // NOI18N
@@ -158,6 +160,10 @@ public class MainLayout extends javax.swing.JFrame {
         });
     }
     
+    public static JPanel getJPanel() {
+        return DynamicPanel;
+    }
+    
     public static void showMenuScreen() {
         menuScreen.setVisible(true);
         loginScreen.setVisible(false);
@@ -217,6 +223,6 @@ public class MainLayout extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel DynamicPanel;
+    private static javax.swing.JPanel DynamicPanel;
     // End of variables declaration//GEN-END:variables
 }

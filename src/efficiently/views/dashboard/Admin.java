@@ -23,8 +23,12 @@
  */
 package efficiently.views.dashboard;
 
+import efficiently.config.Messages;
 import efficiently.controllers.DashboardController;
 import efficiently.models.User;
+import efficiently.utils.AdminUserUpdateValidation;
+import efficiently.utils.ValidationException;
+import efficiently.views.MainLayout;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -309,7 +313,7 @@ public class Admin extends javax.swing.JPanel {
     }
     
     public static void setUserName() {
-        userNameLabel.setText("Hello, " + User.getName());
+        userNameLabel.setText(String.format(Messages.getGeneral(3), User.getName()));
     }
     
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -325,7 +329,7 @@ public class Admin extends javax.swing.JPanel {
                 User.setLastAction();
             } else {
                 logoutButton.doClick();
-                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
             }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
@@ -339,7 +343,7 @@ public class Admin extends javax.swing.JPanel {
                 User.setLastAction();
             } else {
                 logoutButton.doClick();
-                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
             }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
@@ -349,12 +353,31 @@ public class Admin extends javax.swing.JPanel {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         try {
             if (User.isSessionValid(ACCESS_LEVEL)) {
-                DashboardController.handleAdminUserUpdate(usersTable, idField, aisIdField, nameField, roleComboBox);
-                refresh();
-                User.setLastAction();
+                int aisId;
+                String name;
+                
+                try {
+                    Object[] values = AdminUserUpdateValidation.validate(aisIdField, nameField);
+                    
+                    aisId = (int) values[0];
+                    name = (String) values[1];
+                } catch (ValidationException ve) {
+                    User.setLastAction();
+                    
+                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
+                    return;
+                }
+                
+                try {
+                    DashboardController.handleAdminUserUpdate(usersTable, idField, aisId, name, roleComboBox);
+                    refresh();
+                    User.setLastAction();
+                } catch (SQLException | IOException ex) {
+                    Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 logoutButton.doClick();
-                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
             }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
@@ -369,7 +392,7 @@ public class Admin extends javax.swing.JPanel {
                 User.setLastAction();
             } else {
                 logoutButton.doClick();
-                JOptionPane.showMessageDialog(null, "Either your session has expired or your account has been deleted");
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
             }
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);

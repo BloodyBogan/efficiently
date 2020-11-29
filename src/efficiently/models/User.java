@@ -27,11 +27,16 @@ import efficiently.config.Database;
 import efficiently.config.Messages;
 import efficiently.views.MainLayout;
 import java.sql.Connection;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -83,7 +88,29 @@ public class User {
     }
     
     public static void setLastAction () {
-        lastAction = LocalDateTime.now();
+        String sqlQuery = "SELECT now() as date_time";
+        
+        lastAction = LocalDateTime.now().minusYears(100);
+        
+        try (Connection conn = Database.getConnection();
+            Statement stmt  = conn.createStatement();
+            ResultSet rs    = stmt.executeQuery(sqlQuery)) {
+           
+            while (rs.next()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                lastAction = LocalDateTime.parse(rs.getString("date_time"), formatter);  
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            System.out.println(ex.getMessage());
+        } catch (DateTimeParseException | NullPointerException dtpe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            System.out.println(e.getMessage());
+        }
     }
     
     private static boolean doesUserExist () throws SQLException, IOException {
@@ -143,7 +170,29 @@ public class User {
     }
     
     public static boolean isSessionValid (String ACCESS_LEVEL) throws SQLException, IOException {
-        LocalDateTime t = LocalDateTime.now().minusMinutes(30);
+        String sqlQuery = "SELECT now() as date_time";
+        
+        LocalDateTime time = LocalDateTime.now().minusYears(100);
+        
+        try (Connection conn = Database.getConnection();
+            Statement stmt  = conn.createStatement();
+            ResultSet rs    = stmt.executeQuery(sqlQuery)) {
+           
+            while (rs.next()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                time = LocalDateTime.parse(rs.getString("date_time"), formatter);  
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+        } catch (DateTimeParseException | NullPointerException dtpe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+        }
+        
+        LocalDateTime t = time.minusMinutes(30);
         setRoleFromDatabase();
         return t.isBefore(lastAction) && doesUserExist() && (role.equals(roleFromDatabase)) && (ACCESS_LEVEL.equals(role)) && (ACCESS_LEVEL.equals(roleFromDatabase)) && ((userId != -1) && (aisId != -1) && (!name.isEmpty()) && (!role.isEmpty()) && (!roleFromDatabase.isEmpty()));
     }

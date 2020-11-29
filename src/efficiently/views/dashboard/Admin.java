@@ -84,45 +84,45 @@ public class Admin extends javax.swing.JPanel {
         Container.setMinimumSize(new java.awt.Dimension(1280, 720));
         Container.setName("Container"); // NOI18N
 
-        title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
         title.setText("Admin Dashboard");
+        title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
         title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         updateUserPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Update User", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 24))); // NOI18N
 
-        idLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         idLabel.setText("ID");
+        idLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         idField.setEditable(false);
         idField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         idField.setFocusable(false);
 
-        aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         aisIdLabel.setText("AIS ID");
+        aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        nameLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         nameLabel.setText("Name");
+        nameLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         nameField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        roleLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         roleLabel.setText("Role");
+        roleLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
         roleComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "student", "correspondent", "admin" }));
 
-        updateButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         updateButton.setText("Update");
+        updateButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);
             }
         });
 
-        deleteButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         deleteButton.setText("Delete");
+        deleteButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
@@ -211,25 +211,25 @@ public class Admin extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(usersTable);
 
-        logoutButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         logoutButton.setText("Log Out");
+        logoutButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoutButtonActionPerformed(evt);
             }
         });
 
-        refreshButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         refreshButton.setText("Refresh");
+        refreshButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshButtonActionPerformed(evt);
             }
         });
 
-        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         userNameLabel.setEnabled(false);
         userNameLabel.setFocusable(false);
+        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout ContainerLayout = new javax.swing.GroupLayout(Container);
         Container.setLayout(ContainerLayout);
@@ -304,10 +304,10 @@ public class Admin extends javax.swing.JPanel {
     }
     
     private static void resetRest() {
+        roleComboBox.setSelectedIndex(0);
         idField.setText("");
         aisIdField.setText("");
         nameField.setText("");
-        roleComboBox.setSelectedItem(0);
 
         aisIdField.requestFocus();
     }

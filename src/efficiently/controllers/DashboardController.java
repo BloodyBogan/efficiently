@@ -33,7 +33,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.io.IOException;
 import efficiently.models.User;
+import efficiently.utils.ValidationException;
 import efficiently.views.MainLayout;
+import efficiently.views.dashboard.Admin;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,14 +131,43 @@ public class DashboardController {
     }
     
     public static void handleStudentBookAppointment(String subject, String message, JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {   
+        int userId = User.getUserId();
+        
+        String sqlSelectQuery = "SELECT COUNT(*) as appointment_count FROM appointments, dates WHERE (appointments.user=? AND appointments.isClosed=0 AND dates.date_id=appointments.date AND dates.date>=NOW() AND dates.isTaken<>0)";
+        
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sqlSelectQuery)) {
+
+            pstmt.setInt(1, userId);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            int appointmentCount = 0;
+            while(rs.next()) {
+                appointmentCount = rs.getInt("appointment_count");
+            }
+            
+            int maxActiveAppointmentsCount = 2;
+            if (appointmentCount >= maxActiveAppointmentsCount) {
+                throw new ValidationException(Messages.getError(5));
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            return;
+        } catch (ValidationException ve) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
+            return;
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            return;
+        }
+        
         int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "book", "appointment"), String.format(Messages.getGeneral(6), "Book", "appointment"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
         }
-        
-        String appointmentSqlQuery = "INSERT INTO appointments (user, subject, message, date) VALUES (?, ?, ?, ?)";
-        
-        int userId = User.getUserId();
         
         int comboBoxIndex = dateTimeComboBox.getSelectedIndex();
             
@@ -144,8 +175,10 @@ public class DashboardController {
 
         int dateId = Integer.parseInt((String) model.get(comboBoxIndex));
         
+        String sqlAppointmentQuery = "INSERT INTO appointments (user, subject, message, date) VALUES (?, ?, ?, ?)";
+        
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(appointmentSqlQuery)) {
+                PreparedStatement pstmt = conn.prepareStatement(sqlAppointmentQuery)) {
 
             pstmt.setInt(1, userId);
             pstmt.setString(2, subject);
@@ -163,10 +196,10 @@ public class DashboardController {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
         
-        String dateSqlQuery = "UPDATE dates SET isTaken=1 WHERE date_id=?";
+        String sqlDateQuery = "UPDATE dates SET isTaken=1 WHERE date_id=?";
 
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(dateSqlQuery)) {
+                PreparedStatement pstmt = conn.prepareStatement(sqlDateQuery)) {
             
             pstmt.setInt(1, dateId);
 
@@ -832,7 +865,27 @@ public class DashboardController {
         
         int userId = Integer.parseInt(idField.getText());
         
-        String userRole = roleComboBox.getItemAt(roleComboBox.getSelectedIndex());
+        String userRole = null;
+        String sqlSelectQuery = "SELECT user_role.role FROM user_role, users WHERE (users.user_id=? AND user_role.role_id=users.role)";
+        
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sqlSelectQuery)) {
+            
+            pstmt.setInt(1, userId);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()) {
+                userRole = rs.getString("role");
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+        }
+        
         switch (userRole) {
             case "student":
                 handleAdminStudentDelete(userId);
@@ -842,10 +895,10 @@ public class DashboardController {
                 break;
         }
         
-        String sqlQuery = "DELETE FROM users WHERE user_id=?";
+        String sqlDeleteQuery = "DELETE FROM users WHERE user_id=?";
         
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+                PreparedStatement pstmt = conn.prepareStatement(sqlDeleteQuery)) {
             
             pstmt.setInt(1, userId);
             

@@ -107,7 +107,6 @@ public class MenuController {
                 throw new ValidationException(Messages.getValidationError(1));
             }
             
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(2));
             switch(User.getRole()) {
                 case "student":
                     MainLayout.showStudentDashboard();
@@ -128,6 +127,8 @@ public class MenuController {
                     JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
                     DashboardController.logout();
             }
+            
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(2));
         } catch (SQLException se) {
             se.printStackTrace();
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));

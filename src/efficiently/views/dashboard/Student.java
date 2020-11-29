@@ -343,17 +343,18 @@ public class Student extends javax.swing.JPanel {
     }
     
     private static void resetRest() {
+        dateTimeComboBox.setSelectedIndex(0);
+        
         subjectField.setText("");
         messageTextArea.setText("");
-        dateTimeComboBox.setSelectedIndex(0);
-
+        
         subjectField.requestFocus();
     }
     
     public static void setUserName() {
         userNameLabel.setText(String.format(Messages.getGeneral(3), User.getName()));
     }
-    
+
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         DashboardController.logout();
         resetTable();

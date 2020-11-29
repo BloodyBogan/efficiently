@@ -103,10 +103,10 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="title">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Admin Dashboard"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="35" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Admin Dashboard"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
           </Properties>
         </Component>
@@ -182,10 +182,10 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="idLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="ID"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="17" style="0"/>
                 </Property>
+                <Property name="text" type="java.lang.String" value="ID"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="idField">
@@ -202,10 +202,10 @@
             </Component>
             <Component class="javax.swing.JLabel" name="aisIdLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="AIS ID"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="17" style="0"/>
                 </Property>
+                <Property name="text" type="java.lang.String" value="AIS ID"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="aisIdField">
@@ -220,10 +220,10 @@
             </Component>
             <Component class="javax.swing.JLabel" name="nameLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Name"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="17" style="0"/>
                 </Property>
+                <Property name="text" type="java.lang.String" value="Name"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="nameField">
@@ -238,23 +238,23 @@
             </Component>
             <Component class="javax.swing.JLabel" name="roleLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Role"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="17" style="0"/>
                 </Property>
+                <Property name="text" type="java.lang.String" value="Role"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="roleComboBox">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Open Sans" size="17" style="0"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
                     <StringItem index="0" value="student"/>
                     <StringItem index="1" value="correspondent"/>
                     <StringItem index="2" value="admin"/>
                   </StringArray>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Open Sans" size="17" style="0"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -264,10 +264,10 @@
             </Component>
             <Component class="javax.swing.JButton" name="updateButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Update"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="17" style="1"/>
                 </Property>
+                <Property name="text" type="java.lang.String" value="Update"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateButtonActionPerformed"/>
@@ -275,10 +275,10 @@
             </Component>
             <Component class="javax.swing.JButton" name="deleteButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Delete"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="17" style="1"/>
                 </Property>
+                <Property name="text" type="java.lang.String" value="Delete"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteButtonActionPerformed"/>
@@ -346,10 +346,10 @@
         </Container>
         <Component class="javax.swing.JButton" name="logoutButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Log Out"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="17" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Log Out"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
@@ -360,10 +360,10 @@
         </Component>
         <Component class="javax.swing.JButton" name="refreshButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Refresh"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="17" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Refresh"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshButtonActionPerformed"/>
@@ -371,11 +371,11 @@
         </Component>
         <Component class="javax.swing.JLabel" name="userNameLabel">
           <Properties>
-            <Property name="enabled" type="boolean" value="false"/>
-            <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Open Sans" size="14" style="0"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>

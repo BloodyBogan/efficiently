@@ -50,7 +50,7 @@ public class Messages {
     }
     
     private static void setGeneral () {
-        general.add("Unable to connect to the database!");              // 0
+        general.add("Unable to connect to the database");               // 0
         general.add("Registration successful");                         // 1
         general.add("Login successful");                                // 2
         general.add("Hello, %s");                                       // 3
@@ -70,10 +70,11 @@ public class Messages {
         errors.add("Your session has expired");                                                     // 2
         errors.add("You can't book an appointment now as there are no available dates & times");    // 3
         errors.add("You can't delete the date & time now as you haven't set any yet");              // 4
+        errors.add("You can't book more than 2 active appointments");                               // 5
     }
     
     private static void setValidationErrors () {
-        validationErrors.add("AIS ID (%d) is already registered");          // 0
+        validationErrors.add("AIS ID (%d) is already in use");              // 0
         validationErrors.add("Incorrect credentials");                      // 1
         validationErrors.add("You already have added this date & time");    // 2
     }

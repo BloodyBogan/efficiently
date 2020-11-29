@@ -83,7 +83,7 @@ CREATE DATABASE efficiently;
 ```
 
 ## Database Architecture Diagram  
-![Efficiently database architecture diagram](https://imgur.com/qRqzjAB.jpeg)  
+![Efficiently database architecture diagram](https://imgur.com/hNPXd1c.png)  
 
 ## App Info
 

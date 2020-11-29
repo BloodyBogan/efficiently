@@ -131,10 +131,8 @@ public class User {
                 valid = true;
             }
         } catch (SQLException se) {
-            se.printStackTrace();
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
         } catch (Exception e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
         }
         

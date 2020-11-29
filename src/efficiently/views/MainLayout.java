@@ -23,6 +23,7 @@
  */
 package efficiently.views;
 
+import efficiently.config.Messages;
 import efficiently.views.dashboard.Admin;
 import efficiently.views.dashboard.Correspondent;
 import efficiently.views.dashboard.Student;
@@ -31,6 +32,7 @@ import efficiently.views.menu.Login;
 import efficiently.views.menu.Main;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -133,14 +135,18 @@ public class MainLayout extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException cnfe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, cnfe);
+        } catch (InstantiationException ie) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ie);
+        } catch (IllegalAccessException iae) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, iae);
+        } catch (javax.swing.UnsupportedLookAndFeelException ulafe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ulafe);
         }
         //</editor-fold>
 

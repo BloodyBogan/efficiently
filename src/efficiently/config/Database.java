@@ -33,6 +33,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import javax.swing.JOptionPane;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.properties.EncryptableProperties;
 
 /**
  *
@@ -53,14 +55,17 @@ public class Database {
             DATABASE_PROPERTIES_PATH = CURRENT_DIRECTORY + "/resources/database.properties";
         }
         
+        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+        encryptor.setPassword("196048a3d48f928e02b156f9a74dd3f58b371da2359f2e063b33ae686d82b191"); // could be got from web, env variable...
+        
         Connection conn = null;
         try (FileInputStream f = new FileInputStream(DATABASE_PROPERTIES_PATH)) {
-            Properties pros = new Properties();
-            pros.load(f);
+            Properties props = new EncryptableProperties(encryptor);
+            props.load(f);
 
-            String url = pros.getProperty("url");
-            String user = pros.getProperty("user");
-            String password = pros.getProperty("password");
+            String url = props.getProperty("url");
+            String user = props.getProperty("user");
+            String password = props.getProperty("password");
             
             conn = DriverManager.getConnection(url, user, password);
         } catch (FileNotFoundException fnfe) {
@@ -68,6 +73,7 @@ public class Database {
             System.exit(0); 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
         }
         
         return conn;

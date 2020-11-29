@@ -4,7 +4,7 @@
 
 ## Usage
 
-Fill in your database.properties file based on the database.properties.example file, be sure to include all necessary libraries & run migration.sql in your efficiently database
+Fill in your database.properties file based on the database.properties.example file and the Jasypt Quick Start section below, be sure to include all necessary libraries & run migration.sql in your efficiently database
 
 ```
 # In NetBeans
@@ -35,6 +35,7 @@ java -jar "efficiently.jar"
 [BCrypt](https://github.com/patrickfav/bcrypt/releases/tag/v0.9.0)  
 [Bytes](https://github.com/patrickfav/bytes-java/releases/tag/v1.4.0)  
 [LGoodDatePicker](https://github.com/LGoodDatePicker/LGoodDatePicker/releases/tag/v11.1.0-Standard)  
+[Jasypt](http://www.jasypt.org/download.html)  
 [Open Sans font](https://fonts.google.com/specimen/Open+Sans)  
 
 ## LGoodDatePicker Quick Start
@@ -80,6 +81,23 @@ mysql -uroot -proot
 
 # Create database
 CREATE DATABASE efficiently;
+```
+
+## Jasypt Quick Start
+
+```
+# Encrypt the values in your database.properties file
+cd jasypt/bin
+
+chmod +x ./encrypt.sh
+
+./encrypt.sh input="YOUR_VALUE" password="YOUR_PASSWORD"
+
+# Encrypted values should follow this syntax
+VAR=ENC(YOUR_ENCRYPTED_VALUE)
+
+# Put the password you used in the previous step into Database.java
+encryptor.setPassword("YOUR_PASSWORD");
 ```
 
 ## Database Architecture Diagram  

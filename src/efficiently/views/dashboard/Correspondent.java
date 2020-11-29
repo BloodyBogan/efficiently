@@ -26,6 +26,7 @@ package efficiently.views.dashboard;
 import efficiently.config.Messages;
 import efficiently.controllers.DashboardController;
 import efficiently.models.User;
+import efficiently.utils.CorrespondentAppointmentDeleteValidation;
 import efficiently.utils.CorrespondentAppointmentUpdateValidation;
 import efficiently.utils.CorrespondentDateTimeAddValidation;
 import efficiently.utils.CorrespondentDateTimeDeleteValidation;
@@ -585,9 +586,22 @@ public class Correspondent extends javax.swing.JPanel {
     private void manageDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageDeleteButtonActionPerformed
         try {
             if (User.isSessionValid(ACCESS_LEVEL)) {
-                DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable, manageTabbedPane, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, closedCheckBox, manageResponseTextArea, manageClosedCheckBox);
-                refresh();
-                User.setLastAction();
+                try {
+                    CorrespondentAppointmentDeleteValidation.validate(appointmentsTable, manageResponseTextArea, manageClosedCheckBox);
+                } catch (ValidationException ve) {
+                    User.setLastAction();
+                    
+                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
+                    return;
+                }
+                
+                try {
+                    DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable, manageTabbedPane, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, closedCheckBox, manageResponseTextArea, manageClosedCheckBox);
+                    refresh();
+                    User.setLastAction();
+                } catch (SQLException | IOException ex) {
+                    Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 logoutButton.doClick();
                 JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
@@ -603,7 +617,7 @@ public class Correspondent extends javax.swing.JPanel {
                 String response;
                 
                 try {
-                    Object[] values = CorrespondentAppointmentUpdateValidation.validate(manageResponseTextArea);
+                    Object[] values = CorrespondentAppointmentUpdateValidation.validate(appointmentsTable, manageResponseTextArea, manageClosedCheckBox);
                     
                     response = (String) values[0];
                 } catch (ValidationException ve) {

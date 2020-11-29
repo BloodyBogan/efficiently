@@ -32,33 +32,14 @@ import javax.swing.JTextArea;
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
-public class CorrespondentAppointmentUpdateValidation {
-    private static Object[] values;
-    
-    public static Object[] validate (JTable appointmentsTable, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) throws ValidationException {
+public class CorrespondentAppointmentDeleteValidation {
+    public static void validate (JTable appointmentsTable, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) throws ValidationException {
         boolean isRowNotSelected = appointmentsTable.getSelectionModel().isSelectionEmpty();
         if (isRowNotSelected) {
             manageResponseTextArea.setText("");
             manageClosedCheckBox.setSelected(false);
             manageResponseTextArea.requestFocus();
-            throw new ValidationException(String.format(Messages.getInputValidationError(8), "update", "appointment"));
+            throw new ValidationException(String.format(Messages.getInputValidationError(8), "delete", "appointment"));
         }
-        
-        String response = manageResponseTextArea.getText().trim();        
-        if (response.isEmpty()) {
-            manageResponseTextArea.setText("");
-            manageResponseTextArea.requestFocus();
-            throw new ValidationException(String.format(Messages.getInputValidationError(0), "Response"));
-        }
-        
-        int responseMax = 500;
-        if (response.length() > responseMax) {
-            manageResponseTextArea.setText("");
-            manageResponseTextArea.requestFocus();
-            throw new ValidationException(String.format(Messages.getInputValidationError(4), "Response", responseMax));
-        }
-        
-        values = new Object[] { response };
-        return values;
     }
 }

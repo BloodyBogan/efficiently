@@ -88,6 +88,7 @@ public class Messages {
         inputValidationErrors.add("Passwords do not match");                        // 5 
         inputValidationErrors.add("Please enter a valid %s");                       // 6 
         inputValidationErrors.add("You can't travel back in time");                 // 7
+        inputValidationErrors.add("You must select a row to %s %s");                // 8
     }
     
     public static String getGeneral (int index) {

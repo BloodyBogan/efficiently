@@ -24,6 +24,7 @@
 package efficiently.utils;
 
 import efficiently.config.Messages;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 /**
@@ -33,7 +34,17 @@ import javax.swing.JTextField;
 public class AdminUserUpdateValidation {
     private static Object[] values;
     
-    public static Object[] validate (JTextField aisIdField, JTextField nameField) throws ValidationException {
+    public static Object[] validate (JTextField idField, JTextField aisIdField, JTextField nameField, JComboBox<String> roleComboBox) throws ValidationException {
+        String id = idField.getText().trim();
+        if (id.isEmpty()) {
+            idField.setText("");
+            aisIdField.setText("");
+            nameField.setText("");
+            roleComboBox.setSelectedIndex(0);
+            aisIdField.requestFocus();
+            throw new ValidationException(String.format(Messages.getInputValidationError(8), "update", "user"));
+        }
+        
         String stringAisId = aisIdField.getText().trim();        
         if (stringAisId.isEmpty()) {
             aisIdField.setText("");

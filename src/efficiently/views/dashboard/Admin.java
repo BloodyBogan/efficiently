@@ -26,6 +26,7 @@ package efficiently.views.dashboard;
 import efficiently.config.Messages;
 import efficiently.controllers.DashboardController;
 import efficiently.models.User;
+import efficiently.utils.AdminUserDeleteValidation;
 import efficiently.utils.AdminUserUpdateValidation;
 import efficiently.utils.ValidationException;
 import efficiently.views.MainLayout;
@@ -357,7 +358,7 @@ public class Admin extends javax.swing.JPanel {
                 String name;
                 
                 try {
-                    Object[] values = AdminUserUpdateValidation.validate(aisIdField, nameField);
+                    Object[] values = AdminUserUpdateValidation.validate(idField, aisIdField, nameField, roleComboBox);
                     
                     aisId = (int) values[0];
                     name = (String) values[1];
@@ -387,9 +388,22 @@ public class Admin extends javax.swing.JPanel {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
             if (User.isSessionValid(ACCESS_LEVEL)) {
-                DashboardController.handleAdminUserDelete(usersTable, idField, aisIdField, nameField, roleComboBox);
-                refresh();
-                User.setLastAction();
+                try {
+                    AdminUserDeleteValidation.validate(idField, aisIdField, nameField, roleComboBox);
+                } catch (ValidationException ve) {
+                    User.setLastAction();
+                    
+                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
+                    return;
+                }
+                
+                try {
+                    DashboardController.handleAdminUserDelete(usersTable, idField, aisIdField, nameField, roleComboBox);
+                    refresh();
+                    User.setLastAction();
+                } catch (SQLException | IOException ex) {
+                    Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 logoutButton.doClick();
                 JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));

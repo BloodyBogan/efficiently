@@ -24,12 +24,8 @@
 package efficiently.utils;
 
 import efficiently.config.Messages;
-import efficiently.views.MainLayout;
 import efficiently.views.dashboard.Student;
-import java.io.IOException;
-import java.sql.SQLException;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -44,34 +40,43 @@ public class StudentBookAppointmentValidation {
         String subject = subjectField.getText().trim();        
         if (subject.isEmpty()) {
             subjectField.setText("");
+            
             subjectField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(0), "Subject"));
         }
         
         int subjectMax = 255;
         if (subject.length() > subjectMax) {
             subjectField.setText("");
+            
             subjectField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(4), "Subject", subjectMax));
         }
 
         String message = messageTextArea.getText().trim();        
         if (message.isEmpty()) {
             messageTextArea.setText("");
+            
             messageTextArea.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(0), "Message"));
         }
         
         int messageMax = 500;
         if (message.length() > messageMax) {
             messageTextArea.setText("");
+            
             messageTextArea.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(4), "Message", messageMax));
         }
         
         String comboBoxItem = dateTimeComboBox.getSelectedItem().toString();
         if (comboBoxItem.equals(Messages.getGeneral(4))) {
-            Student.refresh();          
+            Student.refresh();       
+            
             throw new ValidationException(Messages.getError(3));
         }
         

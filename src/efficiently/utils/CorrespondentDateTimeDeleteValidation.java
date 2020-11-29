@@ -31,7 +31,6 @@ import javax.swing.JComboBox;
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
 public class CorrespondentDateTimeDeleteValidation {
-    
     public static void validate (JComboBox<String> deleteDateTimeComboBox) throws ValidationException {
         String comboBoxItem = deleteDateTimeComboBox.getSelectedItem().toString();
         if (comboBoxItem.equals(Messages.getGeneral(8))) {

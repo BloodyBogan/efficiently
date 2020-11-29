@@ -39,12 +39,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Student extends javax.swing.JPanel {
     private final static String ACCESS_LEVEL = "student";
+    
     /**
      * Creates new form Student
      */
     @SuppressWarnings("unchecked")
     public Student() {
         initComponents();
+        
         dateTimeList.setModel(new DefaultListModel());
         dateTimeList.setVisible(false);
     }
@@ -319,16 +321,21 @@ public class Student extends javax.swing.JPanel {
 
     public static void refresh() {
         DashboardController.handleStudentAppointmentsTableUpdate(appointmentsTable);
+        
         appointmentsTable.clearSelection();
+        
         DashboardController.handleStudentAppointmentsDatesUpdate(dateTimeComboBox, dateTimeList);
         DashboardController.handleStudentQueueUpdate(queueLabel);
+        
         resetRest();
     }
     
     private static void resetTable() {
         appointmentsTable.clearSelection();
+        
         DefaultTableModel model = (DefaultTableModel) appointmentsTable.getModel();
         model.setRowCount(0);
+        
         appointmentsTable.revalidate();
     }
     
@@ -347,16 +354,20 @@ public class Student extends javax.swing.JPanel {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         DashboardController.logout();
+        
         resetTable();
+        
         resetRest();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             refresh();
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
@@ -379,10 +390,13 @@ public class Student extends javax.swing.JPanel {
             }
             
             DashboardController.handleStudentBookAppointment(subject, message, dateTimeComboBox, dateTimeList);
+            
             refresh();
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_bookNowButtonActionPerformed
@@ -390,13 +404,14 @@ public class Student extends javax.swing.JPanel {
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
         if (User.isSessionValid(ACCESS_LEVEL)) {
             DashboardController.handleStudentAppointmentsTableRowClick(appointmentsTable);
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_appointmentsTableMouseClicked
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;

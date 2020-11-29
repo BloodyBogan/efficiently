@@ -89,10 +89,9 @@ public class User {
         String sqlRetrieveDateTime = "SELECT now() as date_time";
         
         lastAction = LocalDateTime.now().minusYears(100);
-        
         try (Connection conn = Database.getConnection();
-            Statement stmt  = conn.createStatement();
-            ResultSet rs    = stmt.executeQuery(sqlRetrieveDateTime)) {
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sqlRetrieveDateTime)) {
            
             while (rs.next()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -113,7 +112,6 @@ public class User {
         String sqlRetrieveAisId = "SELECT ais_id FROM users WHERE user_id=?";
         
         boolean valid = false;
-        
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveAisId)) {
            
@@ -135,7 +133,7 @@ public class User {
     
     private static String setRoleFromDatabase () {
         String sqlRetrieveUserRole = "SELECT user_role.role FROM user_role, users WHERE (users.user_id=? AND user_role.role_id=users.role)";
-        
+
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveUserRole)) {
            
@@ -166,10 +164,9 @@ public class User {
         String sqlRetrieveDateTime = "SELECT now() as date_time";
         
         LocalDateTime time = LocalDateTime.now().minusYears(100);
-        
         try (Connection conn = Database.getConnection();
-            Statement stmt  = conn.createStatement();
-            ResultSet rs    = stmt.executeQuery(sqlRetrieveDateTime)) {
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sqlRetrieveDateTime)) {
            
             while (rs.next()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -186,6 +183,7 @@ public class User {
         }
         
         LocalDateTime t = time.minusMinutes(30);
+        
         setRoleFromDatabase();
         
         return t.isBefore(lastAction) && doesUserExist() && (role.equals(roleFromDatabase)) && (ACCESS_LEVEL.equals(role)) && (ACCESS_LEVEL.equals(roleFromDatabase)) && ((userId != -1) && (aisId != -1) && (!name.isEmpty()) && (!role.isEmpty()) && (!roleFromDatabase.isEmpty()));
@@ -194,9 +192,11 @@ public class User {
     public static void logout() {
         userId = -1;
         aisId = -1;
+        
         name = "";
         role = "";
         roleFromDatabase = "";
+        
         lastAction = LocalDateTime.now().minusYears(100);
     }
 }

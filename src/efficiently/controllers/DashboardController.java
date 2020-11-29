@@ -56,24 +56,23 @@ import javax.swing.table.DefaultTableModel;
 public class DashboardController {
     public static void logout() {
         User.logout();
+        
         MainLayout.showMenuScreen();
     }
     
     public static void handleStudentAppointmentsTableUpdate(JTable appointmentsTable) {
-        String sqlQuery = "SELECT appointments.subject, appointments.message, appointments.response, dates.date, users.name, appointments.isClosed FROM appointments, dates, users WHERE (appointments.user=? AND appointments.date=dates.date_id AND users.user_id=dates.user) ORDER BY date ASC";
-        
-        int userId = User.getUserId();
-        
-        int c;
-        
+        String sqlRetrieveAppointments = "SELECT appointments.subject, appointments.message, appointments.response, dates.date, users.name, appointments.isClosed FROM appointments, dates, users WHERE (appointments.user=? AND appointments.date=dates.date_id AND users.user_id=dates.user) ORDER BY date ASC";
         try (Connection conn = Database.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveAppointments)) {
             
+            int userId = User.getUserId();
+       
             pstmt.setInt(1, userId);
             
             ResultSet rs = pstmt.executeQuery();
-            
             ResultSetMetaData rsmd = rs.getMetaData();
+            
+            int c;
             c = rsmd.getColumnCount();
             
             DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
@@ -132,16 +131,15 @@ public class DashboardController {
     public static void handleStudentBookAppointment(String subject, String message, JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {   
         int userId = User.getUserId();
         
-        String sqlSelectQuery = "SELECT COUNT(*) as appointment_count FROM appointments, dates WHERE (appointments.user=? AND appointments.isClosed=0 AND dates.date_id=appointments.date AND dates.date>=NOW() AND dates.isTaken<>0)";
-        
+        String sqlRetrieveAppointmentsCount = "SELECT COUNT(*) as appointment_count FROM appointments, dates WHERE (appointments.user=? AND appointments.isClosed=0 AND dates.date_id=appointments.date AND dates.date>=NOW() AND dates.isTaken<>0)";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlSelectQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveAppointmentsCount)) {
 
             pstmt.setInt(1, userId);
             
-            ResultSet rs = pstmt.executeQuery();
-            
             int appointmentCount = 0;
+            
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
                 appointmentCount = rs.getInt("appointment_count");
             }
@@ -172,13 +170,11 @@ public class DashboardController {
         int comboBoxIndex = dateTimeComboBox.getSelectedIndex();
             
         DefaultListModel model = (DefaultListModel)dateTimeList.getModel();
-
         int dateId = Integer.parseInt((String) model.get(comboBoxIndex));
         
-        String sqlAppointmentQuery = "INSERT INTO appointments (user, subject, message, date) VALUES (?, ?, ?, ?)";
-        
+        String sqlInsertAppointment = "INSERT INTO appointments (user, subject, message, date) VALUES (?, ?, ?, ?)";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlAppointmentQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlInsertAppointment)) {
 
             pstmt.setInt(1, userId);
             pstmt.setString(2, subject);
@@ -190,16 +186,19 @@ public class DashboardController {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Appointment", "booked"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (IOException ioe) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
-        String sqlDateQuery = "UPDATE dates SET isTaken=1 WHERE date_id=?";
+        String sqlUpdateDate = "UPDATE dates SET isTaken=1 WHERE date_id=?";
 
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlDateQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlUpdateDate)) {
             
             pstmt.setInt(1, dateId);
 
@@ -215,22 +214,22 @@ public class DashboardController {
     
     @SuppressWarnings("unchecked")
     public static void handleStudentAppointmentsDatesUpdate(JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {
-        String sqlQuery = "SELECT dates.date_id, dates.date, users.name FROM dates, users WHERE (dates.date>=NOW() AND dates.isTaken=0 AND dates.user=users.user_id) ORDER BY dates.date ASC";
+        dateTimeComboBox.removeAllItems();
         
         DefaultListModel model = (DefaultListModel)dateTimeList.getModel();
-        
-        dateTimeComboBox.removeAllItems();
         model.removeAllElements();
         
+        String sqlRetrieveDatesAndNames = "SELECT dates.date_id, dates.date, users.name FROM dates, users WHERE (dates.date>=NOW() AND dates.isTaken=0 AND dates.user=users.user_id) ORDER BY dates.date ASC";
         try (Connection conn = Database.getConnection();
              Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sqlQuery)) {
+             ResultSet rs    = stmt.executeQuery(sqlRetrieveDatesAndNames)) {
 
             if (rs.next() == false) {
-                dateTimeComboBox.addItem("There are no available dates & times");
+                dateTimeComboBox.addItem(Messages.getGeneral(4));
             } else {
                 do {
                     dateTimeComboBox.addItem(rs.getString("date") + " - " + rs.getString("name"));
+                    
                     model.addElement(String.valueOf(rs.getInt("date_id")));
                 } while(rs.next());
             }
@@ -244,19 +243,17 @@ public class DashboardController {
     }
     
     public static void handleStudentQueueUpdate(JLabel queueLabel) {
-        String usersAppointmentQuery = "SELECT dates.date_id, dates.user FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date >= NOW() AND dates.date_id=appointments.date AND appointments.user=? AND appointments.isClosed=0) ORDER BY dates.date ASC LIMIT 1";
-        
         int dateId = 0;
         int correspondentUserId = 0;
         int userId = User.getUserId();
         
+        String sqlRetrieveDate = "SELECT dates.date_id, dates.user FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date >= NOW() AND dates.date_id=appointments.date AND appointments.user=? AND appointments.isClosed=0) ORDER BY dates.date ASC LIMIT 1";
         try (Connection conn = Database.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(usersAppointmentQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveDate)) {
             
             pstmt.setInt(1, userId);
             
             ResultSet rs = pstmt.executeQuery();
-           
             if (rs.next() == false) {
                 queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>" + Messages.getGeneral(9) + "</p></body></html>");
                 return;
@@ -268,14 +265,16 @@ public class DashboardController {
             }
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (IOException ioe) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         String sqlCountQuery = "SELECT COUNT(*) as total FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date>=NOW() AND dates.date<=(SELECT date FROM dates WHERE date_id=?) AND dates.user=? AND appointments.date=dates.date_id AND appointments.user<>? AND appointments.isClosed=0)";
-        
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sqlCountQuery)) {
             
@@ -307,20 +306,18 @@ public class DashboardController {
     } 
     
     public static void handleCorrespondentAppointmentsTableUpdate(JTable appointmentsTable) {
-        String sqlQuery = "SELECT appointments.appointment_id, appointments.subject, appointments.message, appointments.response, dates.date, appointments.isClosed, users.ais_id, users.name FROM appointments, dates, users WHERE (dates.user=? AND appointments.date=dates.date_id AND appointments.user=users.user_id) ORDER BY dates.date ASC";
-        
-        int userId = User.getUserId();
-        
-        int c;
-        
+        String sqlRetrieveAppointments = "SELECT appointments.appointment_id, appointments.subject, appointments.message, appointments.response, dates.date, appointments.isClosed, users.ais_id, users.name FROM appointments, dates, users WHERE (dates.user=? AND appointments.date=dates.date_id AND appointments.user=users.user_id) ORDER BY dates.date ASC";    
         try (Connection conn = Database.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveAppointments)) {
+            
+            int userId = User.getUserId();
             
             pstmt.setInt(1, userId);
             
             ResultSet rs = pstmt.executeQuery();
-            
             ResultSetMetaData rsmd = rs.getMetaData();
+            
+            int c;
             c = rsmd.getColumnCount();
             
             DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
@@ -365,40 +362,47 @@ public class DashboardController {
     
     public static void handleCorrespondentTableRowClick(JTable appointmentsTable, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel dateTimeLabel, JCheckBox closedCheckBox, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) {
         DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
+        
         int selectedIndex = appointmentsTable.getSelectedRow();
         
         boolean isSelected;
         switch (Df.getValueAt(selectedIndex, 7).toString()) {
             case "Yes":
                 isSelected = true;
+                
                 break;
             case "No":
                 isSelected = false;
+                
                 break;
             default:
                 isSelected = false;
         }
         
-        String response = Df.getValueAt(selectedIndex, 5).toString();
-        
         nameField.setText(Df.getValueAt(selectedIndex, 1).toString());
         aisIdField.setText(Df.getValueAt(selectedIndex, 2).toString());
         subjectField.setText(Df.getValueAt(selectedIndex, 3).toString());
         messageTextArea.setText(Df.getValueAt(selectedIndex, 4).toString());
+        
+        String response = Df.getValueAt(selectedIndex, 5).toString();
         responseTextArea.setText(response);
+        
         dateTimeLabel.setText(Df.getValueAt(selectedIndex, 6).toString());
+        
         closedCheckBox.setSelected(isSelected);
         
         String manageResponse;
         switch (response) {
             case "No response yet":
                 manageResponse = "";
+                
                 break;
             default:
                 manageResponse = response;
         }
         
         manageResponseTextArea.setText(manageResponse);
+        
         manageClosedCheckBox.setSelected(isSelected);
     }
     
@@ -408,18 +412,12 @@ public class DashboardController {
            return;
         }
         
-        String sqlQuery = "UPDATE appointments SET response=?, isClosed=? WHERE appointment_id=?";
-
+        String sqlUpdateAppointments = "UPDATE appointments SET response=?, isClosed=? WHERE appointment_id=?";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
-
-            DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
-            int selectedIndex = appointmentsTable.getSelectedRow();
-
-            int appointmentId = (int) Df.getValueAt(selectedIndex, 0);
+             PreparedStatement pstmt = conn.prepareStatement(sqlUpdateAppointments)) {
             
-            boolean isSelected = manageClosedCheckBox.isSelected();
             int isClosed;
+            boolean isSelected = manageClosedCheckBox.isSelected();
             if (isSelected) {
                 isClosed = 1;
             } else {
@@ -430,6 +428,10 @@ public class DashboardController {
                 response = null;
             }
             
+            DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
+            int selectedIndex = appointmentsTable.getSelectedRow();
+            int appointmentId = (int) Df.getValueAt(selectedIndex, 0);
+            
             pstmt.setString(1, response);
             pstmt.setInt(2, isClosed);
             pstmt.setInt(3, appointmentId);
@@ -437,6 +439,7 @@ public class DashboardController {
             pstmt.executeUpdate();
             
             responseTextArea.setText(response);
+            
             closedCheckBox.setSelected(isSelected);
 
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "User", "updated"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
@@ -460,30 +463,33 @@ public class DashboardController {
 
         int appointmentId = (int) Df.getValueAt(selectedIndex, 0);
         
-        String sqlUpdateQuery = "UPDATE dates SET isTaken=0 WHERE (date_id=(SELECT date FROM appointments WHERE appointment_id=?) AND date>=NOW())";
-        
+        String sqlUpdateDates = "UPDATE dates SET isTaken=0 WHERE (date_id=(SELECT date FROM appointments WHERE appointment_id=?) AND date>=NOW())";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlUpdateQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlUpdateDates)) {
             
             pstmt.setInt(1, appointmentId);
             
             pstmt.executeUpdate();
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (IOException ioe) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
-        String sqlDeleteQuery = "DELETE FROM appointments WHERE appointment_id=?";
-        
+        String sqlDeleteAppointment = "DELETE FROM appointments WHERE appointment_id=?";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlDeleteQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlDeleteAppointment)) {
 
             pstmt.setInt(1, appointmentId);
             
             pstmt.execute();
+            
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Appointment", "deleted"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (IOException ioe) {
@@ -491,22 +497,19 @@ public class DashboardController {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
-
-        JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Appointment", "deleted"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
     }
     
     public static void handleCorrespondentDateTimeAdd(String dateTime) {        
-        String sqlSelectQuery = "SELECT date FROM dates WHERE (user=? AND date=?)";
-        
         int userId = User.getUserId();
+        
+        String sqlRetrieveDate = "SELECT date FROM dates WHERE (user=? AND date=?)";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlSelectQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveDate)) {
 
             pstmt.setInt(1, userId);
             pstmt.setString(2, dateTime);
             
             ResultSet rs = pstmt.executeQuery();
-            
             if (rs.next() != false) {
                 JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getValidationError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
                 return;
@@ -522,10 +525,9 @@ public class DashboardController {
             return;
         }
         
-        String sqlInsertQuery = "INSERT INTO dates (user, date) VALUES (?, ?)";
-        
+        String sqlInsertDate = "INSERT INTO dates (user, date) VALUES (?, ?)";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlInsertQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlInsertDate)) {
 
             pstmt.setInt(1, userId);
             pstmt.setString(2, dateTime);
@@ -542,29 +544,28 @@ public class DashboardController {
         }
     }
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "unchecked"})
     public static void handleCorrespondentDateTimeUpdate(JComboBox<String> deleteDateTimeComboBox, JList<String> deleteDateTimeList) {
-        String sqlQuery = "SELECT * FROM dates WHERE user=? ORDER BY date ASC";
-        
-        DefaultListModel model = (DefaultListModel)deleteDateTimeList.getModel();
-        
-        deleteDateTimeComboBox.removeAllItems();
-        model.removeAllElements();
-
         int userId = User.getUserId();
         
+        deleteDateTimeComboBox.removeAllItems();
+        
+        DefaultListModel model = (DefaultListModel)deleteDateTimeList.getModel();
+        model.removeAllElements();
+
+        String sqlRetrieveDates = "SELECT * FROM dates WHERE user=? ORDER BY date ASC";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveDates)) {
 
             pstmt.setInt(1, userId);
 
             ResultSet rs = pstmt.executeQuery();
-            
             if (rs.next() == false) {
                 deleteDateTimeComboBox.addItem(Messages.getGeneral(8));
             } else {
                 do {
                     deleteDateTimeComboBox.addItem(rs.getString("date"));
+                    
                     model.addElement(String.valueOf(rs.getInt("date_id")));
                 } while (rs.next());
             }
@@ -583,20 +584,38 @@ public class DashboardController {
            return;
         }
         
-        String sqlDeleteAppointmentQuery = "DELETE FROM appointments WHERE date=?";
-        
         int comboBoxIndex = deleteDateTimeComboBox.getSelectedIndex();
-            
         DefaultListModel model = (DefaultListModel)deleteDateTimeList.getModel();
 
         int dateId = Integer.parseInt((String) model.get(comboBoxIndex));
         
+        String sqlDeleteAppointment = "DELETE FROM appointments WHERE date=?";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlDeleteAppointmentQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlDeleteAppointment)) {
 
             pstmt.setInt(1, dateId);
             
             pstmt.execute();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String sqlDeleteDate = "DELETE FROM dates WHERE date_id=?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sqlDeleteDate)) {
+
+            pstmt.setInt(1, dateId);
+            
+            pstmt.execute();
+            
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Date & time", "deleted"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (IOException ioe) {
@@ -604,41 +623,22 @@ public class DashboardController {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
-        
-        String sqlDeleteDateQuery = "DELETE FROM dates WHERE date_id=?";
-        
-        try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlDeleteDateQuery)) {
-
-            pstmt.setInt(1, dateId);
-            
-            pstmt.execute();
-        } catch (SQLException se) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ioe) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
-        }
-            
-        JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Date & time", "deleted"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
     }
     
     public static void handleAdminUsersTableUpdate(JTable usersTable) {
-        String sqlQuery = "SELECT users.user_id, users.ais_id, users.name, user_role.role FROM users, user_role WHERE (users.user_id<>? AND users.role=user_role.role_id) ORDER BY users.ais_id ASC";
-        
-        int userId = User.getUserId();
-        
-        int c;
+        String sqlRetrieveUsers = "SELECT users.user_id, users.ais_id, users.name, user_role.role FROM users, user_role WHERE (users.user_id<>? AND users.role=user_role.role_id) ORDER BY users.ais_id ASC";
         
         try (Connection conn = Database.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveUsers)) {
+            
+            int userId = User.getUserId();
             
             pstmt.setInt(1, userId);
             
             ResultSet rs = pstmt.executeQuery();
-           
             ResultSetMetaData rsmd = rs.getMetaData();
+            
+            int c;
             c = rsmd.getColumnCount();
             
             DefaultTableModel Df = (DefaultTableModel)usersTable.getModel();
@@ -667,12 +667,13 @@ public class DashboardController {
     }
     
     public static void handleAdminUsersTableRowClick(JTable usersTable, JTextField idField, JTextField aisIdField, JTextField nameField, JComboBox<String> roleComboBox) {
-        DefaultTableModel Df = (DefaultTableModel)usersTable.getModel();
         int selectedIndex = usersTable.getSelectedRow();
+        DefaultTableModel Df = (DefaultTableModel)usersTable.getModel();
         
         idField.setText(Df.getValueAt(selectedIndex, 0).toString());
         aisIdField.setText(Df.getValueAt(selectedIndex, 1).toString());
         nameField.setText(Df.getValueAt(selectedIndex, 2).toString());
+        
         roleComboBox.setSelectedItem(Df.getValueAt(selectedIndex, 3).toString());
     }
     
@@ -682,22 +683,24 @@ public class DashboardController {
            return;
         }
         
-        String sqlQuery = "UPDATE users SET ais_id=?, name=?, role=? WHERE user_id=?";
-
+        String sqlUpdateUser = "UPDATE users SET ais_id=?, name=?, role=? WHERE user_id=?";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlUpdateUser)) {
             
             int role;
             String userRole = roleComboBox.getItemAt(roleComboBox.getSelectedIndex());
             switch (userRole) {
                 case "student":
                     role = 1;
+                    
                     break;
                 case "correspondent":
                     role = 2;
+                    
                     break;
                 case "admin":
                     role = 3;
+                    
                     break;
                 default:
                     role = 1;
@@ -724,17 +727,16 @@ public class DashboardController {
         }
     }
     
-    public static void handleAdminStudentDelete(int userId) {
-        String sqlSelectQuery = "SELECT appointments.date FROM appointments, dates WHERE (appointments.user=? AND dates.date_id=appointments.date AND dates.date >= NOW())";
-        
+    public static void handleAdminStudentDelete(int userId) { 
         List<Integer> datesList = new ArrayList<>(); 
         
+        String sqlRetrieveDates = "SELECT appointments.date FROM appointments, dates WHERE (appointments.user=? AND dates.date_id=appointments.date AND dates.date >= NOW())";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlSelectQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveDates)) {
+            
             pstmt.setInt(1, userId);
             
             ResultSet rs = pstmt.executeQuery();
-            
             if (rs.next() != false) {
                 do {
                     datesList.add(rs.getInt("date"));
@@ -742,47 +744,55 @@ public class DashboardController {
             }
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (IOException ioe) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         if (!datesList.isEmpty()) {
             Integer[] appointmentsArray = datesList.toArray(new Integer[0]);
             
-            StringBuilder sqlDeleteAppointmentsQuery = new StringBuilder(1024);
-            sqlDeleteAppointmentsQuery.append("UPDATE dates SET isTaken=0 WHERE date_id IN (");
+            StringBuilder sqlUpdateDates = new StringBuilder(1024);
+            sqlUpdateDates.append("UPDATE dates SET isTaken=0 WHERE date_id IN (");
             
-            for(int i=0; i < appointmentsArray.length; i++) {
+            for(int i = 0; i < appointmentsArray.length; i++) {
                 if(i > 0) {
-                    sqlDeleteAppointmentsQuery.append(",");
+                    sqlUpdateDates.append(",");
                 }
-                sqlDeleteAppointmentsQuery.append(" ?");
+                
+                sqlUpdateDates.append(" ?");
             }
-            sqlDeleteAppointmentsQuery.append(")");
+            
+            sqlUpdateDates.append(")");
             
             try (Connection conn = Database.getConnection();
-                    PreparedStatement pstmt = conn.prepareStatement(sqlDeleteAppointmentsQuery.toString())) {
+                 PreparedStatement pstmt = conn.prepareStatement(sqlUpdateDates.toString())) {
 
-                for( int i=0; i < appointmentsArray.length; i++ ) {
+                for(int i=0; i < appointmentsArray.length; i++) {
                     pstmt.setInt(i + 1, appointmentsArray[i]);
                 }
 
                 pstmt.executeUpdate();
             } catch (SQLException se) {
                 JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             } catch (IOException ioe) {
                 JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
         
-        String sqlDeleteDatesQuery = "DELETE FROM appointments WHERE user=?";
-        
+        String sqlDeleteAppointments = "DELETE FROM appointments WHERE user=?";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlDeleteDatesQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlDeleteAppointments)) {
+            
             pstmt.setInt(1, userId);
             
             pstmt.execute();
@@ -796,16 +806,15 @@ public class DashboardController {
     }
     
     public static void handleAdminCorrespondentDelete(int userId) {
-        String sqlSelectQuery = "SELECT date_id FROM dates WHERE (user=? AND isTaken<>0)";
+        List<Integer> appointmentsList = new ArrayList<>();
         
-        List<Integer> appointmentsList = new ArrayList<>(); 
-        
+        String sqlRetrieveDates = "SELECT date_id FROM dates WHERE (user=? AND isTaken<>0)"; 
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlSelectQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveDates)) {
+            
             pstmt.setInt(1, userId);
             
             ResultSet rs = pstmt.executeQuery();
-            
             if (rs.next() != false) {
                 do {
                     appointmentsList.add(rs.getInt("date_id"));
@@ -813,47 +822,55 @@ public class DashboardController {
             }
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (IOException ioe) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         if (!appointmentsList.isEmpty()) {
             Integer[] appointmentsArray = appointmentsList.toArray(new Integer[0]);
             
-            StringBuilder sqlDeleteAppointmentsQuery = new StringBuilder(1024);
-            sqlDeleteAppointmentsQuery.append("DELETE FROM appointments WHERE date IN (");
+            StringBuilder sqlDeleteAppointments = new StringBuilder(1024);
+            sqlDeleteAppointments.append("DELETE FROM appointments WHERE date IN (");
             
-            for(int i=0; i < appointmentsArray.length; i++) {
+            for(int i = 0; i < appointmentsArray.length; i++) {
                 if(i > 0) {
-                    sqlDeleteAppointmentsQuery.append(",");
+                    sqlDeleteAppointments.append(",");
                 }
-                sqlDeleteAppointmentsQuery.append(" ?");
+                
+                sqlDeleteAppointments.append(" ?");
             }
-            sqlDeleteAppointmentsQuery.append(")");
+            
+            sqlDeleteAppointments.append(")");
             
             try (Connection conn = Database.getConnection();
-                    PreparedStatement pstmt = conn.prepareStatement(sqlDeleteAppointmentsQuery.toString())) {
+                 PreparedStatement pstmt = conn.prepareStatement(sqlDeleteAppointments.toString())) {
 
-                for( int i=0; i < appointmentsArray.length; i++ ) {
+                for(int i = 0;i < appointmentsArray.length; i++) {
                     pstmt.setInt(i + 1, appointmentsArray[i]);
                 }
 
                 pstmt.execute();
             } catch (SQLException se) {
                 JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             } catch (IOException ioe) {
                 JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
         
-        String sqlDeleteDatesQuery = "DELETE FROM dates WHERE user=?";
-        
+        String sqlDeleteDates = "DELETE FROM dates WHERE user=?";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlDeleteDatesQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlDeleteDates)) {
+            
             pstmt.setInt(1, userId);
             
             pstmt.execute();
@@ -875,39 +892,45 @@ public class DashboardController {
         int userId = Integer.parseInt(idField.getText());
         
         String userRole = null;
-        String sqlSelectQuery = "SELECT user_role.role FROM user_role, users WHERE (users.user_id=? AND user_role.role_id=users.role)";
         
+        String sqlRetrieveRole = "SELECT user_role.role FROM user_role, users WHERE (users.user_id=? AND user_role.role_id=users.role)";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlSelectQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveRole)) {
             
             pstmt.setInt(1, userId);
             
             ResultSet rs = pstmt.executeQuery();
-            
             while(rs.next()) {
                 userRole = rs.getString("role");
             }
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (IOException ioe) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         switch (userRole) {
             case "student":
                 handleAdminStudentDelete(userId);
+                
                 break;
             case "correspondent":
                 handleAdminCorrespondentDelete(userId);
+                
                 break;
+            default:
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
         }
         
-        String sqlDeleteQuery = "DELETE FROM users WHERE user_id=?";
-        
+        String sqlDeleteUser = "DELETE FROM users WHERE user_id=?"; 
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlDeleteQuery)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlDeleteUser)) {
             
             pstmt.setInt(1, userId);
             

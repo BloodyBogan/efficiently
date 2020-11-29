@@ -30,7 +30,6 @@ import efficiently.views.MainLayout;
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
 public class Main extends javax.swing.JPanel {
-
     /**
      * Creates new form MenuController
      */
@@ -124,7 +123,6 @@ public class Main extends javax.swing.JPanel {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         MainLayout.showLoginScreen();
     }//GEN-LAST:event_loginButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;

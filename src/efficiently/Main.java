@@ -38,7 +38,6 @@ import javax.swing.JOptionPane;
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
 public class Main {
-
     /**
      * @param args the command line arguments
      */
@@ -46,11 +45,11 @@ public class Main {
         Messages.init();
         
         try (Connection conn = Database.getConnection()) {
-            
             System.out.println(String.format("Connected to database %s "
                     + "successfully.", conn.getCatalog()));
             
             User.logout();
+            
             MenuController.init();
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
@@ -63,5 +62,4 @@ public class Main {
             System.exit(0); 
         }
     }
-    
 }

@@ -32,12 +32,14 @@ import efficiently.utils.ValidationException;
 import efficiently.views.MainLayout;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
 public class Admin extends javax.swing.JPanel {
     private final static String ACCESS_LEVEL = "admin";
+    
     /**
      * Creates new form Admin
      */
@@ -285,14 +287,18 @@ public class Admin extends javax.swing.JPanel {
     
     public static void refresh() {
         DashboardController.handleAdminUsersTableUpdate(usersTable);
+        
         usersTable.clearSelection();
+        
         resetRest();
     }
     
     private static void resetTable() {
         usersTable.clearSelection();
+        
         DefaultTableModel model = (DefaultTableModel) usersTable.getModel();
         model.setRowCount(0);
+        
         usersTable.revalidate();
     }
     
@@ -312,16 +318,20 @@ public class Admin extends javax.swing.JPanel {
     
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         DashboardController.logout();
+        
         resetTable();
+        
         resetRest();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             refresh();
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
@@ -329,9 +339,11 @@ public class Admin extends javax.swing.JPanel {
     private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
         if (User.isSessionValid(ACCESS_LEVEL)) {
             DashboardController.handleAdminUsersTableRowClick(usersTable, idField, aisIdField, nameField, roleComboBox);
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_usersTableMouseClicked
@@ -354,10 +366,13 @@ public class Admin extends javax.swing.JPanel {
             }
             
             DashboardController.handleAdminUserUpdate(idField, aisId, name, roleComboBox);
+            
             refresh();
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_updateButtonActionPerformed
@@ -374,14 +389,16 @@ public class Admin extends javax.swing.JPanel {
             }
             
             DashboardController.handleAdminUserDelete(idField);
+            
             refresh();
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;

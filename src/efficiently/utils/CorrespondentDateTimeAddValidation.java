@@ -43,7 +43,7 @@ public class CorrespondentDateTimeAddValidation {
         String date = addDateTimePicker.getDatePicker().toString();
         try {
             LocalDate.parse(date);
-        } catch (DateTimeParseException | NullPointerException e) {
+        } catch (DateTimeParseException | NullPointerException dtpe) {
             throw new ValidationException(String.format(Messages.getInputValidationError(6), "date"));
         }
         
@@ -52,7 +52,7 @@ public class CorrespondentDateTimeAddValidation {
             DateTimeFormatter strictTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
             .withResolverStyle(ResolverStyle.STRICT);
             LocalTime.parse(time, strictTimeFormatter);
-        } catch (DateTimeParseException | NullPointerException e) {
+        } catch (DateTimeParseException | NullPointerException dtpe) {
             throw new ValidationException(String.format(Messages.getInputValidationError(6), "time"));
         }
         

@@ -37,11 +37,11 @@ public class CorrespondentAppointmentDeleteValidation {
         boolean isRowNotSelected = appointmentsTable.getSelectionModel().isSelectionEmpty();
         if (isRowNotSelected) {
             manageResponseTextArea.setText("");
-            
+
             manageClosedCheckBox.setSelected(false);
-            
+
             manageResponseTextArea.requestFocus();
-            
+
             throw new ValidationException(String.format(Messages.getInputValidationError(8), "delete", "appointment"));
         }
     }

@@ -47,9 +47,9 @@ import javax.swing.JOptionPane;
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
 public class MenuController {
-
     public static void init() {
         MainLayout Main = new MainLayout();
+        
         Main.setVisible(true);
     }
     
@@ -59,7 +59,7 @@ public class MenuController {
         
         String sqlInsertUser = "INSERT INTO users (ais_id, name, password) VALUES (?, ?, ?)";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlInsertUser)) {
+             PreparedStatement pstmt = conn.prepareStatement(sqlInsertUser)) {
 
             pstmt.setInt(1, aisId);
             pstmt.setString(2, formattedName);
@@ -68,6 +68,7 @@ public class MenuController {
             pstmt.execute();
             
             MainLayout.showLoginScreen();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(1), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLIntegrityConstraintViolationException sicve) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getValidationError(0), aisId), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
@@ -83,8 +84,8 @@ public class MenuController {
     public static void login(int aisId, char[] password) {
         String sqlRetrieveUser = "SELECT users.user_id, users.ais_id, users.name, users.password, user_role.role from users, user_role WHERE (ais_id=? AND users.role=user_role.role_id) LIMIT 1";
         try (Connection conn = Database.getConnection()) {
-            PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveUser);
-            
+             PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveUser);
+             
             pstmt.setInt(1, aisId);
         
             ResultSet rs = pstmt.executeQuery();
@@ -100,6 +101,7 @@ public class MenuController {
                 User.setAisId(rs.getInt("ais_id"));
                 User.setName(rs.getString("name"));
                 User.setRole(rs.getString("role"));
+                
                 User.setLastAction();
             } else {
                 throw new ValidationException(Messages.getValidationError(1));
@@ -108,21 +110,28 @@ public class MenuController {
             switch(User.getRole()) {
                 case "student":
                     MainLayout.showStudentDashboard();
+                    
                     Student.setUserName();
                     Student.refresh();
+                    
                     break;
                 case "correspondent":
                     MainLayout.showCorrespondentDashboard();
+                    
                     Correspondent.setUserName();
                     Correspondent.refresh();
+                    
                     break;
                 case "admin":
                     MainLayout.showAdminDashboard();
+                    
                     Admin.setUserName();
                     Admin.refresh();
+                    
                     break;
                 default:
                     JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                    
                     DashboardController.logout();
             }
             

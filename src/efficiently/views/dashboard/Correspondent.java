@@ -42,12 +42,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Correspondent extends javax.swing.JPanel {
     private final static String ACCESS_LEVEL = "correspondent";
+    
     /**
      * Creates new form Correspondent
      */
     @SuppressWarnings("unchecked")
     public Correspondent() {
         initComponents();
+        
         deleteDateTimeList.setModel(new DefaultListModel());
         deleteDateTimeList.setVisible(false);
     }
@@ -504,15 +506,20 @@ public class Correspondent extends javax.swing.JPanel {
 
     public static void refresh() {
         DashboardController.handleCorrespondentAppointmentsTableUpdate(appointmentsTable);
+        
         appointmentsTable.clearSelection();
+        
         DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+        
         resetRest();
     }
     
     private static void resetTable() {
         appointmentsTable.clearSelection();
+        
         DefaultTableModel model = (DefaultTableModel) appointmentsTable.getModel();
         model.setRowCount(0);
+        
         appointmentsTable.revalidate();
     }
     
@@ -548,16 +555,20 @@ public class Correspondent extends javax.swing.JPanel {
     
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         DashboardController.logout();
+        
         resetTable();
+        
         resetRest();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
         if (User.isSessionValid(ACCESS_LEVEL)) {
             DashboardController.handleCorrespondentTableRowClick(appointmentsTable, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, closedCheckBox, manageResponseTextArea, manageClosedCheckBox);
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_appointmentsTableMouseClicked
@@ -565,9 +576,11 @@ public class Correspondent extends javax.swing.JPanel {
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             refresh();
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
@@ -584,10 +597,13 @@ public class Correspondent extends javax.swing.JPanel {
             }
             
             DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable);
+            
             refresh();
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_manageDeleteButtonActionPerformed
@@ -608,10 +624,13 @@ public class Correspondent extends javax.swing.JPanel {
             }
             
             DashboardController.handleCorrespondentAppointmentUpdate(appointmentsTable, responseTextArea, closedCheckBox, response, manageClosedCheckBox);
+            
             refresh();
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_manageUpdateButtonActionPerformed
@@ -628,7 +647,6 @@ public class Correspondent extends javax.swing.JPanel {
                 User.setLastAction();
                 
                 String veMessage = ve.getMessage();
-                
                 if (veMessage.contains("valid date")) {
                     addDateTimePicker.datePicker.setText("");
                     addDateTimePicker.datePicker.requestFocus();
@@ -658,6 +676,7 @@ public class Correspondent extends javax.swing.JPanel {
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_addDateTimeButtonActionPerformed
@@ -677,13 +696,17 @@ public class Correspondent extends javax.swing.JPanel {
             DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
 
             DashboardController.handleCorrespondentAppointmentsTableUpdate(appointmentsTable);
+            
             appointmentsTable.clearSelection();
 
             addDateTimePicker.datePicker.requestFocus();
+            
             deleteDateTimeComboBox.setSelectedIndex(0);
+            
             User.setLastAction();
         } else {
             logoutButton.doClick();
+            
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_deleteDateTimeButtonActionPerformed
@@ -694,7 +717,6 @@ public class Correspondent extends javax.swing.JPanel {
             manageResponseTextArea.requestFocus();
         }
     }//GEN-LAST:event_manageTabbedPaneStateChanged
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;

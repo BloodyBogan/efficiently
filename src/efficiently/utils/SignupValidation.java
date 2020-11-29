@@ -55,7 +55,7 @@ public class SignupValidation {
         int aisId;
         try {
             aisId = Integer.parseInt(stringAisId);
-        } catch(NumberFormatException e) {
+        } catch(NumberFormatException nfe) {
             aisIdField.setText("");
             
             aisIdField.requestFocus();

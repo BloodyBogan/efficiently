@@ -54,9 +54,7 @@ public class Database {
         }
         
         Connection conn = null;
-
         try (FileInputStream f = new FileInputStream(DATABASE_PROPERTIES_PATH)) {
-
             Properties pros = new Properties();
             pros.load(f);
 
@@ -73,6 +71,5 @@ public class Database {
         }
         
         return conn;
-    }
-    
+    } 
 }

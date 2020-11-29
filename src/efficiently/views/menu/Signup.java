@@ -35,7 +35,6 @@ import javax.swing.JOptionPane;
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
  */
 public class Signup extends javax.swing.JPanel {
-
     /**
      * Creates new form Signup
      */
@@ -212,7 +211,6 @@ public class Signup extends javax.swing.JPanel {
   
         MenuController.signup(aisId, name, password);
     }//GEN-LAST:event_submitButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;

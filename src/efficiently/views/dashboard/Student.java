@@ -29,10 +29,6 @@ import efficiently.models.User;
 import efficiently.utils.StudentBookAppointmentValidation;
 import efficiently.utils.ValidationException;
 import efficiently.views.MainLayout;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -45,11 +41,9 @@ public class Student extends javax.swing.JPanel {
     private final static String ACCESS_LEVEL = "student";
     /**
      * Creates new form Student
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
      */
     @SuppressWarnings("unchecked")
-    public Student() throws SQLException, IOException {
+    public Student() {
         initComponents();
         dateTimeList.setModel(new DefaultListModel());
         dateTimeList.setVisible(false);
@@ -323,16 +317,12 @@ public class Student extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void refresh() throws SQLException, IOException {
-        try {
-            DashboardController.handleStudentAppointmentsTableUpdate(appointmentsTable);
-            appointmentsTable.clearSelection();
-            DashboardController.handleStudentAppointmentsDatesUpdate(dateTimeComboBox, dateTimeList);
-            DashboardController.handleStudentQueueUpdate(queueLabel);
-            resetRest();
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public static void refresh() {
+        DashboardController.handleStudentAppointmentsTableUpdate(appointmentsTable);
+        appointmentsTable.clearSelection();
+        DashboardController.handleStudentAppointmentsDatesUpdate(dateTimeComboBox, dateTimeList);
+        DashboardController.handleStudentQueueUpdate(queueLabel);
+        resetRest();
     }
     
     private static void resetTable() {
@@ -362,64 +352,48 @@ public class Student extends javax.swing.JPanel {
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                refresh();
-                User.setLastAction();
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
-            }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            refresh();
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void bookNowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookNowButtonActionPerformed
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                String subject;
-                String message;
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            String subject;
+            String message;
+            
+            try {
+                Object[] values = StudentBookAppointmentValidation.validate(subjectField, messageTextArea, dateTimeComboBox);
                 
-                try {
-                    Object[] values = StudentBookAppointmentValidation.validate(subjectField, messageTextArea, dateTimeComboBox);
-                    
-                    subject = (String) values[0];
-                    message = (String) values[1];
-                } catch (ValidationException ve) {
-                    User.setLastAction();
-                    
-                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
-                    return;
-                }
+                subject = (String) values[0];
+                message = (String) values[1];
+            } catch (ValidationException ve) {
+                User.setLastAction();
                 
-                try {
-                    DashboardController.handleStudentBookAppointment(subject, message, dateTimeComboBox, dateTimeList);
-                    refresh();
-                    User.setLastAction();
-                } catch (SQLException | IOException ex) {
-                    Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage(), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+            
+            DashboardController.handleStudentBookAppointment(subject, message, dateTimeComboBox, dateTimeList);
+            refresh();
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_bookNowButtonActionPerformed
 
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                DashboardController.handleStudentAppointmentsTableRowClick(appointmentsTable);
-                User.setLastAction();
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
-            }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            DashboardController.handleStudentAppointmentsTableRowClick(appointmentsTable);
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_appointmentsTableMouseClicked
 

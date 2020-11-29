@@ -41,21 +41,26 @@ public class Main {
 
     /**
      * @param args the command line arguments
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
      */
-    public static void main(String[] args) throws SQLException, IOException {
+    public static void main(String[] args) {
         Messages.init();
         
         try (Connection conn = Database.getConnection()) {
             
             System.out.println(String.format("Connected to database %s "
                     + "successfully.", conn.getCatalog()));
+            
             User.logout();
             MenuController.init();
         } catch (SQLException se) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(0));
-            System.out.println(se.getMessage());
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            System.exit(0); 
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            System.exit(0); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            System.exit(0); 
         }
     }
     

@@ -24,10 +24,12 @@
 package efficiently.utils;
 
 import efficiently.config.Messages;
+import efficiently.views.MainLayout;
 import efficiently.views.dashboard.Student;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -38,7 +40,7 @@ import javax.swing.JTextField;
 public class StudentBookAppointmentValidation {
     private static Object[] values;
     
-    public static Object[] validate (JTextField subjectField, JTextArea messageTextArea, JComboBox<String> dateTimeComboBox) throws ValidationException, SQLException, IOException {
+    public static Object[] validate (JTextField subjectField, JTextArea messageTextArea, JComboBox<String> dateTimeComboBox) throws ValidationException {
         String subject = subjectField.getText().trim();        
         if (subject.isEmpty()) {
             subjectField.setText("");
@@ -69,7 +71,7 @@ public class StudentBookAppointmentValidation {
         
         String comboBoxItem = dateTimeComboBox.getSelectedItem().toString();
         if (comboBoxItem.equals(Messages.getGeneral(4))) {
-            Student.refresh();
+            Student.refresh();          
             throw new ValidationException(Messages.getError(3));
         }
         

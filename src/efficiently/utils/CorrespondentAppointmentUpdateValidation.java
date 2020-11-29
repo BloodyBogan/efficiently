@@ -39,22 +39,29 @@ public class CorrespondentAppointmentUpdateValidation {
         boolean isRowNotSelected = appointmentsTable.getSelectionModel().isSelectionEmpty();
         if (isRowNotSelected) {
             manageResponseTextArea.setText("");
+            
             manageClosedCheckBox.setSelected(false);
+            
             manageResponseTextArea.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(8), "update", "appointment"));
         }
         
         String response = manageResponseTextArea.getText().trim();        
         if (response.isEmpty()) {
             manageResponseTextArea.setText("");
+            
             manageResponseTextArea.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(0), "Response"));
         }
         
         int responseMax = 500;
         if (response.length() > responseMax) {
             manageResponseTextArea.setText("");
+            
             manageResponseTextArea.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(4), "Response", responseMax));
         }
         

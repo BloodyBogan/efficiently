@@ -38,8 +38,11 @@ public class AdminUserDeleteValidation {
             idField.setText("");
             aisIdField.setText("");
             nameField.setText("");
+            
             roleComboBox.setSelectedIndex(0);
+            
             aisIdField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(8), "delete", "user"));
         }
     }

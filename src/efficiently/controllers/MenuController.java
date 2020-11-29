@@ -34,7 +34,6 @@ import efficiently.views.dashboard.Admin;
 import efficiently.views.dashboard.Correspondent;
 import efficiently.views.dashboard.Student;
 import efficiently.views.menu.Login;
-import efficiently.views.menu.Signup;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.io.IOException;
@@ -49,19 +48,18 @@ import javax.swing.JOptionPane;
  */
 public class MenuController {
 
-    public static void init() throws SQLException, IOException {
+    public static void init() {
         MainLayout Main = new MainLayout();
         Main.setVisible(true);
     }
     
-    public static void signup(int aisId, String name, char[] password) throws SQLException, IOException {
+    public static void signup(int aisId, String name, char[] password) {
         String formattedName = Capitalize.capitalizeName(name);
         String hashedPassword = BCrypt.withDefaults().hashToString(12, password);
         
-        String sqlQuery = "INSERT INTO users (ais_id, name, password) VALUES (?, ?, ?)";
-        
+        String sqlInsertUser = "INSERT INTO users (ais_id, name, password) VALUES (?, ?, ?)";
         try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+                PreparedStatement pstmt = conn.prepareStatement(sqlInsertUser)) {
 
             pstmt.setInt(1, aisId);
             pstmt.setString(2, formattedName);
@@ -70,22 +68,22 @@ public class MenuController {
             pstmt.execute();
             
             MainLayout.showLoginScreen();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(1));
-        } catch (SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getValidationError(0), aisId));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(1), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLIntegrityConstraintViolationException sicve) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getValidationError(0), aisId), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    public static void login(int aisId, char[] password) throws SQLException, IOException {
-        String sqlQuery = "SELECT users.user_id, users.ais_id, users.name, users.password, user_role.role from users, user_role WHERE (ais_id=? AND users.role=user_role.role_id) LIMIT 1";
+    public static void login(int aisId, char[] password) {
+        String sqlRetrieveUser = "SELECT users.user_id, users.ais_id, users.name, users.password, user_role.role from users, user_role WHERE (ais_id=? AND users.role=user_role.role_id) LIMIT 1";
         try (Connection conn = Database.getConnection()) {
-            PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
+            PreparedStatement pstmt = conn.prepareStatement(sqlRetrieveUser);
             
             pstmt.setInt(1, aisId);
         
@@ -124,20 +122,19 @@ public class MenuController {
                     Admin.refresh();
                     break;
                 default:
-                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
                     DashboardController.logout();
             }
             
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(2));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(2), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (ValidationException ve) {
-            ve.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage(), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } finally {
             Login.reset();
         }

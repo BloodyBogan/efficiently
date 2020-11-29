@@ -44,7 +44,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -60,7 +59,7 @@ public class DashboardController {
         MainLayout.showMenuScreen();
     }
     
-    public static void handleStudentAppointmentsTableUpdate(JTable appointmentsTable) throws SQLException, IOException {
+    public static void handleStudentAppointmentsTableUpdate(JTable appointmentsTable) {
         String sqlQuery = "SELECT appointments.subject, appointments.message, appointments.response, dates.date, users.name, appointments.isClosed FROM appointments, dates, users WHERE (appointments.user=? AND appointments.date=dates.date_id AND users.user_id=dates.user) ORDER BY date ASC";
         
         int userId = User.getUserId();
@@ -107,16 +106,17 @@ public class DashboardController {
                 Df.addRow(tableObject);
             }
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
     public static void handleStudentAppointmentsTableRowClick(JTable appointmentsTable) {
         DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
+        
         int selectedIndex = appointmentsTable.getSelectedRow();
         
         String subject = Df.getValueAt(selectedIndex, 0).toString();
@@ -126,7 +126,7 @@ public class DashboardController {
         String name = Df.getValueAt(selectedIndex, 4).toString();
         String closed = Df.getValueAt(selectedIndex, 5).toString();
         
-        JOptionPane.showMessageDialog(MainLayout.getJPanel(), "<html><body><div style='width: 450px;'><p>Subject: " + subject + "</p><br><p>Message: " + message + "</p><br><p>Response: " + response + "</p><br><p>Date: " + date + "</p><br><p>Correspondent: " + name + "</p><br><p>Closed: " + closed + "</p></div></body></html>", "Appointment Information", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(MainLayout.getJPanel(), "<html><body><div style='width: 450px;'><p>Subject: " + subject + "</p><br><p>Message: " + message + "</p><br><p>Response: " + response + "</p><br><p>Date: " + date + "</p><br><p>Correspondent: " + name + "</p><br><p>Closed: " + closed + "</p></div></body></html>", "Appointment" + Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
     }
     
     public static void handleStudentBookAppointment(String subject, String message, JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {   
@@ -151,15 +151,16 @@ public class DashboardController {
                 throw new ValidationException(Messages.getError(5));
             }
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
             return;
         } catch (ValidationException ve) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage(), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
             return;
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -186,13 +187,13 @@ public class DashboardController {
             
             pstmt.execute();
             
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Appointment", "booked"));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Appointment", "booked"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
         
         String sqlDateQuery = "UPDATE dates SET isTaken=1 WHERE date_id=?";
@@ -204,11 +205,11 @@ public class DashboardController {
 
             pstmt.executeUpdate();
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -234,15 +235,15 @@ public class DashboardController {
                 } while(rs.next());
             }
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    public static void handleStudentQueueUpdate(JLabel queueLabel) throws SQLException, IOException {
+    public static void handleStudentQueueUpdate(JLabel queueLabel) {
         String usersAppointmentQuery = "SELECT dates.date_id, dates.user FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date >= NOW() AND dates.date_id=appointments.date AND appointments.user=? AND appointments.isClosed=0) ORDER BY dates.date ASC LIMIT 1";
         
         int dateId = 0;
@@ -265,8 +266,12 @@ public class DashboardController {
                     correspondentUserId = rs.getInt("user");
                 } while (rs.next());
             }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
         
         String sqlCountQuery = "SELECT COUNT(*) as total FROM dates, appointments WHERE (dates.isTaken<>0 AND dates.date>=NOW() AND dates.date<=(SELECT date FROM dates WHERE date_id=?) AND dates.user=? AND appointments.date=dates.date_id AND appointments.user<>? AND appointments.isClosed=0)";
@@ -292,12 +297,16 @@ public class DashboardController {
             } else {
                 queueLabel.setText("<html><body><p style='width: 115px; text-align: center;'>" + String.format(Messages.getGeneral(11), "are", String.valueOf(count), "appointments") + "</p></body></html>");
             }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     } 
     
-    public static void handleCorrespondentAppointmentsTableUpdate(JTable appointmentsTable) throws SQLException, IOException {
+    public static void handleCorrespondentAppointmentsTableUpdate(JTable appointmentsTable) {
         String sqlQuery = "SELECT appointments.appointment_id, appointments.subject, appointments.message, appointments.response, dates.date, appointments.isClosed, users.ais_id, users.name FROM appointments, dates, users WHERE (dates.user=? AND appointments.date=dates.date_id AND appointments.user=users.user_id) ORDER BY dates.date ASC";
         
         int userId = User.getUserId();
@@ -346,11 +355,11 @@ public class DashboardController {
                 Df.addRow(tableObject);
             }
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -393,7 +402,7 @@ public class DashboardController {
         manageClosedCheckBox.setSelected(isSelected);
     }
     
-    public static void handleCorrespondentAppointmentUpdate(JTable appointmentsTable, JTextArea responseTextArea, JCheckBox closedCheckBox, String response, JCheckBox manageClosedCheckBox) throws SQLException, IOException {
+    public static void handleCorrespondentAppointmentUpdate(JTable appointmentsTable, JTextArea responseTextArea, JCheckBox closedCheckBox, String response, JCheckBox manageClosedCheckBox) {
         int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "update", "appointment"), String.format(Messages.getGeneral(6), "Update", "appointment"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
@@ -430,17 +439,17 @@ public class DashboardController {
             responseTextArea.setText(response);
             closedCheckBox.setSelected(isSelected);
 
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "User", "updated"));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "User", "updated"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getGeneral(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    public static void handleCorrespondentAppointmentDelete(JTable appointmentsTable, JTabbedPane manageTabbedPane, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel dateTimeLabel, JCheckBox closedCheckBox, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) throws SQLException, IOException {
+    public static void handleCorrespondentAppointmentDelete(JTable appointmentsTable) {
         int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "delete", "appointment"), String.format(Messages.getGeneral(6), "Delete", "appointment"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
@@ -460,11 +469,11 @@ public class DashboardController {
             
             pstmt.executeUpdate();
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
         
         String sqlDeleteQuery = "DELETE FROM appointments WHERE appointment_id=?";
@@ -476,14 +485,14 @@ public class DashboardController {
             
             pstmt.execute();
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
 
-        JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Appointment", "deleted"));
+        JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Appointment", "deleted"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
     }
     
     public static void handleCorrespondentDateTimeAdd(String dateTime) {        
@@ -499,16 +508,17 @@ public class DashboardController {
             ResultSet rs = pstmt.executeQuery();
             
             if (rs.next() != false) {
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getValidationError(2));
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getValidationError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
                 return;
             }
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
             return;
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -522,13 +532,13 @@ public class DashboardController {
             
             pstmt.execute();
             
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Date & time", "added")); 
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Date & time", "added"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE); 
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -559,11 +569,11 @@ public class DashboardController {
                 } while (rs.next());
             }
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -588,11 +598,11 @@ public class DashboardController {
             
             pstmt.execute();
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
         
         String sqlDeleteDateQuery = "DELETE FROM dates WHERE date_id=?";
@@ -604,17 +614,17 @@ public class DashboardController {
             
             pstmt.execute();
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
             
-        JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Date & time", "deleted"));
+        JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "Date & time", "deleted"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public static void handleAdminUsersTableUpdate(JTable usersTable) throws SQLException, IOException {
+    public static void handleAdminUsersTableUpdate(JTable usersTable) {
         String sqlQuery = "SELECT users.user_id, users.ais_id, users.name, user_role.role FROM users, user_role WHERE (users.user_id<>? AND users.role=user_role.role_id) ORDER BY users.ais_id ASC";
         
         int userId = User.getUserId();
@@ -648,11 +658,11 @@ public class DashboardController {
                 Df.addRow(tableObject);
             }
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -666,7 +676,7 @@ public class DashboardController {
         roleComboBox.setSelectedItem(Df.getValueAt(selectedIndex, 3).toString());
     }
     
-    public static void handleAdminUserUpdate(JTable usersTable, JTextField idField, int aisId, String name, JComboBox<String> roleComboBox) throws SQLException, IOException {
+    public static void handleAdminUserUpdate(JTextField idField, int aisId, String name, JComboBox<String> roleComboBox) {
         int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "update", "user"), String.format(Messages.getGeneral(6), "Update", "user"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
@@ -702,15 +712,15 @@ public class DashboardController {
 
             pstmt.executeUpdate();
 
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "User", "updated"));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "User", "updated"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLIntegrityConstraintViolationException sicve) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getValidationError(0), aisId)); 
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getValidationError(0), aisId), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE); 
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -731,11 +741,11 @@ public class DashboardController {
                 } while (rs.next());
             }
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
         
         if (!datesList.isEmpty()) {
@@ -761,11 +771,11 @@ public class DashboardController {
 
                 pstmt.executeUpdate();
             } catch (SQLException se) {
-                se.printStackTrace();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ioe) {
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
             }
         }
         
@@ -777,11 +787,11 @@ public class DashboardController {
             
             pstmt.execute();
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -802,11 +812,11 @@ public class DashboardController {
                 } while (rs.next());
             }
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
         
         if (!appointmentsList.isEmpty()) {
@@ -832,11 +842,11 @@ public class DashboardController {
 
                 pstmt.execute();
             } catch (SQLException se) {
-                se.printStackTrace();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ioe) {
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
             }
         }
         
@@ -848,15 +858,15 @@ public class DashboardController {
             
             pstmt.execute();
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    public static void handleAdminUserDelete(JTable usersTable, JTextField idField, JTextField aisIdField, JTextField nameField, JComboBox<String> roleComboBox) {
+    public static void handleAdminUserDelete(JTextField idField) {
         int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "delete", "user"), String.format(Messages.getGeneral(6), "Delete", "user"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
            return;
@@ -878,11 +888,11 @@ public class DashboardController {
                 userRole = rs.getString("role");
             }
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
         
         switch (userRole) {
@@ -903,13 +913,13 @@ public class DashboardController {
             
             pstmt.execute();
             
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "User", "deleted"));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(7), "User", "deleted"), Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException se) {
-            se.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(1), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0));
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

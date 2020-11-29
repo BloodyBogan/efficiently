@@ -40,44 +40,57 @@ public class AdminUserUpdateValidation {
             idField.setText("");
             aisIdField.setText("");
             nameField.setText("");
+            
             roleComboBox.setSelectedIndex(0);
+            
             aisIdField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(8), "update", "user"));
         }
         
         String stringAisId = aisIdField.getText().trim();        
         if (stringAisId.isEmpty()) {
             aisIdField.setText("");
+            
             aisIdField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(0), "AIS ID"));
         }
         
         if (stringAisId.length() > 6) {
             aisIdField.setText("");
+            
             aisIdField.requestFocus();
+            
             throw new ValidationException(Messages.getInputValidationError(1));
         }
 
         int aisId;
         try {
             aisId = Integer.parseInt(stringAisId);
-        } catch(NumberFormatException e) {
+        } catch(NumberFormatException nfe) {
             aisIdField.setText("");
+            
             aisIdField.requestFocus();
+            
             throw new ValidationException(Messages.getInputValidationError(2));
         }
         
         String name = nameField.getText().trim();
         if (name.isEmpty()) {
             nameField.setText("");
+            
             nameField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(0), "Name"));
         }
                 
         int nameMax = 50;
         if (name.length() > nameMax) {
             nameField.setText("");
+            
             nameField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(4), "Name", nameMax));
         }
         

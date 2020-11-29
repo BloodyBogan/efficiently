@@ -38,13 +38,17 @@ public class LoginValidation {
         String stringAisId = aisIdField.getText().trim();        
         if (stringAisId.isEmpty()) {
             aisIdField.setText("");
+            
             aisIdField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(0), "AIS ID"));
         }
         
         if (stringAisId.length() > 6) {
             aisIdField.setText("");
+            
             aisIdField.requestFocus();
+            
             throw new ValidationException(Messages.getInputValidationError(1));
         }
 
@@ -53,7 +57,9 @@ public class LoginValidation {
             aisId = Integer.parseInt(stringAisId);
         } catch(NumberFormatException e) {
             aisIdField.setText("");
+            
             aisIdField.requestFocus();
+            
             throw new ValidationException(Messages.getInputValidationError(2));
         }
         
@@ -61,21 +67,27 @@ public class LoginValidation {
         String stringPassword = String.valueOf(charPassword).trim();
         if (stringPassword.isEmpty()) {
             passwordField.setText("");
+            
             passwordField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(0), "Password"));
         }
               
         int passwordMin = 8;
         if (stringPassword.length() < passwordMin) {
             passwordField.setText("");
+            
             passwordField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(3), "Password", passwordMin));
         }
         
         int passwordMax = 60;
         if (stringPassword.length() > passwordMax) {
             passwordField.setText("");
+            
             passwordField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(4), "Password", passwordMax));
         }
         char[] password = stringPassword.toCharArray();

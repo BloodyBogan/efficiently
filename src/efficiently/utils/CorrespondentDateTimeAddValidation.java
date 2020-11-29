@@ -41,7 +41,6 @@ public class CorrespondentDateTimeAddValidation {
     
     public static Object[] validate (DateTimePicker addDateTimePicker) throws ValidationException {
         String date = addDateTimePicker.getDatePicker().toString();
-
         try {
             LocalDate.parse(date);
         } catch (DateTimeParseException | NullPointerException e) {
@@ -49,7 +48,6 @@ public class CorrespondentDateTimeAddValidation {
         }
         
         String time = addDateTimePicker.getTimePicker().toString();
-        
         try {
             DateTimeFormatter strictTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
             .withResolverStyle(ResolverStyle.STRICT);

@@ -32,10 +32,6 @@ import efficiently.utils.CorrespondentDateTimeAddValidation;
 import efficiently.utils.CorrespondentDateTimeDeleteValidation;
 import efficiently.utils.ValidationException;
 import efficiently.views.MainLayout;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -506,15 +502,11 @@ public class Correspondent extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void refresh() throws SQLException, IOException {
-        try {
-            DashboardController.handleCorrespondentAppointmentsTableUpdate(appointmentsTable);
-            appointmentsTable.clearSelection();
-            DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
-            resetRest();
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public static void refresh() {
+        DashboardController.handleCorrespondentAppointmentsTableUpdate(appointmentsTable);
+        appointmentsTable.clearSelection();
+        DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+        resetRest();
     }
     
     private static void resetTable() {
@@ -526,7 +518,9 @@ public class Correspondent extends javax.swing.JPanel {
     
     private static void resetRest() {
         manageResponseTextArea.setText("");
+        
         manageResponseTextArea.requestFocus();
+        
         manageClosedCheckBox.setSelected(false);
 
         nameField.setText("");
@@ -535,11 +529,14 @@ public class Correspondent extends javax.swing.JPanel {
         messageTextArea.setText("");
         responseTextArea.setText("");
         dateTimeLabel.setText("");
+        
         closedCheckBox.setSelected(false);
         
         addDateTimePicker.datePicker.setText("");
         addDateTimePicker.timePicker.setText("");
+        
         addDateTimePicker.datePicker.requestFocus();
+        
         deleteDateTimeComboBox.setSelectedIndex(0);
         
         manageTabbedPane.setSelectedIndex(0);
@@ -556,166 +553,138 @@ public class Correspondent extends javax.swing.JPanel {
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                DashboardController.handleCorrespondentTableRowClick(appointmentsTable, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, closedCheckBox, manageResponseTextArea, manageClosedCheckBox);
-                User.setLastAction();
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
-            }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Correspondent.class.getName()).log(Level.SEVERE, null, ex);
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            DashboardController.handleCorrespondentTableRowClick(appointmentsTable, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, closedCheckBox, manageResponseTextArea, manageClosedCheckBox);
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_appointmentsTableMouseClicked
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                refresh();
-                User.setLastAction();
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
-            }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            refresh();
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void manageDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageDeleteButtonActionPerformed
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                try {
-                    CorrespondentAppointmentDeleteValidation.validate(appointmentsTable, manageResponseTextArea, manageClosedCheckBox);
-                } catch (ValidationException ve) {
-                    User.setLastAction();
-                    
-                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
-                    return;
-                }
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            try {
+                CorrespondentAppointmentDeleteValidation.validate(appointmentsTable, manageResponseTextArea, manageClosedCheckBox);
+            } catch (ValidationException ve) {
+                User.setLastAction();
                 
-                try {
-                    DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable, manageTabbedPane, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, closedCheckBox, manageResponseTextArea, manageClosedCheckBox);
-                    refresh();
-                    User.setLastAction();
-                } catch (SQLException | IOException ex) {
-                    Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage(), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+            
+            DashboardController.handleCorrespondentAppointmentDelete(appointmentsTable);
+            refresh();
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_manageDeleteButtonActionPerformed
 
     private void manageUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageUpdateButtonActionPerformed
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                String response;
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            String response;
+            
+            try {
+                Object[] values = CorrespondentAppointmentUpdateValidation.validate(appointmentsTable, manageResponseTextArea, manageClosedCheckBox);
                 
-                try {
-                    Object[] values = CorrespondentAppointmentUpdateValidation.validate(appointmentsTable, manageResponseTextArea, manageClosedCheckBox);
-                    
-                    response = (String) values[0];
-                } catch (ValidationException ve) {
-                    User.setLastAction();
-                    
-                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
-                    return;
-                }
+                response = (String) values[0];
+            } catch (ValidationException ve) {
+                User.setLastAction();
                 
-                try {
-                    DashboardController.handleCorrespondentAppointmentUpdate(appointmentsTable, responseTextArea, closedCheckBox, response, manageClosedCheckBox);
-                    refresh();
-                    User.setLastAction();
-                } catch (SQLException | IOException ex) {
-                    Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage(), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+            
+            DashboardController.handleCorrespondentAppointmentUpdate(appointmentsTable, responseTextArea, closedCheckBox, response, manageClosedCheckBox);
+            refresh();
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_manageUpdateButtonActionPerformed
 
     private void addDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDateTimeButtonActionPerformed
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                String dateTime;
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            String dateTime;
+            
+            try {
+                Object[] values = CorrespondentDateTimeAddValidation.validate(addDateTimePicker);
                 
-                try {
-                    Object[] values = CorrespondentDateTimeAddValidation.validate(addDateTimePicker);
-                    
-                    dateTime = (String) values[0];
-                } catch (ValidationException ve) {
-                    User.setLastAction();
-                    
-                    String veMessage = ve.getMessage();
-                    
-                    if (veMessage.contains("valid date")) {
-                        addDateTimePicker.datePicker.setText("");
-                        addDateTimePicker.datePicker.requestFocus();
-                    } else if (veMessage.contains("valid time")) {
-                        addDateTimePicker.timePicker.setText("");
-                        addDateTimePicker.timePicker.requestFocus();
-                    } else {
-                        addDateTimePicker.datePicker.setText("");
-                        addDateTimePicker.timePicker.setText("");
-                        addDateTimePicker.datePicker.requestFocus();
-                    }
-                  
-                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), veMessage);
-                    return;
+                dateTime = (String) values[0];
+            } catch (ValidationException ve) {
+                User.setLastAction();
+                
+                String veMessage = ve.getMessage();
+                
+                if (veMessage.contains("valid date")) {
+                    addDateTimePicker.datePicker.setText("");
+                    addDateTimePicker.datePicker.requestFocus();
+                } else if (veMessage.contains("valid time")) {
+                    addDateTimePicker.timePicker.setText("");
+                    addDateTimePicker.timePicker.requestFocus();
+                } else {
+                    addDateTimePicker.datePicker.setText("");
+                    addDateTimePicker.timePicker.setText("");
+                    addDateTimePicker.datePicker.requestFocus();
                 }
                 
-                DashboardController.handleCorrespondentDateTimeAdd(dateTime);
-                DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
-                addDateTimePicker.datePicker.setText("");
-                addDateTimePicker.timePicker.setText("");
-                addDateTimePicker.datePicker.requestFocus();
-                deleteDateTimeComboBox.setSelectedIndex(0);
-                User.setLastAction();
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), veMessage, Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Correspondent.class.getName()).log(Level.SEVERE, null, ex);
+            
+            DashboardController.handleCorrespondentDateTimeAdd(dateTime);
+            DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+            
+            addDateTimePicker.datePicker.setText("");
+            addDateTimePicker.timePicker.setText("");
+            
+            addDateTimePicker.datePicker.requestFocus();
+            
+            deleteDateTimeComboBox.setSelectedIndex(0);
+            
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_addDateTimeButtonActionPerformed
 
     private void deleteDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDateTimeButtonActionPerformed
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                try {
-                    CorrespondentDateTimeDeleteValidation.validate(deleteDateTimeComboBox);
-                } catch (ValidationException ve) {
-                    User.setLastAction();
-                    
-                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
-                    return;
-                }
-                
-                DashboardController.handleCorrespondentDateTimeDelete(deleteDateTimeComboBox, deleteDateTimeList);
-                DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
-
-                DashboardController.handleCorrespondentAppointmentsTableUpdate(appointmentsTable);
-                appointmentsTable.clearSelection();
-
-                addDateTimePicker.datePicker.requestFocus();
-                deleteDateTimeComboBox.setSelectedIndex(0);
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            try {
+                CorrespondentDateTimeDeleteValidation.validate(deleteDateTimeComboBox);
+            } catch (ValidationException ve) {
                 User.setLastAction();
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
+
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage(), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Correspondent.class.getName()).log(Level.SEVERE, null, ex);
+
+            DashboardController.handleCorrespondentDateTimeDelete(deleteDateTimeComboBox, deleteDateTimeList);
+            DashboardController.handleCorrespondentDateTimeUpdate(deleteDateTimeComboBox, deleteDateTimeList);
+
+            DashboardController.handleCorrespondentAppointmentsTableUpdate(appointmentsTable);
+            appointmentsTable.clearSelection();
+
+            addDateTimePicker.datePicker.requestFocus();
+            deleteDateTimeComboBox.setSelectedIndex(0);
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_deleteDateTimeButtonActionPerformed
 

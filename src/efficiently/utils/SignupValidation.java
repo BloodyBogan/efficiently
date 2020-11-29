@@ -38,13 +38,17 @@ public class SignupValidation {
         String stringAisId = aisIdField.getText().trim();        
         if (stringAisId.isEmpty()) {
             aisIdField.setText("");
+            
             aisIdField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(0), "AIS ID"));
         }
         
         if (stringAisId.length() > 6) {
             aisIdField.setText("");
+            
             aisIdField.requestFocus();
+            
             throw new ValidationException(Messages.getInputValidationError(1));
         }
 
@@ -53,21 +57,27 @@ public class SignupValidation {
             aisId = Integer.parseInt(stringAisId);
         } catch(NumberFormatException e) {
             aisIdField.setText("");
+            
             aisIdField.requestFocus();
+            
             throw new ValidationException(Messages.getInputValidationError(2));
         }
         
         String name = nameField.getText().trim();
         if (name.isEmpty()) {
             nameField.setText("");
+            
             nameField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(0), "Name"));
         }
                 
         int nameMax = 50;
         if (name.length() > nameMax) {
             nameField.setText("");
+            
             nameField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(4), "Name", nameMax));
         }
         
@@ -76,7 +86,9 @@ public class SignupValidation {
         if (stringPassword.isEmpty()) {
             passwordField.setText("");
             confirmPasswordField.setText("");
+            
             passwordField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(0), "Password"));
         }
                 
@@ -84,7 +96,9 @@ public class SignupValidation {
         if (stringPassword.length() < passwordMin) {
             passwordField.setText("");
             confirmPasswordField.setText("");
+            
             passwordField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(3), "Password", passwordMin));
         }
         
@@ -92,7 +106,9 @@ public class SignupValidation {
         if (stringPassword.length() > passwordMax) {
             passwordField.setText("");
             confirmPasswordField.setText("");
+            
             passwordField.requestFocus();
+            
             throw new ValidationException(String.format(Messages.getInputValidationError(4), "Password", passwordMax));
         }
         char[] password = stringPassword.toCharArray();
@@ -102,7 +118,9 @@ public class SignupValidation {
         if (!stringPassword.equals(stringConfirmPassword)) {
             passwordField.setText("");
             confirmPasswordField.setText("");
+            
             passwordField.requestFocus();
+            
             throw new ValidationException(Messages.getInputValidationError(5));
         }
         

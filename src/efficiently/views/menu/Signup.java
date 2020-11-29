@@ -23,14 +23,11 @@
  */
 package efficiently.views.menu;
 
+import efficiently.config.Messages;
 import efficiently.controllers.MenuController;
 import efficiently.utils.SignupValidation;
 import efficiently.utils.ValidationException;
 import efficiently.views.MainLayout;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -209,15 +206,11 @@ public class Signup extends javax.swing.JPanel {
             name = (String) values[1];
             password = (char[]) values[2];
         } catch (ValidationException ve) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage(), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
             return;
         }
   
-        try {
-            MenuController.signup(aisId, name, password);
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Signup.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MenuController.signup(aisId, name, password);
     }//GEN-LAST:event_submitButtonActionPerformed
 
 

@@ -34,6 +34,7 @@ public class Messages {
     private static ArrayList<String> errors;
     private static ArrayList<String> validationErrors;
     private static ArrayList<String> inputValidationErrors;
+    private static ArrayList<String> headers;
     
     public static void init() {
         general = new ArrayList<>();
@@ -47,21 +48,24 @@ public class Messages {
         
         inputValidationErrors = new ArrayList<>();
         setInputValidationErrors();
+        
+        headers = new ArrayList<>();
+        setHeaders();
     }
     
     private static void setGeneral () {
-        general.add("Unable to connect to the database");               // 0
-        general.add("Registration successful");                         // 1
-        general.add("Login successful");                                // 2
-        general.add("Hello, %s");                                       // 3
-        general.add("There are no available dates & times");            // 4
-        general.add("Are you sure you want to %s this %s?");            // 5
-        general.add("%s %s");                                           // 6
-        general.add("%s has been %s successfully");                     // 7
-        general.add("You don't have any available dates & times");      // 8
-        general.add("You have no appointments booked yet");             // 9
-        general.add("It's your turn");                                  // 10
-        general.add("There %s %s %s before yours");                     // 11
+        general.add("Unable to connect to the database");                                           // 0
+        general.add("You have been successfully signed up! Please log in");                         // 1
+        general.add("You have been successfully logged in");                                        // 2
+        general.add("Hello, %s");                                                                   // 3
+        general.add("There are no available dates & times");                                        // 4
+        general.add("Are you sure you want to %s this %s?");                                        // 5
+        general.add("%s %s");                                                                       // 6
+        general.add("%s has been successfully %s");                                                 // 7
+        general.add("You haven't made any dates & times available yet");                            // 8
+        general.add("You have no appointments booked yet");                                         // 9
+        general.add("It's your turn");                                                              // 10
+        general.add("There %s %s %s before yours");                                                 // 11
     };
     
     private static void setErrors () {
@@ -69,14 +73,14 @@ public class Messages {
         errors.add("Database error");                                                               // 1
         errors.add("Your session has expired");                                                     // 2
         errors.add("You can't book an appointment now as there are no available dates & times");    // 3
-        errors.add("You can't delete the date & time now as you haven't set any yet");              // 4
-        errors.add("You can't book more than 2 active appointments");                               // 5
+        errors.add("You can't delete any date & time now as you haven't made any available yet");   // 4
+        errors.add("You can't have more than 2 active appointments");                               // 5
     }
     
     private static void setValidationErrors () {
         validationErrors.add("AIS ID (%d) is already in use");              // 0
         validationErrors.add("Incorrect credentials");                      // 1
-        validationErrors.add("You already have added this date & time");    // 2
+        validationErrors.add("You have already added this date & time");    // 2
     }
     
     private static void setInputValidationErrors () {
@@ -89,6 +93,11 @@ public class Messages {
         inputValidationErrors.add("Please enter a valid %s");                       // 6 
         inputValidationErrors.add("You can't travel back in time");                 // 7
         inputValidationErrors.add("You must select a row to %s %s");                // 8
+    }
+    
+    private static void setHeaders () {
+        headers.add("Error");               // 0
+        headers.add("Information");         // 1
     }
     
     public static String getGeneral (int index) {
@@ -105,5 +114,9 @@ public class Messages {
     
     public static String getInputValidationError (int index) {
         return inputValidationErrors.get(index);
+    }
+    
+    public static String getHeaders (int index) {
+        return headers.get(index);
     }
 }

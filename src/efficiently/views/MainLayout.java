@@ -31,10 +31,6 @@ import efficiently.views.menu.Login;
 import efficiently.views.menu.Main;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -54,10 +50,8 @@ public class MainLayout extends javax.swing.JFrame {
 
     /**
      * Creates new form MainLayout
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
      */
-    public MainLayout() throws SQLException, IOException {
+    public MainLayout() {
         initComponents();
         
         menuScreen = new Main();
@@ -152,11 +146,7 @@ public class MainLayout extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            try {
-                new MainLayout().setVisible(true);
-            } catch (SQLException | IOException ex) {
-                Logger.getLogger(MainLayout.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            new MainLayout().setVisible(true);
         });
     }
     
@@ -166,6 +156,7 @@ public class MainLayout extends javax.swing.JFrame {
     
     public static void showMenuScreen() {
         menuScreen.setVisible(true);
+        
         loginScreen.setVisible(false);
         signupScreen.setVisible(false);
         studentDashboard.setVisible(false);
@@ -175,6 +166,7 @@ public class MainLayout extends javax.swing.JFrame {
     
     public static void showLoginScreen() {
         loginScreen.setVisible(true);
+        
         signupScreen.setVisible(false);
         menuScreen.setVisible(false);
         studentDashboard.setVisible(false);
@@ -186,6 +178,7 @@ public class MainLayout extends javax.swing.JFrame {
         
     public static void showSignupScreen() {
         signupScreen.setVisible(true);
+        
         loginScreen.setVisible(false);
         menuScreen.setVisible(false);
         studentDashboard.setVisible(false);
@@ -197,6 +190,7 @@ public class MainLayout extends javax.swing.JFrame {
     
     public static void showStudentDashboard() {
         studentDashboard.setVisible(true);
+        
         signupScreen.setVisible(false);
         loginScreen.setVisible(false);
         menuScreen.setVisible(false);
@@ -206,6 +200,7 @@ public class MainLayout extends javax.swing.JFrame {
     
     public static void showCorrespondentDashboard() {
         correspondentDashboard.setVisible(true);
+        
         signupScreen.setVisible(false);
         loginScreen.setVisible(false);
         menuScreen.setVisible(false);
@@ -215,6 +210,7 @@ public class MainLayout extends javax.swing.JFrame {
     
     public static void showAdminDashboard() {
         adminDashboard.setVisible(true);
+        
         signupScreen.setVisible(false);
         loginScreen.setVisible(false);
         menuScreen.setVisible(false);

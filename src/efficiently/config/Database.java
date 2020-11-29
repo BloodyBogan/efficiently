@@ -23,6 +23,7 @@
  */
 package efficiently.config;
 
+import efficiently.views.MainLayout;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,6 +32,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,7 +46,7 @@ public class Database {
     
     private static String DATABASE_PROPERTIES_PATH;
     
-    public static Connection getConnection() throws SQLException, FileNotFoundException, IOException {
+    public static Connection getConnection() throws SQLException, IOException {
         if (EXISTS) {
             DATABASE_PROPERTIES_PATH = CURRENT_DIRECTORY + "/src/resources/database.properties";
         } else {
@@ -55,20 +57,21 @@ public class Database {
 
         try (FileInputStream f = new FileInputStream(DATABASE_PROPERTIES_PATH)) {
 
-            // load the properties file
             Properties pros = new Properties();
             pros.load(f);
 
-            // assign db parameters
             String url = pros.getProperty("url");
             String user = pros.getProperty("user");
             String password = pros.getProperty("password");
             
-            // create a connection to the database
             conn = DriverManager.getConnection(url, user, password);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        } catch (FileNotFoundException fnfe) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+            System.exit(0); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
+        
         return conn;
     }
     

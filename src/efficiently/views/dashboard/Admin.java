@@ -30,10 +30,6 @@ import efficiently.utils.AdminUserDeleteValidation;
 import efficiently.utils.AdminUserUpdateValidation;
 import efficiently.utils.ValidationException;
 import efficiently.views.MainLayout;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -45,7 +41,7 @@ public class Admin extends javax.swing.JPanel {
     /**
      * Creates new form Admin
      */
-    public Admin() throws SQLException, IOException {
+    public Admin() {
         initComponents();
     }
 
@@ -287,14 +283,10 @@ public class Admin extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     
-    public static void refresh() throws SQLException, IOException {
-        try {
-            DashboardController.handleAdminUsersTableUpdate(usersTable);
-            usersTable.clearSelection();
-            resetRest();
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public static void refresh() {
+        DashboardController.handleAdminUsersTableUpdate(usersTable);
+        usersTable.clearSelection();
+        resetRest();
     }
     
     private static void resetTable() {
@@ -306,6 +298,7 @@ public class Admin extends javax.swing.JPanel {
     
     private static void resetRest() {
         roleComboBox.setSelectedIndex(0);
+        
         idField.setText("");
         aisIdField.setText("");
         nameField.setText("");
@@ -324,92 +317,68 @@ public class Admin extends javax.swing.JPanel {
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                refresh();
-                User.setLastAction();
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
-            }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            refresh();
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                DashboardController.handleAdminUsersTableRowClick(usersTable, idField, aisIdField, nameField, roleComboBox);
-                User.setLastAction();
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
-            }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            DashboardController.handleAdminUsersTableRowClick(usersTable, idField, aisIdField, nameField, roleComboBox);
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_usersTableMouseClicked
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                int aisId;
-                String name;
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            int aisId;
+            String name;
+            
+            try {
+                Object[] values = AdminUserUpdateValidation.validate(idField, aisIdField, nameField, roleComboBox);
                 
-                try {
-                    Object[] values = AdminUserUpdateValidation.validate(idField, aisIdField, nameField, roleComboBox);
-                    
-                    aisId = (int) values[0];
-                    name = (String) values[1];
-                } catch (ValidationException ve) {
-                    User.setLastAction();
-                    
-                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
-                    return;
-                }
+                aisId = (int) values[0];
+                name = (String) values[1];
+            } catch (ValidationException ve) {
+                User.setLastAction();
                 
-                try {
-                    DashboardController.handleAdminUserUpdate(usersTable, idField, aisId, name, roleComboBox);
-                    refresh();
-                    User.setLastAction();
-                } catch (SQLException | IOException ex) {
-                    Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage(), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+            
+            DashboardController.handleAdminUserUpdate(idField, aisId, name, roleComboBox);
+            refresh();
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        try {
-            if (User.isSessionValid(ACCESS_LEVEL)) {
-                try {
-                    AdminUserDeleteValidation.validate(idField, aisIdField, nameField, roleComboBox);
-                } catch (ValidationException ve) {
-                    User.setLastAction();
-                    
-                    JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage());
-                    return;
-                }
+        if (User.isSessionValid(ACCESS_LEVEL)) {
+            try {
+                AdminUserDeleteValidation.validate(idField, aisIdField, nameField, roleComboBox);
+            } catch (ValidationException ve) {
+                User.setLastAction();
                 
-                try {
-                    DashboardController.handleAdminUserDelete(usersTable, idField, aisIdField, nameField, roleComboBox);
-                    refresh();
-                    User.setLastAction();
-                } catch (SQLException | IOException ex) {
-                    Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                logoutButton.doClick();
-                JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2));
+                JOptionPane.showMessageDialog(MainLayout.getJPanel(), ve.getMessage(), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+            
+            DashboardController.handleAdminUserDelete(idField);
+            refresh();
+            User.setLastAction();
+        } else {
+            logoutButton.doClick();
+            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(2), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 

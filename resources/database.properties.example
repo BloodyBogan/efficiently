@@ -1,0 +1,4 @@
+# MySQL DB parameters
+user=ENC(XXXXX)
+password=ENC(XXXXX)
+url=ENC(jdbc:mysql://MYSQL_HOST:MYSQL_PORT/efficiently)

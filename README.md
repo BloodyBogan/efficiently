@@ -2,10 +2,11 @@
 
 > Efficiently manage your study department visits
 
-## Quick Look And Feel Overview
+## Quick Look And Feel Preview
 
 Note that the look and feel changes system to system and often after building the project  
-[Click here](https://imgur.com/a/234NaGP)  
+
+[Click here](https://imgur.com/a/DdTYApL)  
 
 ## Usage
 

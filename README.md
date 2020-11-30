@@ -10,12 +10,14 @@ Note that the look and feel changes system to system and often after building th
 
 ## Quick Functionality Overview
 
-```
 - Validation
 - Formatting
 - Error handling
 - Login
 - Register
+- "Sessions"
+- Encryption
+- Hashing
 - Admin
     - Update users
     - Delete users
@@ -32,16 +34,12 @@ Note that the look and feel changes system to system and often after building th
     - Delete dates & times
         - Associated appointment is deleted
 - User
-- View appointments
+    - View appointments
     - Book appointments (correspondent speific)
     - Can't have more than 2 active appointments
     - Only see valid dates
     - Queue
-- "Sessions"
-- Encryption
-- Hashing
 - And many more
-```
 
 ## Usage
 

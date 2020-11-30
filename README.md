@@ -39,6 +39,7 @@ Note that the look and feel changes system to system and often after building th
     - Can't have more than 2 active appointments
     - Only see valid dates
     - Queue
+- Cron jobs
 - And many more
 
 ## Usage
@@ -137,6 +138,20 @@ VAR=ENC(YOUR_ENCRYPTED_VALUE)
 
 # Put the password you used in the previous step into Database.java
 encryptor.setPassword("YOUR_PASSWORD");
+```
+
+## Auto Backup And Appointments Closing
+
+```
+# Edit crontab the file and select your preferred editor
+crontab –e
+
+# Add following lines
+*/30 * * * * docker exec -i mysql-dev mysql -uroot -proot  <<< "use efficiently; UPDATE appointments SET isClosed=1 WHERE date=(SELECT date_id FROM dates WHERE date<NOW());"
+
+0 0 * * 0 docker exec mysql-dev /usr/bin/mysqldump -u root --password=root efficiently > ~/backup/efficiently-$(date +'%m/%d/%Y').sql
+
+# Save and exit
 ```
 
 ## Database Architecture Diagram  

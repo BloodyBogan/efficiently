@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"efficiently"},{"l":"efficiently.config"},{"l":"efficiently.controllers"},{"l":"efficiently.models"},{"l":"efficiently.utils"},{"l":"efficiently.views"},{"l":"efficiently.views.dashboard"},{"l":"efficiently.views.menu"}]

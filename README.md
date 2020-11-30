@@ -39,6 +39,7 @@ Note that the look and feel changes system to system and often after building th
     - Can't have more than 2 active appointments
     - Only see valid dates
     - Queue
+- Javadoc
 - Cron jobs
 - And many more
 
@@ -152,6 +153,9 @@ crontab –e
 0 0 * * 0 docker exec mysql-dev /usr/bin/mysqldump -u root --password=root efficiently > ~/backup/efficiently-$(date +'%m/%d/%Y').sql
 
 # Save and exit
+
+# Restore
+docker exec -i mysql-dev /usr/bin/mysql -u root --password=root efficiently < /backup/FILENAME.sql
 ```
 
 ## Database Architecture Diagram  

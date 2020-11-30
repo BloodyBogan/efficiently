@@ -1,6 +1,5 @@
 resources/database.properties
 nbproject/private
 build
-dist/*
-!dist/javadoc
+dist
 test

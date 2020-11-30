@@ -38,8 +38,12 @@ import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
 
 /**
+ * <h1>User Class</h1>
+ * Governs the user model
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class User {
     private static int userId;
@@ -49,42 +53,90 @@ public class User {
     private static String roleFromDatabase;
     private static LocalDateTime lastAction;
     
+    /**
+     * Returns user's ID
+     * 
+     * @return user's identification number
+     */
     public static int getUserId() {
         return userId;
     }
     
+    /**
+     * Returns user's AIS ID
+     * 
+     * @return user's AIS identification number
+     */
     public static int getAisId() {
         return aisId;
     }
     
+    /**
+     * Returns user's name
+     * 
+     * @return user's name
+     */
     public static String getName() {
         return name;
     }
         
+    /**
+     * Returns user's role
+     * 
+     * @return user's role
+     */
     public static String getRole() {
         return role;
     }
 
+    /**
+     * Returns user's last action
+     * 
+     * @return user's last action
+     */
     public static LocalDateTime getLastAction() {
         return lastAction;
     }
     
+    /**
+     * Sets user's identification number
+     *
+     * @param zUserId
+     */
     public static void setUserId(int zUserId) {
         userId = zUserId;
     }
         
+    /**
+     * Sets user's AIS identification number
+     *
+     * @param zAisId
+     */
     public static void setAisId (int zAisId) {
         aisId = zAisId;
     }
     
+    /**
+     * Sets user's name
+     *
+     * @param zName
+     */
     public static void setName (String zName) {
         name = zName;
     }
     
+    /**
+     * Sets user's role
+     *
+     * @param zRole
+     */
     public static void setRole (String zRole) {
         role = zRole;
     }
     
+    /**
+     * Gets server time and sets it as user's last action
+     */
     public static void setLastAction () {
         String sqlRetrieveDateTime = "SELECT now() as date_time";
         
@@ -108,6 +160,9 @@ public class User {
         }
     }
     
+    /**
+     * Queries the database to see if the user exists
+     */
     private static boolean doesUserExist () {
         String sqlRetrieveAisId = "SELECT ais_id FROM users WHERE user_id=?";
         
@@ -131,6 +186,11 @@ public class User {
         return valid;
     }
     
+    /**
+     * Retrieves user's role from the database
+     * 
+     * @return user's role from the database
+     */
     private static String setRoleFromDatabase () {
         String sqlRetrieveUserRole = "SELECT user_role.role FROM user_role, users WHERE (users.user_id=? AND user_role.role_id=users.role)";
 
@@ -160,6 +220,13 @@ public class User {
         return roleFromDatabase;
     }
     
+    /**
+     * Performs various checks to see if user's session is valid
+     * 
+     * @param ACCESS_LEVEL of the corresponding view
+     * 
+     * @return boolean whether user's session is valid or not depending on various checks
+     */
     public static boolean isSessionValid (String ACCESS_LEVEL) {
         String sqlRetrieveDateTime = "SELECT now() as date_time";
         
@@ -189,6 +256,9 @@ public class User {
         return t.isBefore(lastAction) && doesUserExist() && (role.equals(roleFromDatabase)) && (ACCESS_LEVEL.equals(role)) && (ACCESS_LEVEL.equals(roleFromDatabase)) && ((userId != -1) && (aisId != -1) && (!name.isEmpty()) && (!role.isEmpty()) && (!roleFromDatabase.isEmpty()));
     }
     
+    /**
+     *  Resets the user model
+     */
     public static void logout() {
         userId = -1;
         aisId = -1;

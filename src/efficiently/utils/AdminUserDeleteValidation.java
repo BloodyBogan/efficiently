@@ -28,10 +28,26 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 /**
+ * <h1>AdminUserDeleteValidation Class</h1>
+ * Governs the admin user delete validation
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-28
  */
 public class AdminUserDeleteValidation {
+
+    /**
+     * Makes sure user ID is present when deleting a user
+     * Resets input
+     *
+     * @param idField
+     * @param aisIdField
+     * @param nameField
+     * @param roleComboBox
+     * 
+     * @throws ValidationException if the input is incorrect
+     */
     public static void validate (JTextField idField, JTextField aisIdField, JTextField nameField, JComboBox<String> roleComboBox) throws ValidationException {
         String id = idField.getText().trim();
         if (id.isEmpty()) {

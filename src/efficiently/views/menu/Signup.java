@@ -31,8 +31,12 @@ import efficiently.views.MainLayout;
 import javax.swing.JOptionPane;
 
 /**
+ * <h1>Signup Class</h1>
+ * Governs the signup screen view
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class Signup extends javax.swing.JPanel {
     /**
@@ -181,6 +185,9 @@ public class Signup extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Resets this view's elements and focuses on the first editable one
+     */
     public static void reset() {
         aisIdField.setText("");
         nameField.setText("");
@@ -190,10 +197,21 @@ public class Signup extends javax.swing.JPanel {
         aisIdField.requestFocus();
     }
     
+    /**
+     * Shows the main menu screen
+     * 
+     * @param evt unused
+     */
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         MainLayout.showMenuScreen();
     }//GEN-LAST:event_backButtonActionPerformed
 
+    /**
+     * Calls a method that validates user's input
+     * If that's successful, signup method is called
+     * 
+     * @param evt unused
+     */
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         int aisId;
         String name;

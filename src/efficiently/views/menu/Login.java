@@ -31,8 +31,12 @@ import efficiently.views.MainLayout;
 import javax.swing.JOptionPane;
 
 /**
+ * <h1>Login Class</h1>
+ * Governs the login screen view
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class Login extends javax.swing.JPanel {
     /**
@@ -147,6 +151,9 @@ public class Login extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     
+    /**
+     *  Resets this view's elements and focuses on the first editable one
+     */
     public static void reset() {
         aisIdField.setText("");
         passwordField.setText("");
@@ -154,10 +161,21 @@ public class Login extends javax.swing.JPanel {
         aisIdField.requestFocus();
     }
     
+    /**
+     * Shows the main menu screen
+     * 
+     * @param evt unused
+     */
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         MainLayout.showMenuScreen();
     }//GEN-LAST:event_backButtonActionPerformed
 
+    /**
+     * Calls a method that validates user's input
+     * If that's successful, login method is called
+     * 
+     * @param evt unused
+     */
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         int aisId;
         char[] password;

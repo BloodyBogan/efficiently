@@ -50,16 +50,29 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * <h1>DashboardController Class</h1>
+ * Governs the dashboard functionality
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class DashboardController {
+
+    /**
+     * Logs the user out by resetting User's variables and showing the main menu screen
+     */
     public static void logout() {
         User.logout();
         
         MainLayout.showMenuScreen();
     }
     
+    /**
+     * Populates the student's appointments table
+     *
+     * @param appointmentsTable
+     */
     public static void handleStudentAppointmentsTableUpdate(JTable appointmentsTable) {
         String sqlRetrieveAppointments = "SELECT appointments.subject, appointments.message, appointments.response, dates.date, users.name, appointments.isClosed FROM appointments, dates, users WHERE (appointments.user=? AND appointments.date=dates.date_id AND users.user_id=dates.user) ORDER BY date ASC";
         try (Connection conn = Database.getConnection();
@@ -113,6 +126,11 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Displays an easy-to-read informational message to the user with all the relevant information about a given appointment
+     *
+     * @param appointmentsTable
+     */
     public static void handleStudentAppointmentsTableRowClick(JTable appointmentsTable) {
         DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
         
@@ -128,6 +146,16 @@ public class DashboardController {
         JOptionPane.showMessageDialog(MainLayout.getJPanel(), "<html><body><div style='width: 450px;'><p>Subject: " + subject + "</p><br><p>Message: " + message + "</p><br><p>Response: " + response + "</p><br><p>Date: " + date + "</p><br><p>Correspondent: " + name + "</p><br><p>Closed: " + closed + "</p></div></body></html>", "Appointment" + Messages.getHeaders(1), JOptionPane.INFORMATION_MESSAGE);
     }
     
+    /**
+     * Checks whether the user crossed the maximum appointments count limit
+     * Inserts the newly-created appointment to the database
+     * Updates the appointment's date
+     *
+     * @param subject
+     * @param message
+     * @param dateTimeComboBox
+     * @param dateTimeList
+     */
     public static void handleStudentBookAppointment(String subject, String message, JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {   
         int userId = User.getUserId();
         
@@ -212,6 +240,12 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Makes sure the user is provided with the current available dates
+     *
+     * @param dateTimeComboBox
+     * @param dateTimeList
+     */
     @SuppressWarnings("unchecked")
     public static void handleStudentAppointmentsDatesUpdate(JComboBox<String> dateTimeComboBox, JList<String> dateTimeList) {
         dateTimeComboBox.removeAllItems();
@@ -242,6 +276,11 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Tells the user how many valid appointments are before the user's one for the user's first appointment's correspondent
+     *
+     * @param queueLabel
+     */
     public static void handleStudentQueueUpdate(JLabel queueLabel) {
         int dateId = 0;
         int correspondentUserId = 0;
@@ -305,6 +344,11 @@ public class DashboardController {
         }
     } 
     
+    /**
+     * Populates the correspondent's appointments table
+     *
+     * @param appointmentsTable
+     */
     public static void handleCorrespondentAppointmentsTableUpdate(JTable appointmentsTable) {
         String sqlRetrieveAppointments = "SELECT appointments.appointment_id, appointments.subject, appointments.message, appointments.response, dates.date, appointments.isClosed, users.ais_id, users.name FROM appointments, dates, users WHERE (dates.user=? AND appointments.date=dates.date_id AND appointments.user=users.user_id) ORDER BY dates.date ASC";    
         try (Connection conn = Database.getConnection();
@@ -360,6 +404,20 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Populates all the relevant fields with information about the selected appointment
+     *
+     * @param appointmentsTable
+     * @param nameField
+     * @param aisIdField
+     * @param subjectField
+     * @param messageTextArea
+     * @param responseTextArea
+     * @param dateTimeLabel
+     * @param closedCheckBox
+     * @param manageResponseTextArea
+     * @param manageClosedCheckBox
+     */
     public static void handleCorrespondentTableRowClick(JTable appointmentsTable, JTextField nameField, JTextField aisIdField, JTextField subjectField, JTextArea messageTextArea, JTextArea responseTextArea, JLabel dateTimeLabel, JCheckBox closedCheckBox, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) {
         DefaultTableModel Df = (DefaultTableModel)appointmentsTable.getModel();
         
@@ -406,6 +464,15 @@ public class DashboardController {
         manageClosedCheckBox.setSelected(isSelected);
     }
     
+    /**
+     * Updates the selected appointment
+     *
+     * @param appointmentsTable
+     * @param responseTextArea
+     * @param closedCheckBox
+     * @param response
+     * @param manageClosedCheckBox
+     */
     public static void handleCorrespondentAppointmentUpdate(JTable appointmentsTable, JTextArea responseTextArea, JCheckBox closedCheckBox, String response, JCheckBox manageClosedCheckBox) {
         int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "update", "appointment"), String.format(Messages.getGeneral(6), "Update", "appointment"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
@@ -452,6 +519,12 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Updates the date that is tied to the appointment at question
+     * Deletes the selected appointment
+     *
+     * @param appointmentsTable
+     */
     public static void handleCorrespondentAppointmentDelete(JTable appointmentsTable) {
         int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "delete", "appointment"), String.format(Messages.getGeneral(6), "Delete", "appointment"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
@@ -499,6 +572,12 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Makes sure the current correspondent haven't already made the date available already
+     * Inserts the new date into the database
+     *
+     * @param dateTime
+     */
     public static void handleCorrespondentDateTimeAdd(String dateTime) {        
         int userId = User.getUserId();
         
@@ -544,6 +623,12 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Displays all correspondent's dates
+     *
+     * @param deleteDateTimeComboBox
+     * @param deleteDateTimeList
+     */
     @SuppressWarnings({"unchecked", "unchecked"})
     public static void handleCorrespondentDateTimeUpdate(JComboBox<String> deleteDateTimeComboBox, JList<String> deleteDateTimeList) {
         int userId = User.getUserId();
@@ -578,6 +663,13 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Deletes the appointment that is tied to the date
+     * Deletes the date
+     *
+     * @param deleteDateTimeComboBox
+     * @param deleteDateTimeList
+     */
     public static void handleCorrespondentDateTimeDelete(JComboBox<String> deleteDateTimeComboBox, JList<String> deleteDateTimeList) {
         int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "delete", "date & time"), String.format(Messages.getGeneral(6), "Delete", "date & time"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
@@ -625,6 +717,11 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Populates the admin's users table
+     *
+     * @param usersTable
+     */
     public static void handleAdminUsersTableUpdate(JTable usersTable) {
         String sqlRetrieveUsers = "SELECT users.user_id, users.ais_id, users.name, user_role.role FROM users, user_role WHERE (users.user_id<>? AND users.role=user_role.role_id) ORDER BY users.ais_id ASC";
         
@@ -666,6 +763,15 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Populates all the relevant fields with information about the selected user
+     *
+     * @param usersTable
+     * @param idField
+     * @param aisIdField
+     * @param nameField
+     * @param roleComboBox
+     */
     public static void handleAdminUsersTableRowClick(JTable usersTable, JTextField idField, JTextField aisIdField, JTextField nameField, JComboBox<String> roleComboBox) {
         int selectedIndex = usersTable.getSelectedRow();
         DefaultTableModel Df = (DefaultTableModel)usersTable.getModel();
@@ -677,6 +783,14 @@ public class DashboardController {
         roleComboBox.setSelectedItem(Df.getValueAt(selectedIndex, 3).toString());
     }
     
+    /**
+     * Updates the selected user
+     *
+     * @param idField
+     * @param aisId
+     * @param name
+     * @param roleComboBox
+     */
     public static void handleAdminUserUpdate(JTextField idField, int aisId, String name, JComboBox<String> roleComboBox) {
         int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "update", "user"), String.format(Messages.getGeneral(6), "Update", "user"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {
@@ -727,6 +841,13 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Selects all the dates that the student has booked so far
+     * Makes some of them available
+     * Deletes all the user's appointments
+     *
+     * @param userId
+     */
     public static void handleAdminStudentDelete(int userId) { 
         List<Integer> datesList = new ArrayList<>(); 
         
@@ -805,6 +926,13 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Selects all correspondent's booked dates
+     * Deletes appointments tied to those dates
+     * Deletes all of the correspondent's dates 
+     *
+     * @param userId
+     */
     public static void handleAdminCorrespondentDelete(int userId) {
         List<Integer> appointmentsList = new ArrayList<>();
         
@@ -883,6 +1011,13 @@ public class DashboardController {
         }
     }
     
+    /**
+     * Retrieves the user's role from the database
+     * Handles each user type differently
+     * Deletes the user itself
+     *
+     * @param idField
+     */
     public static void handleAdminUserDelete(JTextField idField) {
         int option = JOptionPane.showConfirmDialog(MainLayout.getJPanel(), String.format(Messages.getGeneral(5), "delete", "user"), String.format(Messages.getGeneral(6), "Delete", "user"), JOptionPane.YES_NO_OPTION);
         if (option != 0) {

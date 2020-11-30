@@ -36,8 +36,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
+ * <h1>MainLayout Class</h1>
+ * Governs displaying of different JPanels
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class MainLayout extends javax.swing.JFrame {    
     private final static GridBagLayout layout = new GridBagLayout();
@@ -52,6 +56,7 @@ public class MainLayout extends javax.swing.JFrame {
 
     /**
      * Creates new form MainLayout
+     * Initializes all the views and adds them to the GridBagLayout
      */
     public MainLayout() {
         initComponents();
@@ -121,6 +126,8 @@ public class MainLayout extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
+     * Initializes the JForm
+     * 
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -150,10 +157,18 @@ public class MainLayout extends javax.swing.JFrame {
         });
     }
     
+    /**
+     * Returns DynamicPanel which serves as a harbor for all the views
+     * 
+     * @return DynamicPanel
+     */
     public static JPanel getJPanel() {
         return DynamicPanel;
     }
     
+    /**
+     * Shows the menu screen and hides all the other views
+     */
     public static void showMenuScreen() {
         menuScreen.setVisible(true);
         
@@ -164,6 +179,9 @@ public class MainLayout extends javax.swing.JFrame {
         adminDashboard.setVisible(false);
     }
     
+    /**
+     * Shows the login screen, hides all the other views and resets it
+     */
     public static void showLoginScreen() {
         loginScreen.setVisible(true);
         
@@ -176,6 +194,9 @@ public class MainLayout extends javax.swing.JFrame {
         Login.reset();
     }
         
+    /**
+     * Shows the signup screen, hides all the other views and resets it
+     */
     public static void showSignupScreen() {
         signupScreen.setVisible(true);
         
@@ -188,6 +209,9 @@ public class MainLayout extends javax.swing.JFrame {
         Signup.reset();
     }
     
+    /**
+     * Shows the student dashboard and hides all the other views
+     */
     public static void showStudentDashboard() {
         studentDashboard.setVisible(true);
         
@@ -198,6 +222,9 @@ public class MainLayout extends javax.swing.JFrame {
         adminDashboard.setVisible(false);
     }
     
+    /**
+     * Shows the correspondent dashboard and hides all the other views
+     */
     public static void showCorrespondentDashboard() {
         correspondentDashboard.setVisible(true);
         
@@ -208,6 +235,9 @@ public class MainLayout extends javax.swing.JFrame {
         adminDashboard.setVisible(false);
     }
     
+    /**
+     * Shows the admin dashboard and hides all the other views
+     */
     public static void showAdminDashboard() {
         adminDashboard.setVisible(true);
         

@@ -26,8 +26,12 @@ package efficiently.views.menu;
 import efficiently.views.MainLayout;
 
 /**
+ * <h1>Main Class</h1>
+ * Governs the main menu screen view
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class Main extends javax.swing.JPanel {
     /**
@@ -117,10 +121,20 @@ public class Main extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     
+    /**
+     * Shows the signup screen
+     * 
+     * @param evt unused
+     */
     private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
         MainLayout.showSignupScreen();
     }//GEN-LAST:event_signupButtonActionPerformed
 
+    /**
+     * Shows the login screen
+     * 
+     * @param evt unused
+     */
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         MainLayout.showLoginScreen();
     }//GEN-LAST:event_loginButtonActionPerformed

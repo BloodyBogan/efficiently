@@ -31,12 +31,15 @@ import efficiently.utils.ValidationException;
 import efficiently.views.MainLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * <h1>Student Class</h1>
+ * Governs the student dashboard
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class Student extends javax.swing.JPanel {
     private final static String ACCESS_LEVEL = "student";
@@ -319,6 +322,12 @@ public class Student extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Refreshes the appointments table
+     * Gets rid of table's row selection if any
+     * Updates available dates and the queue
+     * Resets the dashboard except the table
+     */
     public static void refresh() {
         DashboardController.handleStudentAppointmentsTableUpdate(appointmentsTable);
         
@@ -330,6 +339,9 @@ public class Student extends javax.swing.JPanel {
         resetRest();
     }
     
+    /**
+     * Resets the table
+     */
     private static void resetTable() {
         appointmentsTable.clearSelection();
         
@@ -339,6 +351,9 @@ public class Student extends javax.swing.JPanel {
         appointmentsTable.revalidate();
     }
     
+    /**
+     * Resets the dashboard except the table
+     */
     private static void resetRest() {
         dateTimeComboBox.setSelectedIndex(0);
         
@@ -348,10 +363,18 @@ public class Student extends javax.swing.JPanel {
         subjectField.requestFocus();
     }
     
+    /**
+     * Sets the user's name to userNameLabel
+     */
     public static void setUserName() {
         userNameLabel.setText(String.format(Messages.getGeneral(3), User.getName()));
     }
 
+    /**
+     * Logs the user out and resets the whole dashboard
+     * 
+     * @param evt unused 
+     */
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         DashboardController.logout();
         
@@ -360,6 +383,12 @@ public class Student extends javax.swing.JPanel {
         resetRest();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    /**
+     * Calls the refresh function and sets user's last action
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             refresh();
@@ -372,6 +401,14 @@ public class Student extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
 
+    /**
+     * Calls a method that validates user's input
+     * If that's successful, handleStudentBookAppointment method is called
+     * Also, the refresh function is called and user's last action is set
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void bookNowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookNowButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             String subject;
@@ -401,6 +438,12 @@ public class Student extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_bookNowButtonActionPerformed
 
+    /**
+     * Displays information about the chosen appointment and sets user's last action
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
         if (User.isSessionValid(ACCESS_LEVEL)) {
             DashboardController.handleStudentAppointmentsTableRowClick(appointmentsTable);

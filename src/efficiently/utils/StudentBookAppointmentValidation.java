@@ -30,12 +30,28 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
+ * <h1>StudentBookAppointmentValidation Class</h1>
+ * Governs the student book appointment validation
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-28
  */
 public class StudentBookAppointmentValidation {
     private static Object[] values;
     
+    /**
+     * Makes sure all the input is correct
+     * Resets input throughout as needed
+     *
+     * @param subjectField
+     * @param messageTextArea
+     * @param dateTimeComboBox
+     * 
+     * @return the validated input
+     * 
+     * @throws ValidationException if the input is incorrect
+     */
     public static Object[] validate (JTextField subjectField, JTextArea messageTextArea, JComboBox<String> dateTimeComboBox) throws ValidationException {
         String subject = subjectField.getText().trim();        
         if (subject.isEmpty()) {

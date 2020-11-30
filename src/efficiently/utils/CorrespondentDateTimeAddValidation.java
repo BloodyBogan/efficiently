@@ -33,12 +33,25 @@ import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 
 /**
+ * <h1>CorrespondentDateTimeAddValidation Class</h1>
+ * Governs the correspondent date and time add validation
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-28
  */
 public class CorrespondentDateTimeAddValidation {
     private static Object[] values;
     
+    /**
+     * Makes sure all the input is correct
+     *
+     * @param addDateTimePicker
+     * 
+     * @return the validated input
+     * 
+     * @throws ValidationException if the input is incorrect
+     */
     public static Object[] validate (DateTimePicker addDateTimePicker) throws ValidationException {
         String date = addDateTimePicker.getDatePicker().toString();
         try {

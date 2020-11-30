@@ -34,8 +34,12 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * <h1>Admin Class</h1>
+ * Governs the admin dashboard
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class Admin extends javax.swing.JPanel {
     private final static String ACCESS_LEVEL = "admin";
@@ -288,6 +292,11 @@ public class Admin extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     
+    /**
+     * Refreshes the users table
+     * Gets rid of table's row selection if any
+     * Resets the dashboard except the table
+     */
     public static void refresh() {
         DashboardController.handleAdminUsersTableUpdate(usersTable);
         
@@ -296,6 +305,9 @@ public class Admin extends javax.swing.JPanel {
         resetRest();
     }
     
+    /**
+     * Resets the table
+     */
     private static void resetTable() {
         usersTable.clearSelection();
         
@@ -305,6 +317,9 @@ public class Admin extends javax.swing.JPanel {
         usersTable.revalidate();
     }
     
+    /**
+     * Resets the dashboard except the table
+     */
     private static void resetRest() {
         roleComboBox.setSelectedIndex(0);
         
@@ -315,10 +330,18 @@ public class Admin extends javax.swing.JPanel {
         aisIdField.requestFocus();
     }
     
+    /**
+     * Sets the user's name to userNameLabel
+     */
     public static void setUserName() {
         userNameLabel.setText(String.format(Messages.getGeneral(3), User.getName()));
     }
     
+    /**
+     * Logs the user out and resets the whole dashboard
+     * 
+     * @param evt unused 
+     */
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         DashboardController.logout();
         
@@ -327,6 +350,12 @@ public class Admin extends javax.swing.JPanel {
         resetRest();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    /**
+     * Calls the refresh function and sets user's last action
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             refresh();
@@ -339,6 +368,12 @@ public class Admin extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
 
+    /**
+     * Calls the handleAdminUsersTableRowClick method and sets user's last action
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
         if (User.isSessionValid(ACCESS_LEVEL)) {
             DashboardController.handleAdminUsersTableRowClick(usersTable, idField, aisIdField, nameField, roleComboBox);
@@ -351,6 +386,14 @@ public class Admin extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_usersTableMouseClicked
 
+    /**
+     * Calls a method that validates user's input
+     * If that's successful, handleAdminUserUpdate method is called
+     * Also, the refresh function is called and user's last action is set
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             int aisId;
@@ -380,6 +423,14 @@ public class Admin extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
+    /**
+     * Calls a method that validates user's input
+     * If that's successful, handleAdminUserDelete method is called
+     * Also, the refresh function is called and user's last action is set
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             try {

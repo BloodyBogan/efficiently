@@ -29,12 +29,28 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 
 /**
+ * <h1>CorrespondentAppointmentUpdateValidation Class</h1>
+ * Governs the correspondent appointment update validation
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-28
  */
 public class CorrespondentAppointmentUpdateValidation {
     private static Object[] values;
     
+    /**
+     * Makes sure all the input is correct
+     * Resets input throughout as needed
+     *
+     * @param appointmentsTable
+     * @param manageResponseTextArea
+     * @param manageClosedCheckBox
+     * 
+     * @return the validated input
+     * 
+     * @throws ValidationException if the input is incorrect
+     */
     public static Object[] validate (JTable appointmentsTable, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) throws ValidationException {
         boolean isRowNotSelected = appointmentsTable.getSelectionModel().isSelectionEmpty();
         if (isRowNotSelected) {

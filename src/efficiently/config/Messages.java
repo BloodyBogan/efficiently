@@ -26,8 +26,12 @@ package efficiently.config;
 import java.util.ArrayList;
 
 /**
+ * <h1>Messages Class</h1>
+ * Governs setting and returning various types of messages used throughout
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class Messages {
     private static ArrayList<String> general;
@@ -36,6 +40,9 @@ public class Messages {
     private static ArrayList<String> inputValidationErrors;
     private static ArrayList<String> headers;
     
+    /**
+     * Initializes ArrayLists ans calls their corresponding setters
+     */
     public static void init() {
         general = new ArrayList<>();
         setGeneral();
@@ -53,6 +60,9 @@ public class Messages {
         setHeaders();
     }
     
+    /**
+     * Adds all the general messages to its corresponding ArrayList
+     */
     private static void setGeneral () {
         general.add("Unable to connect to the database");                                           // 0
         general.add("You have been successfully signed up! Please log in");                         // 1
@@ -68,6 +78,9 @@ public class Messages {
         general.add("There %s %s %s before yours");                                                 // 11
     };
     
+    /**
+     * Adds all the error messages to its corresponding ArrayList
+     */
     private static void setErrors () {
         errors.add("There was an error");                                                           // 0
         errors.add("Database error");                                                               // 1
@@ -77,12 +90,18 @@ public class Messages {
         errors.add("You can't have more than 2 active appointments");                               // 5
     }
     
+    /**
+     * Adds all the validation error messages to its corresponding ArrayList
+     */
     private static void setValidationErrors () {
         validationErrors.add("AIS ID (%d) is already in use");              // 0
         validationErrors.add("Incorrect credentials");                      // 1
         validationErrors.add("You have already added this date & time");    // 2
     }
     
+    /**
+     * Adds all the input validation error messages to its corresponding ArrayList
+     */
     private static void setInputValidationErrors () {
         inputValidationErrors.add("%s must not be emtpy");                          // 0
         inputValidationErrors.add("AIS ID must not be longer than 6 digits");       // 1
@@ -95,27 +114,65 @@ public class Messages {
         inputValidationErrors.add("You must select a row to %s %s");                // 8
     }
     
+    /**
+     * Adds all the header messages to its corresponding ArrayList
+     */
     private static void setHeaders () {
         headers.add("Error");               // 0
         headers.add("Information");         // 1
     }
     
+    /**
+     * Returns the requested general message at the requested index
+     * 
+     * @param index of the general messages in the corresponding ArrayList
+     * 
+     * @return requested general message at the given index
+     */
     public static String getGeneral (int index) {
         return general.get(index);
     }
     
+    /**
+     * Returns the requested error message at the requested index
+     * 
+     * @param index of the error messages in the corresponding ArrayList
+     * 
+     * @return requested error message at the given index
+     */
     public static String getError (int index) {
         return errors.get(index);
     }
     
+    /**
+     * Returns the requested validation error message at the requested index
+     * 
+     * @param index of the validation error messages in the corresponding ArrayList
+     * 
+     * @return requested validation error message at the given index
+     */
     public static String getValidationError (int index) {
         return validationErrors.get(index);
     }
     
+    /**
+     * Returns the requested input validation error message at the requested index
+     * 
+     * @param index of the input validation error messages in the corresponding ArrayList
+     * 
+     * @return requested input validation error message at the given index
+     */
     public static String getInputValidationError (int index) {
         return inputValidationErrors.get(index);
     }
     
+    /**
+     * Returns the requested header message at the requested index
+     * 
+     * @param index of the header messages in the corresponding ArrayList
+     * 
+     * @return requested header message at the given index
+     */
     public static String getHeaders (int index) {
         return headers.get(index);
     }

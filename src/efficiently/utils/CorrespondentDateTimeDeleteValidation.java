@@ -27,10 +27,22 @@ import efficiently.config.Messages;
 import javax.swing.JComboBox;
 
 /**
+ * <h1>CorrespondentDateTimeDeleteValidation Class</h1>
+ * Governs the correspondent date and time delete validation
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-28
  */
 public class CorrespondentDateTimeDeleteValidation {
+
+    /**
+     * Makes sure that there's actually a date to delete
+     *
+     * @param deleteDateTimeComboBox
+     * 
+     * @throws ValidationException if the input is incorrect
+     */
     public static void validate (JComboBox<String> deleteDateTimeComboBox) throws ValidationException {
         String comboBoxItem = deleteDateTimeComboBox.getSelectedItem().toString();
         if (comboBoxItem.equals(Messages.getGeneral(8))) {

@@ -29,10 +29,24 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 
 /**
+ * <h1>CorrespondentAppointmentDeleteValidation Class</h1>
+ * Governs the correspondent appointment delete validation
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-28
  */
 public class CorrespondentAppointmentDeleteValidation {
+
+    /**
+     * Makes sure table's row is selected before proceeding
+     *
+     * @param appointmentsTable
+     * @param manageResponseTextArea
+     * @param manageClosedCheckBox
+     * 
+     * @throws ValidationException if the input is incorrect
+     */
     public static void validate (JTable appointmentsTable, JTextArea manageResponseTextArea, JCheckBox manageClosedCheckBox) throws ValidationException {
         boolean isRowNotSelected = appointmentsTable.getSelectionModel().isSelectionEmpty();
         if (isRowNotSelected) {

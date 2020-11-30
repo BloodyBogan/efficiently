@@ -43,16 +43,32 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import javax.swing.JOptionPane;
 
 /**
+ * <h1>MenuController Class</h1>
+ * Governs the menu functionality
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class MenuController {
+
+    /**
+     * Initializes the MainLayout for all the other views to be displayed in
+     * Sets MainLayout visible 
+     */
     public static void init() {
         MainLayout Main = new MainLayout();
         
         Main.setVisible(true);
     }
     
+    /**
+     * Inserts a new user into the database
+     *
+     * @param aisId
+     * @param name
+     * @param password
+     */
     public static void signup(int aisId, String name, char[] password) {
         String formattedName = Capitalize.capitalizeName(name);
         String hashedPassword = BCrypt.withDefaults().hashToString(12, password);
@@ -81,6 +97,16 @@ public class MenuController {
         }
     }
     
+    /**
+     * Logs in the user
+     * Checks whether the user even exists or not
+     * Checks whether the password matches the one of the user
+     * Calls User's setters
+     * Displays a different dashboard depending on user's role
+     * 
+     * @param aisId
+     * @param password
+     */
     public static void login(int aisId, char[] password) {
         String sqlRetrieveUser = "SELECT users.user_id, users.ais_id, users.name, users.password, user_role.role from users, user_role WHERE (ais_id=? AND users.role=user_role.role_id) LIMIT 1";
         try (Connection conn = Database.getConnection()) {

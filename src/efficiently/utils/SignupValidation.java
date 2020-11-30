@@ -28,12 +28,29 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
+ * <h1>SignupValidation Class</h1>
+ * Governs the signup validation
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-28
  */
 public class SignupValidation {
     private static Object[] values;
     
+    /**
+     * Makes sure all the input is correct
+     * Resets input throughout as needed
+     *
+     * @param aisIdField
+     * @param nameField
+     * @param passwordField
+     * @param confirmPasswordField
+     * 
+     * @return the validated input
+     * 
+     * @throws ValidationException if the input is incorrect
+     */
     public static Object[] validate (JTextField aisIdField, JTextField nameField, JPasswordField passwordField, JPasswordField confirmPasswordField) throws ValidationException {
         String stringAisId = aisIdField.getText().trim();        
         if (stringAisId.isEmpty()) {

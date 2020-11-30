@@ -37,14 +37,26 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.properties.EncryptableProperties;
 
 /**
- *
+ * <h1>Database Class</h1>
+ * Governs connecting to the database
+ * 
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class Database {
     private final static String CURRENT_DIRECTORY = System.getProperty("user.dir");
     
     private final static File DATABASE_PROPERTIES_PATH = new File(CURRENT_DIRECTORY + "/resources/database.properties");
     
+    /**
+     * Gets values from properties file, decrypts them and tries to connect to the database
+     * 
+     * @return connection object
+     * 
+     * @throws SQLException if connecting to the database was not successful
+     * @throws IOException if I/O operations failed or were interrupted
+     */
     public static Connection getConnection() throws SQLException, IOException {        
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         encryptor.setPassword("196048a3d48f928e02b156f9a74dd3f58b371da2359f2e063b33ae686d82b191"); // could be got from web, env variable...

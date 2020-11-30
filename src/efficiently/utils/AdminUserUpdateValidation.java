@@ -28,12 +28,29 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 /**
+ * <h1>AdminUserUpdateValidation Class</h1>
+ * Governs the admin user update validation
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-28
  */
 public class AdminUserUpdateValidation {
     private static Object[] values;
     
+    /**
+     * Makes sure all the input is correct
+     * Resets input throughout as needed
+     *
+     * @param idField
+     * @param aisIdField
+     * @param nameField
+     * @param roleComboBox
+     * 
+     * @return the validated input
+     * 
+     * @throws ValidationException if the input is incorrect
+     */
     public static Object[] validate (JTextField idField, JTextField aisIdField, JTextField nameField, JComboBox<String> roleComboBox) throws ValidationException {
         String id = idField.getText().trim();
         if (id.isEmpty()) {

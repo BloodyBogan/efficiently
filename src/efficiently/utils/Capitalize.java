@@ -24,10 +24,22 @@
 package efficiently.utils;
 
 /**
+ * <h1>Capitalize Class</h1>
+ * Governs capitalization and formatting of user's name
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class Capitalize {
+
+    /**
+     * Capitalizes and formats user's name
+     *
+     * @param string
+     * 
+     * @return capitalized and formatted name
+     */
     public static String capitalizeName(String string) {
         char[] chars = string.toLowerCase().toCharArray();
         

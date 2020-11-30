@@ -34,11 +34,20 @@ import efficiently.views.MainLayout;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * <h1>Main Class</h1>
+ * Governs initialization
+ * 
+ * <p>Efficiently manage your study department visits</p>
+ * 
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class Main {
     /**
+     * Initializes messages and tries to connect to the database
+     * If that's successful, the user model is reset and the main menu screen is shown
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args) {

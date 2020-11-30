@@ -24,10 +24,21 @@
 package efficiently.utils;
 
 /**
+ * <h1>ValidationException Class</h1>
+ * Governs the custom exception called ValidationException
+ * ValidationException class extends the Exception class
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-28
  */
 public class ValidationException extends Exception {
+    
+    /**
+     * Calls constructor of parent Exception and provides it with a message that we've defined
+     *
+     * @param message
+     */
     public ValidationException(String message) {
         super(message);
     }

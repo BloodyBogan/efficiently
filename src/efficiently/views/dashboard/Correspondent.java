@@ -37,8 +37,12 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * <h1>Correspondent Class</h1>
+ * Governs the correspondent dashboard
  *
  * @author Michal Kaštan <github.com/BloodyBogan> & Ladislav Capalaj
+ * @version 1.0.0
+ * @since 2020-11-23
  */
 public class Correspondent extends javax.swing.JPanel {
     private final static String ACCESS_LEVEL = "correspondent";
@@ -503,6 +507,11 @@ public class Correspondent extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Refreshes the users table
+     * Gets rid of table's row selection if any
+     * Resets the dashboard except the table
+     */
     public static void refresh() {
         DashboardController.handleCorrespondentAppointmentsTableUpdate(appointmentsTable);
         
@@ -513,6 +522,9 @@ public class Correspondent extends javax.swing.JPanel {
         resetRest();
     }
     
+    /**
+     * Resets the table
+     */
     private static void resetTable() {
         appointmentsTable.clearSelection();
         
@@ -522,6 +534,9 @@ public class Correspondent extends javax.swing.JPanel {
         appointmentsTable.revalidate();
     }
     
+    /**
+     * Resets the dashboard except the table
+     */
     private static void resetRest() {
         manageResponseTextArea.setText("");
         
@@ -548,10 +563,18 @@ public class Correspondent extends javax.swing.JPanel {
         manageTabbedPane.setSelectedIndex(0);
     }
     
+    /**
+     * Sets the user's name to userNameLabel
+     */
     public static void setUserName() {
         userNameLabel.setText(String.format(Messages.getGeneral(3), User.getName()));
     }
     
+    /**
+     * Logs the user out and resets the whole dashboard
+     * 
+     * @param evt unused 
+     */
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         DashboardController.logout();
         
@@ -560,6 +583,12 @@ public class Correspondent extends javax.swing.JPanel {
         resetRest();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    /**
+     * Calls the handleCorrespondentTableRowClick method and sets user's last action
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void appointmentsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentsTableMouseClicked
         if (User.isSessionValid(ACCESS_LEVEL)) {
             DashboardController.handleCorrespondentTableRowClick(appointmentsTable, nameField, aisIdField, subjectField, messageTextArea, responseTextArea, dateTimeLabel, closedCheckBox, manageResponseTextArea, manageClosedCheckBox);
@@ -572,6 +601,12 @@ public class Correspondent extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_appointmentsTableMouseClicked
 
+    /**
+     * Calls the refresh function and sets user's last action
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             refresh();
@@ -584,6 +619,14 @@ public class Correspondent extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
 
+    /**
+     * Calls a method that validates user's input
+     * If that's successful, handleCorrespondentAppointmentDelete method is called
+     * Also, the refresh function is called and user's last action is set
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void manageDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageDeleteButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             try {
@@ -607,6 +650,14 @@ public class Correspondent extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_manageDeleteButtonActionPerformed
 
+    /**
+     * Calls a method that validates user's input
+     * If that's successful, handleCorrespondentAppointmentUpdate method is called
+     * Also, the refresh function is called and user's last action is set
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void manageUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageUpdateButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             String response;
@@ -634,6 +685,15 @@ public class Correspondent extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_manageUpdateButtonActionPerformed
 
+    /**
+     * Calls a method that validates user's input
+     * If that's successful, handleCorrespondentDateTimeAdd method is called
+     * Also, the dates are updated
+     * Parts of the dashboards are reset and user's last action is set
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void addDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDateTimeButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             String dateTime;
@@ -680,6 +740,15 @@ public class Correspondent extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_addDateTimeButtonActionPerformed
 
+    /**
+     * Calls a method that validates user's input
+     * If that's successful, handleCorrespondentDateTimeDelete method is called
+     * Also, the dates and the appointments table are updated
+     * Parts of the dashboards are reset and user's last action is set
+     * If that's not successful, user gets logged out
+     * 
+     * @param evt unused
+     */
     private void deleteDateTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDateTimeButtonActionPerformed
         if (User.isSessionValid(ACCESS_LEVEL)) {
             try {
@@ -710,6 +779,11 @@ public class Correspondent extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_deleteDateTimeButtonActionPerformed
 
+    /**
+     * Sets focus on the editable response text area if the right tabbed pane is selected
+     * 
+     * @param evt unused
+     */
     private void manageTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_manageTabbedPaneStateChanged
         int index = manageTabbedPane.getSelectedIndex();
         if (index == 1) {

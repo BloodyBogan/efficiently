@@ -8,6 +8,52 @@ Note that the look and feel changes system to system and often after building th
 
 [Click here](https://imgur.com/a/DdTYApL)  
 
+## Quick Functionality Overview
+
+```
+Validation
+
+Formatting
+
+Error handling
+
+Login
+
+Register
+
+Admin:
+    Update users
+    Delete users:
+        Students:
+            Deletes all associated appointments
+            Dates which are still valid are made available
+        Correspondents:
+            Deletes all associated appointments
+            Deletes all associated dates
+            
+Correspondent:
+    View appointment info
+    Update appointments
+    Add dates & times
+    Delete dates & times:
+        Associated appointment is deleted
+
+User:
+    Book appointments (correspondent speific)
+    Only see valid dates
+    Queue
+    View appointments
+    Can't have more than 2 active appointments
+
+"Sessions"
+
+Encryption
+
+Hashing
+
+And many more
+```
+
 ## Usage
 
 Fill in your database.properties file based on the database.properties.example file and the Jasypt Quick Start section below, be sure to include all necessary libraries & run migration.sql in your efficiently database

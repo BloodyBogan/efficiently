@@ -1,4 +1,4 @@
-src/resources/database.properties
+resources/database.properties
 nbproject/private
 build
 dist

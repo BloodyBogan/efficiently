@@ -60,6 +60,7 @@ public class Main extends javax.swing.JPanel {
         Container.setMaximumSize(new java.awt.Dimension(1280, 720));
         Container.setMinimumSize(new java.awt.Dimension(1280, 720));
         Container.setName("Container"); // NOI18N
+        Container.setPreferredSize(new java.awt.Dimension(1280, 720));
         Container.setLayout(new java.awt.GridBagLayout());
 
         logo.setFont(new java.awt.Font("Open Sans", 1, 30)); // NOI18N

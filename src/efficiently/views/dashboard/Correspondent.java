@@ -65,6 +65,7 @@ public class Correspondent extends javax.swing.JPanel {
 
         Container = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
+        userNameLabel = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
         manageTabbedPane = new javax.swing.JTabbedPane();
@@ -103,7 +104,6 @@ public class Correspondent extends javax.swing.JPanel {
         appointmentsPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         appointmentsTable = new javax.swing.JTable();
-        userNameLabel = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -116,6 +116,11 @@ public class Correspondent extends javax.swing.JPanel {
 
         title.setText("Correspondent Dashboard");
         title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
+
+        userNameLabel.setEnabled(false);
+        userNameLabel.setFocusable(false);
+        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        userNameLabel.setForeground(new java.awt.Color(230, 238, 241));
 
         logoutButton.setText("Log Out");
         logoutButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
@@ -443,10 +448,6 @@ public class Correspondent extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        userNameLabel.setEnabled(false);
-        userNameLabel.setFocusable(false);
-        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-
         javax.swing.GroupLayout ContainerLayout = new javax.swing.GroupLayout(Container);
         Container.setLayout(ContainerLayout);
         ContainerLayout.setHorizontalGroup(
@@ -455,23 +456,21 @@ public class Correspondent extends javax.swing.JPanel {
                 .addGap(410, 410, 410)
                 .addComponent(title)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(ContainerLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContainerLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(manageTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(userNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(ContainerLayout.createSequentialGroup()
-                        .addComponent(userNameLabel)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(ContainerLayout.createSequentialGroup()
+                        .addComponent(manageTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
                         .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ContainerLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(refreshButton)
                                 .addGap(25, 25, 25)
                                 .addComponent(logoutButton))
-                            .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(25, 25, 25))))
+                            .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(25, 25, 25))
         );
         ContainerLayout.setVerticalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

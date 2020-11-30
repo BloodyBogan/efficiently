@@ -43,18 +43,9 @@ import org.jasypt.properties.EncryptableProperties;
 public class Database {
     private final static String CURRENT_DIRECTORY = System.getProperty("user.dir");
     
-    private final static File DEV_RESOURCES_DIR = new File(CURRENT_DIRECTORY + "/src/resources");
-    private final static boolean EXISTS = DEV_RESOURCES_DIR.exists();
+    private final static File DATABASE_PROPERTIES_PATH = new File(CURRENT_DIRECTORY + "/resources/database.properties");
     
-    private static String DATABASE_PROPERTIES_PATH;
-    
-    public static Connection getConnection() throws SQLException, IOException {
-        if (EXISTS) {
-            DATABASE_PROPERTIES_PATH = CURRENT_DIRECTORY + "/src/resources/database.properties";
-        } else {
-            DATABASE_PROPERTIES_PATH = CURRENT_DIRECTORY + "/resources/database.properties";
-        }
-        
+    public static Connection getConnection() throws SQLException, IOException {        
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         encryptor.setPassword("196048a3d48f928e02b156f9a74dd3f58b371da2359f2e063b33ae686d82b191"); // could be got from web, env variable...
         

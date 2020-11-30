@@ -31,6 +31,7 @@ import efficiently.utils.ValidationException;
 import efficiently.views.MainLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -62,6 +63,7 @@ public class Student extends javax.swing.JPanel {
 
         Container = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
+        userNameLabel = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
         bookAppointmentPanel = new javax.swing.JPanel();
@@ -80,7 +82,6 @@ public class Student extends javax.swing.JPanel {
         appointmentsTable = new javax.swing.JTable();
         queuePanel = new javax.swing.JPanel();
         queueLabel = new javax.swing.JLabel();
-        userNameLabel = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -91,19 +92,24 @@ public class Student extends javax.swing.JPanel {
         Container.setName("Container"); // NOI18N
         Container.setPreferredSize(new java.awt.Dimension(1280, 720));
 
-        title.setText("Student Dashboard");
         title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
+        title.setText("Student Dashboard");
 
-        logoutButton.setText("Log Out");
+        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        userNameLabel.setForeground(new java.awt.Color(230, 238, 241));
+        userNameLabel.setEnabled(false);
+        userNameLabel.setFocusable(false);
+
         logoutButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        logoutButton.setText("Log Out");
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoutButtonActionPerformed(evt);
             }
         });
 
-        refreshButton.setText("Refresh");
         refreshButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        refreshButton.setText("Refresh");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshButtonActionPerformed(evt);
@@ -112,13 +118,13 @@ public class Student extends javax.swing.JPanel {
 
         bookAppointmentPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Book Appointment", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 24))); // NOI18N
 
-        subjectLabel.setText("Subject");
         subjectLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        subjectLabel.setText("Subject");
 
         subjectField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        messageLabel.setText("Message");
         messageLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        messageLabel.setText("Message");
 
         messageTextArea.setColumns(20);
         messageTextArea.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
@@ -126,8 +132,8 @@ public class Student extends javax.swing.JPanel {
         messageTextArea.setRows(5);
         jScrollPane1.setViewportView(messageTextArea);
 
-        bookNowButton.setText("Book Now");
         bookNowButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        bookNowButton.setText("Book Now");
         bookNowButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bookNowButtonActionPerformed(evt);
@@ -136,8 +142,8 @@ public class Student extends javax.swing.JPanel {
 
         dateTimeComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        pickDateAndTimeLabel.setText("Pick date & time");
         pickDateAndTimeLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        pickDateAndTimeLabel.setText("Pick date & time");
 
         dateTimeScrollPane.setEnabled(false);
         dateTimeScrollPane.setFocusable(false);
@@ -186,7 +192,7 @@ public class Student extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(messageLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pickDateAndTimeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -201,6 +207,7 @@ public class Student extends javax.swing.JPanel {
         appointmentsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Your Appointments", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 24))); // NOI18N
 
         appointmentsTable.setAutoCreateRowSorter(true);
+        appointmentsTable.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         appointmentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -224,7 +231,6 @@ public class Student extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        appointmentsTable.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         appointmentsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 appointmentsTableMouseClicked(evt);
@@ -238,7 +244,7 @@ public class Student extends javax.swing.JPanel {
             appointmentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, appointmentsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                 .addContainerGap())
         );
         appointmentsPanelLayout.setVerticalGroup(
@@ -256,36 +262,30 @@ public class Student extends javax.swing.JPanel {
         queueLabel.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
         queuePanel.add(queueLabel, new java.awt.GridBagConstraints());
 
-        userNameLabel.setEnabled(false);
-        userNameLabel.setFocusable(false);
-        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-
         javax.swing.GroupLayout ContainerLayout = new javax.swing.GroupLayout(Container);
         Container.setLayout(ContainerLayout);
         ContainerLayout.setHorizontalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ContainerLayout.createSequentialGroup()
+                .addGap(472, 472, 472)
+                .addComponent(title)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContainerLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(bookAppointmentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(25, 25, 25)
-                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(userNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(ContainerLayout.createSequentialGroup()
-                        .addComponent(refreshButton)
+                        .addComponent(bookAppointmentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25)
-                        .addComponent(logoutButton))
-                    .addComponent(queuePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(appointmentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(25, 25, 25)
+                        .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(ContainerLayout.createSequentialGroup()
+                                .addComponent(refreshButton)
+                                .addGap(25, 25, 25)
+                                .addComponent(logoutButton))
+                            .addComponent(queuePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(25, 25, 25))
-            .addGroup(ContainerLayout.createSequentialGroup()
-                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ContainerLayout.createSequentialGroup()
-                        .addGap(472, 472, 472)
-                        .addComponent(title))
-                    .addGroup(ContainerLayout.createSequentialGroup()
-                        .addGap(613, 613, 613)
-                        .addComponent(userNameLabel)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ContainerLayout.setVerticalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -102,6 +102,7 @@ public class MainLayout extends javax.swing.JFrame {
         DynamicPanel.setMaximumSize(new java.awt.Dimension(1280, 720));
         DynamicPanel.setMinimumSize(new java.awt.Dimension(1280, 720));
         DynamicPanel.setName("Container"); // NOI18N
+        DynamicPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
         DynamicPanel.setLayout(new java.awt.GridBagLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -135,19 +136,12 @@ public class MainLayout extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException cnfe) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException e) {
             JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
-            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, cnfe);
-        } catch (InstantiationException ie) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
-            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ie);
-        } catch (IllegalAccessException iae) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
-            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, iae);
-        } catch (javax.swing.UnsupportedLookAndFeelException ulafe) {
-            JOptionPane.showMessageDialog(MainLayout.getJPanel(), Messages.getError(0), Messages.getHeaders(0), JOptionPane.ERROR_MESSAGE);
-            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, ulafe);
+            java.util.logging.Logger.getLogger(MainLayout.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */

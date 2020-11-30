@@ -58,6 +58,7 @@ public class Admin extends javax.swing.JPanel {
 
         Container = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
+        userNameLabel = new javax.swing.JLabel();
         updateUserPanel = new javax.swing.JPanel();
         idLabel = new javax.swing.JLabel();
         idField = new javax.swing.JTextField();
@@ -73,55 +74,61 @@ public class Admin extends javax.swing.JPanel {
         usersTable = new javax.swing.JTable();
         logoutButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
-        userNameLabel = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
         setName("Admin"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         Container.setMaximumSize(new java.awt.Dimension(1280, 720));
         Container.setMinimumSize(new java.awt.Dimension(1280, 720));
         Container.setName("Container"); // NOI18N
+        Container.setPreferredSize(new java.awt.Dimension(1280, 720));
 
         title.setText("Admin Dashboard");
         title.setFont(new java.awt.Font("Open Sans", 1, 35)); // NOI18N
         title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        userNameLabel.setForeground(new java.awt.Color(230, 238, 241));
+        userNameLabel.setEnabled(false);
+        userNameLabel.setFocusable(false);
+
         updateUserPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Update User", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 1, 24))); // NOI18N
 
-        idLabel.setText("ID");
         idLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        idLabel.setText("ID");
 
         idField.setEditable(false);
         idField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         idField.setFocusable(false);
 
-        aisIdLabel.setText("AIS ID");
         aisIdLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        aisIdLabel.setText("AIS ID");
 
         aisIdField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        nameLabel.setText("Name");
         nameLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        nameLabel.setText("Name");
 
         nameField.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
 
-        roleLabel.setText("Role");
         roleLabel.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        roleLabel.setText("Role");
 
         roleComboBox.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
         roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "student", "correspondent", "admin" }));
 
-        updateButton.setText("Update");
         updateButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        updateButton.setText("Update");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);
             }
         });
 
-        deleteButton.setText("Delete");
         deleteButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        deleteButton.setText("Delete");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
@@ -171,7 +178,7 @@ public class Admin extends javax.swing.JPanel {
                 .addComponent(roleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(updateUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(updateButton)
                     .addComponent(deleteButton))
@@ -210,25 +217,21 @@ public class Admin extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(usersTable);
 
-        logoutButton.setText("Log Out");
         logoutButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        logoutButton.setText("Log Out");
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoutButtonActionPerformed(evt);
             }
         });
 
-        refreshButton.setText("Refresh");
         refreshButton.setFont(new java.awt.Font("Open Sans", 1, 17)); // NOI18N
+        refreshButton.setText("Refresh");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshButtonActionPerformed(evt);
             }
         });
-
-        userNameLabel.setEnabled(false);
-        userNameLabel.setFocusable(false);
-        userNameLabel.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout ContainerLayout = new javax.swing.GroupLayout(Container);
         Container.setLayout(ContainerLayout);
@@ -241,19 +244,19 @@ public class Admin extends javax.swing.JPanel {
                         .addComponent(refreshButton)
                         .addGap(25, 25, 25)
                         .addComponent(logoutButton))
-                    .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(ContainerLayout.createSequentialGroup()
-                            .addGap(505, 505, 505)
-                            .addComponent(title))
-                        .addGroup(ContainerLayout.createSequentialGroup()
-                            .addGap(25, 25, 25)
-                            .addComponent(updateUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(ContainerLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(userNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(ContainerLayout.createSequentialGroup()
+                                .addComponent(updateUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(25, 25, 25)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(25, 25, 25))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContainerLayout.createSequentialGroup()
-                .addComponent(userNameLabel)
-                .addGap(592, 592, 592))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(title)
+                .addGap(487, 487, 487))
         );
         ContainerLayout.setVerticalGroup(
             ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,10 +266,10 @@ public class Admin extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userNameLabel)
                 .addGap(37, 37, 37)
-                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(updateUserPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addGap(25, 25, 25)
                 .addGroup(ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(logoutButton)
                     .addComponent(refreshButton))

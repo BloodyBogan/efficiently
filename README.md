@@ -2,6 +2,11 @@
 
 > Efficiently manage your study department visits
 
+## Quick Look And Feel Overview
+
+Note that the look and feel changes system to system and often after building the project  
+[Click here](https://imgur.com/a/234NaGP)  
+
 ## Usage
 
 Fill in your database.properties file based on the database.properties.example file and the Jasypt Quick Start section below, be sure to include all necessary libraries & run migration.sql in your efficiently database
